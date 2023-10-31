@@ -7,7 +7,7 @@ const style = { textDecoration: "underline" };
 const ActiveLink = ({ text, href }) => {
   const asPath = usePathname();
   return (
-    <Link className="" href={href} style={asPath === href ? style : null}>
+    <Link href={href} className={asPath === href ? "transition border-b-2" : "transition hover:-translate-y-1"}>
       {text}
     </Link>
   );
