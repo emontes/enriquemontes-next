@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google";
-import { Providers } from "./providers";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -17,17 +16,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          
-          <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <Navbar />
-            <div>
-
-    </div>
-            {children}
-            <Footer />
-          </main>
-        </Providers>
+        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+          <Navbar />
+          {children}
+          <Footer />
+        </main>
       </body>
     </html>
   );
