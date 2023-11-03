@@ -1,5 +1,13 @@
+import { Metadata } from 'next';
 import Image from 'next/image'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title:
+    "Enrique Montes - Expert Programmer in Cancún | Innovative Software Solutions",
+  description:
+    "Connect with Enrique Montes, your premier programmer in Cancún, specializing in cutting-edge software development tailored to your business needs. Experience bespoke solutions and technological innovation with a local touch.",
+};
 
 export default function Home() {
   return (

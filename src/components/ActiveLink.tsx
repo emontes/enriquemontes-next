@@ -7,7 +7,7 @@ const style = { textDecoration: "underline" };
 const ActiveLink = ({ text, href }) => {
   const asPath = usePathname();
   return (
-    <Link href={href} className={asPath === href ? "border-b-2 border-sky-900 dark:border-sky-700" : "transition hover:-translate-y-1"}>
+    <Link href={href} className={asPath === href ? "border-b-2 border-sky-900 text-blue-700 dark:text-blue-400 dark:border-sky-700 " : "transition text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-400"}>
       {text}
     </Link>
   );

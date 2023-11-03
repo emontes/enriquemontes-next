@@ -1,16 +1,35 @@
 "use client";
+import { useState } from "react";
+import Image from "next/image";
 import styled from "styled-components";
 import ActiveLink from "./ActiveLink";
+import device from "../app/device";
+import pageLinks from "../app/constants/links";
 
-const Navbar = () => {
-  return (    
-    <Wrapper className="fixed left-0 top-0 flex justify-center w-full">
-      <div className=" w-11/12 h-20 flex items-center justify-between text-xl">
-        <ActiveLink href="/" text="Home" />
-        <ActiveLink href="/about" text="About" />
-        <ActiveLink href="/resources" text="Resources" />
-        <ActiveLink href="/developments" text="Developments" />
-        <ActiveLink href="/contact" text="Contact" />
+const Navbar = ({ toggleSidebar }) => {
+  const [visible, setVisible] = useState(true);
+  return (
+    <Wrapper>
+      <div className="bg-white dark:bg-slate-900 w-full h-24 flex items-center">
+        <div className="nav-center  mx-auto">
+          <div className="nav-header">
+            <Image
+              className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
+              src="/logo.svg"
+              alt="Enrique Montes Logo"
+              width={180}
+              height={37}
+              priority
+            />
+          </div>
+          <div className="nav-links">
+            {pageLinks.map((link) => {
+              return (
+                <ActiveLink key={link.id} href={link.url} text={link.text} />
+              );
+            })}
+          </div>
+        </div>
       </div>
     </Wrapper>
   );
@@ -28,23 +47,6 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     z-index: 200;
-    background: var(--clr-white);
-  }
-
-  .navbar-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5.6rem;
-    display: flex;
-    align-items: center;
-    z-index: 200;
-    background: var(--clr-white);
-    transition: var(--transition);
-    border-bottom: 0.116rem solid var(--clr-primary-5);
-
-    box-shadow: var(--dark-shadow);
   }
 
   .nav-center {
@@ -73,5 +75,37 @@ const Wrapper = styled.div`
   }
   .nav-links {
     display: none;
+  }
+
+  @media screen and ${device.tablet} {
+    .toggle-btn {
+      display: none;
+    }
+    .nav-links {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      text-transform: capitalize;
+      font-weight: bold;
+      font-size: 1.2rem;
+      letter-spacing: var(--spacing);
+      padding: 0.58rem 0;
+
+      &:not(:last-child) {
+        margin-right: 2.32rem;
+      }
+    }
+
+    .nav-center {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+    }
+  }
+
+  @media screen and ${device.tablet} {
+    background: transparent;
   }
 `;
