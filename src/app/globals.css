@@ -7,6 +7,46 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --spacing: 0.2rem;
+
+
+  /* dark shades of primary color*/
+  --clr-primary-1: rgb(0, 37, 92);
+  --clr-primary-2: #003e79;
+  --clr-primary-3: rgb(0, 89, 153);
+  --clr-primary-4: hsl(202, 100%, 36%);
+  --clr-primary-5: #2892d7;
+  /* lighter shades of primary color */
+  --clr-primary-6: #6d94bc;
+  --clr-primary-7: #5ba2bb;
+  --clr-primary-8: rgb(199, 226, 222);
+  --clr-primary-9: #e6f4f1;
+  --clr-primary-10: #eefbff;
+  /* darkest grey - used for headings */
+  --clr-grey-1: hsl(209, 61%, 16%);
+  --clr-grey-3: hsl(209, 34%, 30%);
+  --clr-grey-4: #0b5780;
+  /* grey used for paragraphs */
+  --clr-grey-5: hsl(210, 22%, 49%);
+  --clr-grey-8: hsl(210, 31%, 80%);
+  --clr-grey-9: hsl(212, 33%, 89%);
+  --clr-grey-10: rgb(241, 245, 248);
+  --clr-green-dark: hsl(125, 67%, 35%);
+  --clr-red-dark: hsl(360, 67%, 44%);
+  --clr-red-light: hsl(360, 71%, 66%);
+  --clr-black: #222;
+  --clr-white: #fff;
+  --clr-white-transparency-8: rgba(255, 255, 255, 0.8);
+  --ff-primary: "Roboto", sans-serif;
+  --ff-secondary: "Open Sans", sans-serif;
+  --transition: all 0.3s linear;
+  --spacing: 0.2rem;
+  --radius: 0.25rem;
+  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  --max-width: 117rem;
+  --fixed-width: 70rem;
+
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,6 +55,14 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
+}
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -27,6 +75,9 @@ body {
     rgb(var(--background-start-rgb));
     background-size: 100% 100%;
     background-attachment: fixed;
+    line-height: 1.5;
+  font-size: 1.4rem;
+  margin-top: 0;
 }
 
 h1,
@@ -49,4 +100,29 @@ h3 {
 }
 h4 {
   font-size: 1.4rem;
+}
+
+/*  global classes */
+
+.btn {
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  letter-spacing: var(--spacing);
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.4rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* section */
+.section {
+  padding: 8rem 0;
+}
+
+.section-center {
+  width: 90vw;
+  margin: 0 auto;
+  max-width: 117rem;
 }

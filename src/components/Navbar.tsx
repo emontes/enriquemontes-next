@@ -17,8 +17,8 @@ const Navbar = ({ toggleSidebar }) => {
               className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
               src="/logo.svg"
               alt="Enrique Montes Logo"
-              width={180}
-              height={37}
+              width={250}
+              height={50}
               priority
             />
           </div>
@@ -39,9 +39,6 @@ export default Navbar;
 
 const Wrapper = styled.div`
   .navbar {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 5.8rem;
     display: flex;
