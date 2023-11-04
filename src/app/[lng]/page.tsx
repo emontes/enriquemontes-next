@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image'
 import Link from 'next/link'
-import Hero from '../components/HeroHome'
+import Hero from '../../components/HeroHome'
 
 export const metadata: Metadata = {
   title:
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Connect with Enrique Montes, your premier programmer in Cancún, specializing in cutting-edge software development tailored to your business needs. Experience bespoke solutions and technological innovation with a local touch.",
 };
 
-export default function Home() {
+export default function Home({params: {lng}}) {
   return (
     <>
       <Hero />
@@ -28,7 +28,7 @@ export default function Home() {
 
       <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
         <Link
-          href="/about"
+          href={`/${lng}/about`}
           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
