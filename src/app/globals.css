@@ -106,14 +106,23 @@ h4 {
 
 .btn {
   text-transform: uppercase;
+  background: var(--clr-primary-5);
+  color: var(--clr-primary-9);
   padding: 0.6rem 1.2rem;
   letter-spacing: var(--spacing);
   display: inline-block;
   font-weight: 700;
+  -webkit-transition: var(--transition);
+  transition: var(--transition);
   font-size: 1.4rem;
   border: 2px solid transparent;
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius);
+}
+.btn:hover {
+  color: var(--clr-primary-1);
+  background: var(--clr-primary-8);
 }
 
 /* section */
@@ -125,4 +134,38 @@ h4 {
   width: 90vw;
   margin: 0 auto;
   max-width: 117rem;
+}
+
+/* added during recording */
+.underline {
+  width: 20%;
+  height: 0.2rem;
+  margin-bottom: 2rem;
+  background: var(--clr-primary-8);
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-title {
+  margin-bottom: 6.4rem;
+  text-align: center;
+}
+.bg-grey {
+  background: var(--clr-grey-10);
+}
+/* page links */
+
+/* social links */
+.social-links {
+  margin-top: 3.2rem;
+  width: 24rem;
+  display: flex;
+  justify-content: space-between;
+}
+.social-link {
+  font-size: 2.8rem;
+  color: var(--clr-grey-1);
+  transition: var(--transition);
+}
+.social-link:hover {
+  color: var(--clr-primary-5);
 }

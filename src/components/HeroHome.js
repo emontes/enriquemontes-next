@@ -1,5 +1,5 @@
 "use client";
-// import socialLinks from "../constants/social_links";
+import socialLinks from "../app/constants/social_links"
 import styled from "styled-components";
 import device from "../app/device";
 import Link from "next/link";
@@ -19,13 +19,13 @@ const Hero = () => {
               contact me
             </Link>
             <div className="social-links">
-              {/* {socialLinks.map((link) => {
+              {socialLinks.map((link) => {
               return (
                 <a href={link.url} key={link.id} className="social-link">
                   {link.icon}
                 </a>
               );
-            })} */}
+            })}
             </div>
           </div>
         </article>
