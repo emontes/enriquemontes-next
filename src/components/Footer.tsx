@@ -88,7 +88,7 @@ const Wrapper = styled.footer`
   }
   .social-link {
     color: var(--clr-primary-7);
-    :hover {
+    &:hover {
       color: var(--clr-grey-9);
     }
   }
@@ -129,7 +129,7 @@ const Wrapper = styled.footer`
     display: inline-block;
     transition: all 0.2s;
 
-    :hover {
+    &:hover {
       color: var(--clr-primary-5);
       transform: rotate(-5deg) scale(1.3);
     }

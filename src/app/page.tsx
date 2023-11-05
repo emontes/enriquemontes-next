@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
-import Image from 'next/image'
-import Link from 'next/link'
 import Hero from '../components/HeroHome'
+import Jobs from '@/components/Jobs'
 
 export const metadata: Metadata = {
   title:
@@ -23,6 +22,8 @@ export default function Home() {
         My expertise lies in harnessing the power of modern web technologies such as <b>Next.js</b>, Gatsby, and <b>Strapi</b> to create fast, scalable, and SEO-friendly web applications. As a Next.js expert, I build server-rendered React applications that ensure lightning-fast load times and a dynamic user experience. Gatsby's robust pre-configuration enables me to develop blazing-fast websites that stand out in today's competitive digital landscape. Meanwhile, Strapi empowers me to deliver versatile, secure, and easy-to-manage back-end services for content-rich applications. Whether you're a startup or an established enterprise, my commitment is to deliver top-tier programming craftsmanship that positions your business at the forefront of innovation.
         </p>
       </div>
+      
+      <Jobs />
       </>
   )
 }
