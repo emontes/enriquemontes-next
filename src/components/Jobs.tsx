@@ -45,7 +45,7 @@ const Jobs = ({ jobs, showLink }) => {
         </article>
       </div>
       {showLink && (
-        <Link url="/about" className="btn center-btn">
+        <Link href="/about" className="btn center-btn">
           More info
         </Link>
       )}

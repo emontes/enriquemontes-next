@@ -23,7 +23,7 @@ export default function Home() {
         </p>
       </div>
       
-      <Jobs />
+      <Jobs jobs={[]} showLink={true}/>
       </>
   )
 }
