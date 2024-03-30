@@ -16,6 +16,7 @@
     "styled-components": "^6.1.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.6.3",
     "@types/node": "20.8.9",
     "@types/react": "18.2.33",
     "autoprefixer": "^10",
