@@ -1,6 +1,6 @@
-import socialLinks from "@/app/constants/social_links";
+import socialLinks from "@/constants/social_links";
 import Image from "next/image";
-import links from "@/app/constants/links-footer";
+import links from "@/constants/links-footer";
 import Link from "next/link";
 
 const Footer = () => {

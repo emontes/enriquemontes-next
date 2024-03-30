@@ -49,18 +49,6 @@
 
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-    --clr-grey-1: rgb(241, 245, 248);
-    --clr-grey-10: hsl(209, 61%, 16%);
-    --clr-primary-1: #eefbff;
-    --clr-primary-10: rgb(0, 37, 92);
-  }
-} */
-
 *,
 ::after,
 ::before {

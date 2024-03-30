@@ -36,12 +36,6 @@ module.exports = {
 				black: "var(--clr-black)",
 				white: "var(--clr-white)",
 				"white-transparency-8": "var(--clr-white-transparency-8)",
-				"dark-mode": {
-					"grey-1": "rgb(241, 245, 248)",
-					"grey-10": "hsl(209, 61%, 16%)",
-					"primary-1": "#eefbff",
-					"primary-10": "rgb(0, 37, 92)",
-				},
 			},
 		},
 	},

@@ -4,35 +4,35 @@ import Image from "next/image";
 import styled from "styled-components";
 import ActiveLink from "./ActiveLink";
 import device from "../app/device";
-import pageLinks from "../app/constants/links";
+import pageLinks from "../constants/links";
 
 const Navbar = ({ toggleSidebar }) => {
-  const [visible, setVisible] = useState(true);
-  return (
-    <Wrapper>
-      <div className="bg-white dark:bg-slate-900 w-full h-24 flex items-center">
-        <div className="nav-center  mx-auto">
-          <div className="nav-header">
-            <Image
-              className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-              src="/logo.svg"
-              alt="Enrique Montes Logo"
-              width={250}
-              height={50}
-              priority
-            />
-          </div>
-          <div className="nav-links">
-            {pageLinks.map((link) => {
-              return (
-                <ActiveLink key={link.id} href={link.url} text={link.text} />
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </Wrapper>
-  );
+	const [visible, setVisible] = useState(true);
+	return (
+		<Wrapper>
+			<div className="bg-white dark:bg-slate-900 w-full h-24 flex items-center">
+				<div className="nav-center  mx-auto">
+					<div className="nav-header">
+						<Image
+							className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
+							src="/logo.svg"
+							alt="Enrique Montes Logo"
+							width={250}
+							height={50}
+							priority
+						/>
+					</div>
+					<div className="nav-links">
+						{pageLinks.map((link) => {
+							return (
+								<ActiveLink key={link.id} href={link.url} text={link.text} />
+							);
+						})}
+					</div>
+				</div>
+			</div>
+		</Wrapper>
+	);
 };
 
 export default Navbar;

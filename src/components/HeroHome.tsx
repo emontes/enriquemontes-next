@@ -1,46 +1,46 @@
 "use client";
-import socialLinks from "../app/constants/social_links"
+import socialLinks from "@/constants/social_links";
 import styled from "styled-components";
 import device from "../app/device";
 import Link from "next/link";
 import Image from "next/image";
 
 const Hero = () => {
-  return (
-    <Wrapper>
-      <section className="section-center hero-center">
-        <article className="hero-info">
-          <div>
-            <div className="underline"></div>
-            <h1>I'm Enrique</h1>
-            <h3>Programmer in Cancun</h3>
-            <h4>Next.js / Gatsby.js / Strapi</h4>
-            <Link href="/contact" className="btn">
-              contact me
-            </Link>
-            <div className="social-links">
-              {socialLinks.map((link) => {
-              return (
-                <a href={link.url} key={link.id} className="social-link">
-                  {link.icon}
-                </a>
-              );
-            })}
-            </div>
-          </div>
-        </article>
+	return (
+		<Wrapper>
+			<section className="section-center hero-center">
+				<article className="hero-info">
+					<div>
+						<div className="underline" />
+						<h1>I'm Enrique</h1>
+						<h3>Programmer in Cancun</h3>
+						<h4>Next.js / Gatsby.js / Strapi</h4>
+						<Link href="/contact" className="btn">
+							contact me
+						</Link>
+						<div className="social-links">
+							{socialLinks.map((link) => {
+								return (
+									<a href={link.url} key={link.id} className="social-link">
+										{link.icon}
+									</a>
+								);
+							})}
+						</div>
+					</div>
+				</article>
 
-        <ImageWrapper>
-          <Image
-            src="/images/mainBcg.jpg"
-            alt="Enrique Montes Programming Cave"
-            layout="fill"
-            objectFit="cover"
-          />
-        </ImageWrapper>
-      </section>
-    </Wrapper>
-  );
+				<ImageWrapper>
+					<Image
+						src="/images/mainBcg.jpg"
+						alt="Enrique Montes Programming Cave"
+						layout="fill"
+						objectFit="cover"
+					/>
+				</ImageWrapper>
+			</section>
+		</Wrapper>
+	);
 };
 
 export default Hero;
@@ -48,7 +48,7 @@ export default Hero;
 const ImageWrapper = styled.div`
   display: none; // por defecto no se muestra
 
-  @media ${device.laptop} {
+  @media (min-width: 1024px) {
     display: block; // en pantallas de tamaño laptop o superior se muestra
     grid-row: 1/1;
     grid-column: 7 / -1;
@@ -76,7 +76,6 @@ const ImageWrapper = styled.div`
   }
 `;
 
-
 const Wrapper = styled.header`
   /* margin-top: -5rem; */
   /* padding-top: 5rem; */
@@ -85,7 +84,7 @@ const Wrapper = styled.header`
   position: relative;
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
   clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
-  @media ${device.laptopL} {
+  @media (min-width: 1440px) {
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
     clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
   }
@@ -114,7 +113,7 @@ const Wrapper = styled.header`
     margin-top: 1.25rem;
   }
 
-  @media ${device.laptop} {
+  @media (min-width: 1024px) {
     ::before {
       content: "";
       position: absolute;
