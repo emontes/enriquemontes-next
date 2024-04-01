@@ -1,108 +1,76 @@
 "use client";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import styled from "styled-components";
-import ActiveLink from "./ActiveLink";
-import device from "../app/device";
+import { FaAlignRight } from "react-icons/fa";
 import pageLinks from "../constants/links";
+import Link from "next/link";
 
 const Navbar = ({ toggleSidebar }) => {
-	const [visible, setVisible] = useState(true);
+	const [isVisible, setIsVisible] = useState(true);
+	const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const currentScrollPos = window.scrollY;
+
+			setIsVisible(prevScrollPos > currentScrollPos || currentScrollPos < 80);
+
+			setPrevScrollPos(currentScrollPos);
+		};
+
+		if (typeof window !== "undefined") {
+			window.addEventListener("scroll", handleScroll);
+
+			return () => {
+				window.removeEventListener("scroll", handleScroll);
+			};
+		}
+	}, [prevScrollPos]);
+
 	return (
-		<Wrapper>
-			<div className="bg-white dark:bg-slate-900 w-full h-24 flex items-center">
-				<div className="nav-center  mx-auto">
-					<div className="nav-header">
+		<div
+			className={`bg-white w-full z-50 transition-transform duration-300 ${
+				isVisible
+					? typeof window !== "undefined" && window.scrollY === 0
+						? ""
+						: "fixed top-0 shadow-md border-b-2 border-b-primary-5"
+					: "-translate-y-full"
+			}`}
+		>
+			<div className="max-w-7xl mx-auto px-4 sm:px-6">
+				<div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
+					<div className="flex justify-start lg:w-0 lg:flex-1">
 						<Image
-							className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
 							src="/logo.svg"
-							alt="Enrique Montes Logo"
-							width={250}
-							height={50}
-							priority
+							alt="Enrique Montes"
+							width={140}
+							height={56}
+							className="h-8 w-auto sm:h-10"
 						/>
 					</div>
-					<div className="nav-links">
-						{pageLinks.map((link) => {
-							return (
-								<ActiveLink key={link.id} href={link.url} text={link.text} />
-							);
-						})}
+					<div className="-mr-2 -my-2 md:hidden">
+						<button
+							type="button"
+							className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+							onClick={toggleSidebar}
+						>
+							<FaAlignRight className="h-6 w-6" aria-hidden="true" />
+						</button>
 					</div>
+					<nav className="hidden md:flex space-x-10">
+						{pageLinks.map((link) => (
+							<Link
+								key={link.id}
+								href={link.url}
+								className="text-base capitalize font-medium text-grey-3 hover:text-grey-9 transition duration-150 ease-in-out"
+							>
+								{link.text}
+							</Link>
+						))}
+					</nav>
 				</div>
 			</div>
-		</Wrapper>
+		</div>
 	);
 };
-
 export default Navbar;
-
-const Wrapper = styled.div`
-  .navbar {
-    width: 100%;
-    height: 5.8rem;
-    display: flex;
-    align-items: center;
-    z-index: 200;
-  }
-
-  .nav-center {
-    width: 90vw;
-    max-width: 117rem;
-    margin: 0 auto;
-  }
-  .nav-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .nav-header img {
-    margin-bottom: 0.475rem;
-  }
-  .toggle-btn {
-    font-size: 2.32rem;
-    background: transparent;
-    border-color: transparent;
-    color: var(--clr-primary-5);
-    cursor: pointer;
-    transition: var(--transition);
-  }
-  .toggle-btn:hover {
-    color: var(--clr-primary-2);
-  }
-  .nav-links {
-    display: none;
-  }
-
-  @media screen and ${device.tablet} {
-    .toggle-btn {
-      display: none;
-    }
-    .nav-links {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .nav-links a {
-      text-transform: capitalize;
-      font-weight: bold;
-      font-size: 1.2rem;
-      letter-spacing: var(--spacing);
-      padding: 0.58rem 0;
-
-      &:not(:last-child) {
-        margin-right: 2.32rem;
-      }
-    }
-
-    .nav-center {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: center;
-    }
-  }
-
-  @media screen and ${device.tablet} {
-    background: transparent;
-  }
-`;

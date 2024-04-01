@@ -1,7 +1,6 @@
 "use client";
 import socialLinks from "@/constants/social_links";
 import styled from "styled-components";
-import device from "../app/device";
 import Link from "next/link";
 import Image from "next/image";
 
