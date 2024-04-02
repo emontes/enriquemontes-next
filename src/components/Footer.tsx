@@ -2,6 +2,8 @@ import socialLinks from "@/constants/social_links";
 import Image from "next/image";
 import links from "@/constants/links-footer";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { number } from "prop-types";
 
 const Footer = () => {
 	return (
@@ -64,15 +66,20 @@ const Footer = () => {
 				</div>
 			</div>
 
-			<div className="mt-12 flex items-center justify-center text-3xl">
+			<div className="mt-12 flex items-center justify-center text-2xl">
 				Site made with:
-				<Image
-					className="relative ml-6 invert dark:invert-0 drop-shadow-[0_0_0.3rem_#ffffff70] animate-bounce"
-					src="/next.svg"
-					alt="Next.js Logo"
-					width={80}
-					height={37}
-				/>
+				<motion.div
+					className="relative ml-6 invert dark:invert-0 drop-shadow-[0_0_0.3rem_#ffffff70]"
+					animate={{ y: ["0%", "-50%", "0%"] }}
+					transition={{
+						duration: 2,
+						ease: "easeInOut",
+						repeat: 999,
+						repeatType: "reverse",
+					}}
+				>
+					<Image src="/next.svg" alt="Next.js Logo" width={80} height={37} />
+				</motion.div>
 			</div>
 		</footer>
 	);
