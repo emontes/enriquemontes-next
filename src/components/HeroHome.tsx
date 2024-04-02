@@ -120,7 +120,7 @@ const Wrapper = styled.header`
       left: 60%;
       right: 0;
       bottom: 0;
-      background: var(--clr-white);
+      background: #ffffff;
     }
 
     .hero-center {

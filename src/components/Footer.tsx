@@ -7,7 +7,7 @@ import { number } from "prop-types";
 
 const Footer = () => {
 	return (
-		<footer className="bg-grey-1 text-grey-10 dark:bg-grey-10 dark:text-grey-1 py-16">
+		<footer className="bg-grey-3 text-grey-10 dark:bg-grey-10 dark:text-grey-1 py-16">
 			<div className="flex flex-col items-center mb-16">
 				<Image
 					src="/images/logo-eama.png"

@@ -5,16 +5,20 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
 	return (
-		<AnimatePresence>
-			{isOpen && (
-				<motion.aside
-					initial={{ x: "-100%" }}
-					animate={{ x: 0 }}
-					exit={{ x: "-100%" }}
-					transition={{ duration: 0.3 }}
-					className="fixed inset-0 z-50 bg-gray-900 bg-opacity-50"
-				>
-					<div className="fixed inset-y-0 left-0 w-64 bg-gray-100 shadow-lg">
+		<aside
+			className={`fixed inset-0 z-50 bg-gray-900 bg-opacity-50 transition-opacity duration-300 ${
+				isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+			}`}
+		>
+			<AnimatePresence>
+				{isOpen && (
+					<motion.div
+						initial={{ x: "-100%" }}
+						animate={{ x: 0 }}
+						exit={{ x: "-100%" }}
+						transition={{ duration: 0.3 }}
+						className="fixed inset-y-0 left-0 w-64 bg-grey-10 shadow-lg"
+					>
 						<div className="flex justify-end px-4 py-3">
 							<button
 								type="button"
@@ -49,7 +53,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 									>
 										<a
 											href={link.url}
-											className="capitalize block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition duration-150 ease-in-out"
+											className="capitalize block px-3 py-2 rounded-md text-base font-medium text-grey-5 hover:bg-grey-9 hover:text-grey-4 transition duration-150 ease-in-out"
 											onClick={toggleSidebar}
 										>
 											{link.text}
@@ -57,7 +61,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 									</motion.li>
 								))}
 							</motion.ul>
-							<div className="mt-8 px-4 list-none">
+							<div className="fixed bottom-4 mt-8 px-8 list-none">
 								<motion.div
 									initial="hidden"
 									animate="visible"
@@ -65,8 +69,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 										hidden: {},
 										visible: {
 											transition: {
-												delayChildren: 0.6,
-												staggerChildren: 0.1,
+												delayChildren: 0.2, // Puedes aumentar este valor para agregar más retraso
+												staggerChildren: 0.1, // Puedes aumentar este valor para espaciar más las animaciones
 											},
 										},
 									}}
@@ -93,10 +97,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 								</motion.div>
 							</div>
 						</nav>
-					</div>
-				</motion.aside>
-			)}
-		</AnimatePresence>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</aside>
 	);
 };
 

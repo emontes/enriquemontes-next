@@ -30,11 +30,7 @@ module.exports = {
 				"grey-8": "var(--clr-grey-8)",
 				"grey-9": "var(--clr-grey-9)",
 				"grey-10": "var(--clr-grey-10)",
-				"green-dark": "var(--clr-green-dark)",
-				"red-dark": "var(--clr-red-dark)",
-				"red-light": "var(--clr-red-light)",
-				black: "var(--clr-black)",
-				white: "var(--clr-white)",
+
 				"white-transparency-8": "var(--clr-white-transparency-8)",
 			},
 		},

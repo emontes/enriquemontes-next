@@ -29,7 +29,7 @@ const Navbar = ({ toggleSidebar }) => {
 
 	return (
 		<div
-			className={`bg-white w-full z-50 transition-transform duration-300 ${
+			className={`bg-white dark:bg-grey-3 w-full z-50 transition-transform duration-300 ${
 				isVisible
 					? typeof window !== "undefined" && window.scrollY === 0
 						? ""
@@ -51,7 +51,7 @@ const Navbar = ({ toggleSidebar }) => {
 					<div className="-mr-2 -my-2 md:hidden">
 						<button
 							type="button"
-							className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+							className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-primary-10 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
 							onClick={toggleSidebar}
 						>
 							<FaAlignRight className="h-6 w-6" aria-hidden="true" />
@@ -62,7 +62,7 @@ const Navbar = ({ toggleSidebar }) => {
 							<Link
 								key={link.id}
 								href={link.url}
-								className="text-base capitalize font-medium text-grey-3 hover:text-grey-9 transition duration-150 ease-in-out"
+								className="text-base capitalize font-medium text-grey-1 dark:text-grey-9 hover:text-grey-9 hover:text-grey-5 transition duration-150 ease-in-out"
 							>
 								{link.text}
 							</Link>
