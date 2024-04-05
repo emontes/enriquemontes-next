@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import StyledComponentsRegistry from "@/lib/registry";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";

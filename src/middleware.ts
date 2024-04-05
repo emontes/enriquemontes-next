@@ -5,10 +5,13 @@ export default createMiddleware({
   locales: ['en', 'es', 'de'],
  
   // Used when no locale matches
-  defaultLocale: 'en'
+  defaultLocale: 'en',
+  alternateLinks: true,
+  localeDetection: false,
+  localePrefix: 'as-needed', // esta es la que hace el truco de que deje el default sin por ejemplo /en
 });
  
 export const config = {
   // Match only internationalized pathnames
-  matcher: ['/', '/(de|es|en)/:path*']
+  matcher: ['/', '/(en|es|de)/:path*'],
 };
