@@ -2,10 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaAlignRight } from "react-icons/fa";
-import pageLinks from "../constants/links";
 import Link from "next/link";
 
-const Navbar = ({ toggleSidebar }) => {
+const Navbar = ({ toggleSidebar, data }) => {
 	const [isVisible, setIsVisible] = useState(true);
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
 
@@ -58,15 +57,16 @@ const Navbar = ({ toggleSidebar }) => {
 						</button>
 					</div>
 					<nav className="hidden md:flex space-x-10">
-						{pageLinks.map((link) => (
-							<Link
-								key={link.id}
-								href={link.url}
-								className="text-base capitalize font-medium text-grey-1 dark:text-grey-9 hover:text-grey-9 hover:text-grey-5 transition duration-150 ease-in-out"
-							>
-								{link.text}
-							</Link>
-						))}
+						{data.HeaderLinks?.length > 0 &&
+							data.HeaderLinks.map((link) => (
+								<Link
+									key={link.id}
+									href={link.LinkUrl}
+									className="text-base capitalize font-medium text-grey-1 dark:text-grey-9 hover:text-grey-9 hover:text-grey-5 transition duration-150 ease-in-out"
+								>
+									{link.LinkText}
+								</Link>
+							))}
 					</nav>
 				</div>
 			</div>

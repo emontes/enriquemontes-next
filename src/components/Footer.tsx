@@ -1,11 +1,10 @@
 import socialLinks from "@/constants/social_links";
 import Image from "next/image";
-import links from "@/constants/links-footer";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { number } from "prop-types";
 
-const Footer = () => {
+const Footer = (data) => {
 	return (
 		<footer className="bg-grey-3 text-grey-10 dark:bg-grey-10 dark:text-grey-1 py-16">
 			<div className="flex flex-col items-center mb-16">
@@ -36,38 +35,40 @@ const Footer = () => {
 				<div className="navigation mb-8 md:mb-0 px-4">
 					<div className="underline" />
 					<ul className="flex flex-wrap">
-						{links.map((item) => {
-							return (
-								<li
-									key={item.url}
-									className="mr-6 mb-4 hover:rotate-[-5deg] hover:scale-110 transition-all duration-300"
-								>
-									<Link
-										href={item.url}
-										className="uppercase  hover:text-primary-5  hover:scale-75 transition-all duration-300"
+						{data.data.Column1Links?.length > 0 &&
+							data.data.Column1Links.map((item) => {
+								return (
+									<li
+										key={item.id}
+										className="mr-6 mb-4 hover:rotate-[-5deg] hover:scale-110 transition-all duration-300"
 									>
-										{item.text}
-									</Link>
-								</li>
-							);
-						})}
+										<Link
+											href={item.LinkUrl}
+											className="uppercase  hover:text-primary-5  hover:scale-75 transition-all duration-300"
+										>
+											{item.LinkText}
+										</Link>
+									</li>
+								);
+							})}
 					</ul>
 				</div>
 
 				<div className="copy px-4">
 					<div className="underline" />
 					<p className="capitalize">
-						copyright &copy; {new Date().getFullYear()}{" "}
+						{data.data.copyright && data.data.copyright} &copy;{" "}
+						{new Date().getFullYear()}{" "}
 						<span className=" text-primary-5">
 							Enrique Adelino Montes Araujo
 						</span>{" "}
-						all rights reserved
+						{data.data.allRights && data.data.allRights}
 					</p>
 				</div>
 			</div>
 
 			<div className="mt-12 flex items-center justify-center text-2xl">
-				Site made with:
+				{data.data.siteMade && data.data.siteMade}
 				<motion.div
 					className="relative ml-6 invert dark:invert-0 drop-shadow-[0_0_0.3rem_#ffffff70]"
 					animate={{ y: ["0%", "-50%", "0%"] }}

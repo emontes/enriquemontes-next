@@ -22,6 +22,7 @@ export default function NotFound() {
 	return (
 		<html lang="en">
 			<body>
+				<h1>In /app</h1>
 				<Error statusCode={404} />
 			</body>
 		</html>

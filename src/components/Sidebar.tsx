@@ -1,9 +1,8 @@
-import links from "@/constants/links";
 import socialLinks from "@/constants/social_links";
 import { FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar, data }) => {
 	return (
 		<aside
 			className={`fixed inset-0 z-50 bg-gray-900 bg-opacity-50 transition-opacity duration-300 ${
@@ -43,26 +42,27 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 								}}
 								className="space-y-2 px-4"
 							>
-								{links.map((link, index) => (
-									<motion.li
-										key={link.id}
-										variants={{
-											hidden: { x: "-100%", opacity: 0 },
-											visible: { x: 0, opacity: 1 },
-										}}
-									>
-										<a
-											href={link.url}
-											className="capitalize block px-3 py-2 rounded-md text-base font-medium text-grey-5 hover:bg-grey-9 hover:text-grey-4 transition duration-150 ease-in-out"
-											onClick={toggleSidebar}
+								{data.HeaderLinks?.length > 0 &&
+									data.HeaderLinks.map((link, index) => (
+										<motion.li
+											key={link.id}
+											variants={{
+												hidden: { x: "-100%", opacity: 0 },
+												visible: { x: 0, opacity: 1 },
+											}}
 										>
-											{link.text}
-										</a>
-									</motion.li>
-								))}
+											<a
+												href={link.LinkUrl}
+												className="capitalize block px-3 py-2 rounded-md text-base font-medium text-grey-5 hover:bg-grey-9 hover:text-grey-4 transition duration-150 ease-in-out"
+												onClick={toggleSidebar}
+											>
+												{link.LinkText}
+											</a>
+										</motion.li>
+									))}
 							</motion.ul>
 							<div className="fixed bottom-4 mt-8 px-8 list-none">
-								<motion.div
+								{/* <motion.div
 									initial="hidden"
 									animate="visible"
 									variants={{
@@ -94,7 +94,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 											</a>
 										</motion.li>
 									))}
-								</motion.div>
+								</motion.div> */}
 							</div>
 						</nav>
 					</motion.div>
