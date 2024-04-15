@@ -10,30 +10,46 @@ import {
 
 const inter = Inter({ subsets: ["latin"] });
 
-interface RootLayoutProps {
+interface LocaleLayoutProps {
 	children: React.ReactNode;
-	params: {
-		locale: string;
+	params: { locale: string };
+}
+
+export async function generateStaticParams() {
+	return [
+		{ locale: "en" },
+		{ locale: "es" },
+		{ locale: "de" },
+		// Agrega más locales según sea necesario
+	];
+}
+
+export async function generateMetadata({
+	params: { locale },
+}: { params: { locale: string } }) {
+	const NavbarData = await fetchNavbarContent(locale);
+	const FooterData = await fetchFooterContent(locale);
+
+	return {
+		navbar: NavbarData,
+		footer: FooterData,
+		language: locale,
 	};
 }
 
 export default async function LocaleLayout({
 	children,
 	params: { locale },
-}: {
-	children: React.ReactNode;
-	params: { locale: string };
-}) {
-	const NavbarData = await fetchNavbarContent(locale);
-	const FooterData = await fetchFooterContent(locale);
+}: LocaleLayoutProps) {
+	const { navbar, footer } = await generateMetadata({ params: { locale } });
 	return (
 		<html lang={locale}>
 			<body className={inter.className}>
 				<main className="">
 					<MainLayout
 						children={children}
-						NavbarData={NavbarData}
-						FooterData={FooterData}
+						NavbarData={navbar}
+						FooterData={footer}
 					/>
 				</main>
 			</body>
