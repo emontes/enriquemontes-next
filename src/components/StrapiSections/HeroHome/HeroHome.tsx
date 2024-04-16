@@ -34,8 +34,9 @@ const Hero = (props) => {
 						<Image
 							src={props.BackgroundImage.data.attributes.formats.medium.url}
 							alt="Enrique Montes Programming Cave"
-							layout="fill"
-							objectFit="cover"
+							fill
+							style={{ objectFit: "cover" }}
+							sizes="(max-width: 768px) 100vw, 50vw"
 						/>
 					)}
 				</ImageWrapper>

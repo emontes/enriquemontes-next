@@ -6,6 +6,7 @@ const SimpleParagraph = ({
 	IsParagraphSecondary,
 	ActionButtons,
 }: SimpleParagraphProps) => {
+	console.log(Content);
 	return (
 		<div className="mt-4 p-10">
 			<ReactMarkdown children={Content} />
