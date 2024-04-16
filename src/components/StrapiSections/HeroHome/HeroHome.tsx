@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Hero = (props) => {
-	console.log("Image: ", props.BackgroundImage.data.attributes);
 	return (
 		<Wrapper>
 			<section className="section-center hero-center">
@@ -31,12 +30,14 @@ const Hero = (props) => {
 				</article>
 
 				<ImageWrapper>
-					<Image
-						src={props.BackgroundImage.data.attributes.formats.medium.url}
-						alt="Enrique Montes Programming Cave"
-						layout="fill"
-						objectFit="cover"
-					/>
+					{props.BackgroundImage && (
+						<Image
+							src={props.BackgroundImage.data.attributes.formats.medium.url}
+							alt="Enrique Montes Programming Cave"
+							layout="fill"
+							objectFit="cover"
+						/>
+					)}
 				</ImageWrapper>
 			</section>
 		</Wrapper>

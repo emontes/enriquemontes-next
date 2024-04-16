@@ -1,4 +1,5 @@
 import ReactMarkdown from "react-markdown";
+import { SimpleParagraphProps } from "@/app/dynamicRendering/types";
 
 const SimpleParagraph = ({
 	Content,

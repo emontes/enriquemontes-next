@@ -34,7 +34,7 @@ export async function Page({
 	params,
 }: { params: { slug: string; locale?: string } }) {
 	const slug = Array.isArray(params.slug) ? params.slug.join("/") : params.slug;
-	const page = (await fetchOnePage(slug, params.locale || "")) as PageData;
+	const page = await fetchOnePage(slug, params.locale || "");
 	if (!page || !page.slug || !page.PageSections) return redirect(`/404`);
 	const { PageSections } = page;
 	return (
