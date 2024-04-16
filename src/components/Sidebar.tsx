@@ -62,7 +62,7 @@ const Sidebar = ({ isOpen, toggleSidebar, data }) => {
 									))}
 							</motion.ul>
 							<div className="fixed bottom-4 mt-8 px-8 list-none">
-								{/* <motion.div
+								<motion.div
 									initial="hidden"
 									animate="visible"
 									variants={{
@@ -94,7 +94,7 @@ const Sidebar = ({ isOpen, toggleSidebar, data }) => {
 											</a>
 										</motion.li>
 									))}
-								</motion.div> */}
+								</motion.div>
 							</div>
 						</nav>
 					</motion.div>

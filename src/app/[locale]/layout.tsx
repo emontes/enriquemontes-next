@@ -21,6 +21,7 @@ export async function generateStaticParams() {
 		{ locale: "es" },
 		{ locale: "de" },
 		// Agrega más locales según sea necesario
+		// Nota es el que genera las páginas estáticas pero truena si se usa next-intl en algún page.tsx
 	];
 }
 
@@ -33,7 +34,6 @@ export async function generateMetadata({
 	return {
 		navbar: NavbarData,
 		footer: FooterData,
-		language: locale,
 	};
 }
 
@@ -45,13 +45,12 @@ export default async function LocaleLayout({
 	return (
 		<html lang={locale}>
 			<body className={inter.className}>
-				<main className="">
-					<MainLayout
-						children={children}
-						NavbarData={navbar}
-						FooterData={footer}
-					/>
-				</main>
+				<MainLayout
+					children={children}
+					NavbarData={navbar}
+					FooterData={footer}
+					lang={locale}
+				/>
 			</body>
 		</html>
 	);

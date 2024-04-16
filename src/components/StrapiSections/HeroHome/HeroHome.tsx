@@ -4,18 +4,19 @@ import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 
-const Hero = () => {
+const Hero = (props) => {
+	console.log("Image: ", props.BackgroundImage.data.attributes);
 	return (
 		<Wrapper>
 			<section className="section-center hero-center">
 				<article className="hero-info">
 					<div>
 						<div className="underline" />
-						<h1>I'm Enrique</h1>
-						<h3>Programmer in Cancun</h3>
-						<h4>Next.js / Gatsby.js / Strapi</h4>
-						<Link href="/contact" className="btn">
-							contact me
+						<h1>{props.Header1}</h1>
+						<h3>{props.Header3}</h3>
+						<h4>{props.Header4}</h4>
+						<Link href={props.LinkUrl} className="btn">
+							{props.LinkText}
 						</Link>
 						<div className="social-links">
 							{socialLinks.map((link) => {
@@ -31,7 +32,7 @@ const Hero = () => {
 
 				<ImageWrapper>
 					<Image
-						src="/images/mainBcg.jpg"
+						src={props.BackgroundImage.data.attributes.formats.medium.url}
 						alt="Enrique Montes Programming Cave"
 						layout="fill"
 						objectFit="cover"

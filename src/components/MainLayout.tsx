@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 
-const MainLayout = ({ children, NavbarData, FooterData }) => {
+const MainLayout = ({ children, NavbarData, FooterData, lang }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleSidebar = () => {
 		setIsOpen(!isOpen);
