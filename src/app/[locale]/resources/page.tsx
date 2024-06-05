@@ -18,7 +18,7 @@ export default function Home() {
 				Resources
 			</div>
 
-			<Jobs jobs={[]} showLink={true} />
+			{/* <Jobs jobs={[]} showLink={true} /> */}
 		</>
 	);
 }

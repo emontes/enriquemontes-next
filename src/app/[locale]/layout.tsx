@@ -32,7 +32,6 @@ export async function generateMetadata({
 	const NavbarData = await fetchNavbarContent(locale);
 	const FooterData = await fetchFooterContent(locale);
 	const AllJobsData = await fetchAllJobs(locale);
-	console.log(AllJobsData);
 
 	return {
 		navbar: NavbarData,
