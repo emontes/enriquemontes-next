@@ -1,21 +1,23 @@
-"use client"
-import { useState } from "react";
-import Title from "./Title";
+"use client";
+import { useState, useEffect } from "react";
+import TitleDisplay from "../Title";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import styled from "styled-components";
 import Link from "next/link";
+import { JobsProps } from "@/app/dynamicRendering/types";
 
-const Jobs = ({ jobs, showLink }) => {
-  const [value, setValue] = useState(0);
-  // const { company, position, date, desc } = jobs[value];
+const Jobs = ({ Title, ShowLink, LinkText }: JobsProps) => {
+	const [value, setValue] = useState(0);
 
-  return (
-    <Wrapper className="section">
-      <Title title="Experience" />
-      <div className={showLink ? "jobs-center" : "jobs-center-all"}>
-        {/* btn container */}
-        <div className={showLink ? "btn-container" : "btn-container-all"}>
-          {/* {jobs.map((item, index) => {
+	// const { company, position, date, desc } = jobs[value];
+
+	return (
+		<Wrapper className="section">
+			<TitleDisplay title={Title} />
+			<div className={ShowLink ? "jobs-center" : "jobs-center-all"}>
+				{/* btn container */}
+				<div className={ShowLink ? "btn-container" : "btn-container-all"}>
+					{/* {jobs.map((item, index) => {
             return (
               <button
                 key={index}
@@ -28,13 +30,13 @@ const Jobs = ({ jobs, showLink }) => {
               </button>
             );
           })} */}
-        </div>
-        {/* job info */}
-        <article className="job-info">
-          {/* <h3>{position}</h3>
+				</div>
+				{/* job info */}
+				<article className="job-info">
+					{/* <h3>{position}</h3>
           <h4>{company}</h4>
           <p className="job-date">{date}</p> */}
-          {/* {desc.map((item) => {
+					{/* {desc.map((item) => {
             return (
               <div key={item.id} className="job-desc">
                 <FaAngleDoubleRight className="job-icon" />
@@ -42,15 +44,15 @@ const Jobs = ({ jobs, showLink }) => {
               </div>
             );
           })} */}
-        </article>
-      </div>
-      {showLink && (
-        <Link href="/about" className="btn center-btn">
-          More info
-        </Link>
-      )}
-    </Wrapper>
-  );
+				</article>
+			</div>
+			{ShowLink && (
+				<Link href="/about" className="btn center-btn">
+					{LinkText}
+				</Link>
+			)}
+		</Wrapper>
+	);
 };
 
 export default Jobs;

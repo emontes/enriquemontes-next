@@ -6,6 +6,7 @@ import {
 	fetchFooterContent,
 	fetchMetaData,
 	fetchNavbarContent,
+	fetchAllJobs,
 } from "../utils";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,6 +31,8 @@ export async function generateMetadata({
 }: { params: { locale: string } }) {
 	const NavbarData = await fetchNavbarContent(locale);
 	const FooterData = await fetchFooterContent(locale);
+	const AllJobsData = await fetchAllJobs(locale);
+	console.log(AllJobsData);
 
 	return {
 		navbar: NavbarData,

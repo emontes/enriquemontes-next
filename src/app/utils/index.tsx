@@ -36,6 +36,24 @@ export const fetchFooterContent = async (lang: string) => {
 	}
 };
 
+export const fetchAllJobs = async (lang: string) => {
+	try {
+		const res = await fetch(
+			`${process.env.STRAPI_API_URL}/jobs?populate=*&locale=${lang}`,
+			{
+				headers: {
+					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+				},
+			},
+		);
+		const data = await res.json();
+		return data["data"]["attributes"];
+	} catch (err) {
+		console.log("error while fetching Jobs from strapi:", err);
+		return [];
+	}
+};
+
 export const fetchMetaData = async (lang: string) => {
 	try {
 		let res = await fetch(

@@ -1,4 +1,4 @@
-import Jobs from "@/components/Jobs";
+import Jobs from "@/components/StrapiSections/Jobs";
 import { Page } from "@/app/dynamicRendering/index";
 import { localeParamType } from "@/types";
 

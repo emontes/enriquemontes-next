@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaAlignRight } from "react-icons/fa";
 import Link from "next/link";
+import Language from "./Language";
 
 const Navbar = ({ toggleSidebar, data }) => {
 	const [isVisible, setIsVisible] = useState(true);
@@ -67,6 +68,7 @@ const Navbar = ({ toggleSidebar, data }) => {
 									{link.LinkText}
 								</Link>
 							))}
+						<Language />
 					</nav>
 				</div>
 			</div>

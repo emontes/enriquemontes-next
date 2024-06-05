@@ -1,6 +1,6 @@
 // import { useTranslations } from "next-intl";
 import { Metadata } from "next";
-import Jobs from "@/components/Jobs";
+import Jobs from "@/components/StrapiSections/Jobs";
 
 export const metadata: Metadata = {
 	title:

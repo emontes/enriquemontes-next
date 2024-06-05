@@ -30,7 +30,7 @@ const Hero = (props) => {
 				</article>
 
 				<ImageWrapper>
-					{props.BackgroundImage && (
+					{props.BackgroundImage.data && (
 						<Image
 							src={props.BackgroundImage.data.attributes.formats.medium.url}
 							alt="Enrique Montes Programming Cave"
