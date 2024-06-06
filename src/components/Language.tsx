@@ -67,11 +67,10 @@ const Language = ({locale}) => {
 				{(locales as string[]).map((lng) => (
 					<li key={lng}>
 						<Link
-							href={lng}
+							href={`/${lng}`} 
 							locale={lng}
 							passHref
-							
-							className={`flex items-center justify-center gap-4  rounded-md py-2 px-4 z-10 ${
+							className={`flex items-center justify-center gap-4  rounded-md py-2 px-4 z-10 hover:text-primary-4 ${
 								lng === locale ? "text-primary-3" : " text-primary-500"
 							}`}
 						>
