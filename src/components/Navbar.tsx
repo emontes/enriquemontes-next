@@ -5,7 +5,7 @@ import { FaAlignRight } from "react-icons/fa";
 import Link from "next/link";
 import Language from "./Language";
 
-const Navbar = ({ toggleSidebar, data }) => {
+const Navbar = ({ toggleSidebar, data, locale }) => {
 	const [isVisible, setIsVisible] = useState(true);
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
 
@@ -68,7 +68,7 @@ const Navbar = ({ toggleSidebar, data }) => {
 									{link.LinkText}
 								</Link>
 							))}
-						<Language />
+						<Language locale={locale}/>
 					</nav>
 				</div>
 			</div>

@@ -1,21 +1,21 @@
 "use client";
-import React from "react";
-// import { useRouter } from "next/router";
+import React, { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import esFlag from "../../public/images/flags/mx.svg";
 import usFlag from "../../public/images/flags/us.svg";
 import ruFlag from "../../public/images/flags/ru.svg";
 import heFlag from "../../public/images/flags/il.svg";
 import deFlag from "../../public/images/flags/de.svg";
+import { StaticImageData } from "next/image";
 
 interface LanguageName {
 	[key: string]: string;
 }
 
 interface LanguageFlag {
-	[key: string]: string;
+	[key: string]: StaticImageData;
 }
 
 const languageName: LanguageName = {
@@ -36,25 +36,33 @@ const languageFlag: LanguageFlag = {
 
 const locales = ["en", "es", "de"];
 
-const Language = () => {
-	// const router = useRouter();
-	// const { locale, locales, asPath } = router;
+const Language = ({locale}) => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const toggleOpen = () => {
+		setIsOpen(!isOpen);
+	};
+
 
 	return (
-		<div className="relative font-medium text-base">
-			{/* <div className="flex items-center justify-center gap-4 border border-gray-300 rounded-md py-2 px-4 z-10">
+		<div className="relative font-medium text-base" onMouseEnter={toggleOpen}
+		onMouseLeave={toggleOpen}>
+			<div className="flex items-center justify-center gap-4 border border-gray-300 rounded-md py-2 px-4 z-10">
 				<img
-					src={languageFlag[locale as keyof LanguageFlag]}
+					src={languageFlag[locale as keyof LanguageName].src}
 					alt={languageName[locale as keyof LanguageName]}
 					className="h-5"
 				/>
 				<span>{languageName[locale as keyof LanguageName]}</span>
-			</div> */}
+			</div>
+			<AnimatePresence>
+			{isOpen && (
 			<motion.ul
 				initial={{ opacity: 0, y: -20 }}
-				animate={{ opacity: 1, y: 0 }}
+				animate={{ opacity: 1, y: 100 }}
+				exit={{ opacity: 1, y: -80 }}
 				transition={{ duration: 0.3 }}
-				className="absolute top-[-7rem] left-0 w-full bg-white border border-gray-300 rounded-md py-2 px-4 shadow-lg z-20"
+				className="absolute top-[-7rem] left-0 w-full bg-white border border-gray-300 rounded-md py-2 px-2 shadow-lg z-20"
 			>
 				{(locales as string[]).map((lng) => (
 					<li key={lng}>
@@ -62,12 +70,13 @@ const Language = () => {
 							href={lng}
 							locale={lng}
 							passHref
-							className={`flex items-center gap-4 py-2 px-4 rounded-md hover:bg-primary-100 ${
-								lng === "es" ? "text-primary-500" : "text-gray-700"
+							
+							className={`flex items-center justify-center gap-4  rounded-md py-2 px-4 z-10 ${
+								lng === locale ? "text-primary-3" : " text-primary-500"
 							}`}
 						>
 							<img
-								src={languageFlag[lng as keyof LanguageFlag]}
+								src={languageFlag[lng as keyof LanguageName].src}
 								alt={languageName[lng as keyof LanguageName]}
 								className="h-8"
 							/>
@@ -76,6 +85,8 @@ const Language = () => {
 					</li>
 				))}
 			</motion.ul>
+			)}
+			</AnimatePresence>
 		</div>
 	);
 };

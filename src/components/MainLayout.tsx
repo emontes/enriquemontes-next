@@ -3,15 +3,17 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
+import Language from "./Language";
 
 const MainLayout = ({ children, NavbarData, FooterData, lang }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleSidebar = () => {
 		setIsOpen(!isOpen);
 	};
+
 	return (
 		<>
-			<Navbar toggleSidebar={toggleSidebar} data={NavbarData} />
+			<Navbar toggleSidebar={toggleSidebar} data={NavbarData} locale={lang}/>
 			<Sidebar
 				isOpen={isOpen}
 				toggleSidebar={toggleSidebar}
