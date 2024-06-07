@@ -2,7 +2,7 @@ import createMiddleware from 'next-intl/middleware';
  
 export default createMiddleware({
   defaultLocale: 'en',
-  locales: ['en', 'es', 'de'],
+  locales: ['en', 'es', 'he', 'ru', 'de'],
   alternateLinks: true,
   // localeDetection: false,
   localePrefix: 'as-needed', // esta es la que hace el truco de que deje el default sin por ejemplo /en

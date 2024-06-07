@@ -35,7 +35,7 @@ const languageFlag: LanguageFlag = {
 	de: deFlag,
 };
 
-const locales = ["en", "es", "de"];
+const locales = ["en", "es", "he", "ru", "de"];
 
 const Language = ({locale}) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +60,7 @@ const Language = ({locale}) => {
 
 
 	return (
-		<div className="relative font-medium text-base" onMouseEnter={toggleOpen}
+		<div className="relative -mt-4 font-medium text-base" onMouseEnter={toggleOpen}
 		onMouseLeave={toggleOpen}>
 			<div className="flex items-center justify-center gap-4 border border-gray-300 rounded-md py-2 px-4 z-10">
 				<img
@@ -75,7 +75,7 @@ const Language = ({locale}) => {
 			<motion.ul
 				initial={{ opacity: 0, y: -20 }}
 				animate={{ opacity: 1, y: 100 }}
-				exit={{ opacity: 1, y: -80 }}
+				exit={{ opacity: 1, y: -110 }}
 				transition={{ duration: 0.3 }}
 				className="absolute top-[-7rem] left-0 w-full bg-white border border-gray-300 rounded-md py-2 px-2 shadow-lg z-20"
 			>
@@ -92,7 +92,7 @@ const Language = ({locale}) => {
 							<img
 								src={languageFlag[lng as keyof LanguageName].src}
 								alt={languageName[lng as keyof LanguageName]}
-								className="h-8"
+								className="h-6"
 							/>
 							<span>{languageName[lng as keyof LanguageName]}</span>
 						</Link>
