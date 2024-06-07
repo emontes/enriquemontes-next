@@ -63,12 +63,12 @@ const Navbar = ({ toggleSidebar, data, locale }) => {
 								<Link
 									key={link.id}
 									href={link.LinkUrl}
-									className="text-base capitalize font-medium text-grey-1 dark:text-grey-9 hover:text-grey-9 hover:text-grey-5 transition duration-150 ease-in-out"
+									className="text-base capitalize font-medium text-grey-1 dark:text-grey-9 hover:text-grey-9 transition duration-150 ease-in-out"
 								>
 									{link.LinkText}
 								</Link>
 							))}
-						<Language locale={locale}/>
+						<Language locale={locale} />
 					</nav>
 				</div>
 			</div>
