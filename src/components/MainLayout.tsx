@@ -3,7 +3,6 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
-import Language from "./Language";
 
 const MainLayout = ({ children, NavbarData, FooterData, lang }) => {
 	const [isOpen, setIsOpen] = useState(false);

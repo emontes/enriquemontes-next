@@ -28,13 +28,11 @@ export async function generateStaticParams() {
 	];
 }
 
-export async function generateMetadata({
+export async function getPageData({
 	params: { locale },
 }: { params: { locale: string } }) {
 	const NavbarData = await fetchNavbarContent(locale);
 	const FooterData = await fetchFooterContent(locale);
-	const AllJobsData = await fetchAllJobs(locale);
-
 	return {
 		navbar: NavbarData,
 		footer: FooterData,
@@ -45,11 +43,12 @@ export default async function LocaleLayout({
 	children,
 	params: { locale },
 }: LocaleLayoutProps) {
-	const { navbar, footer } = await generateMetadata({ params: { locale } });
+	const { navbar, footer } = await getPageData({ params: { locale } });
 	return (
 		<html lang={locale}>
 			<body className={inter.className}>
 				<MainLayout
+					// biome-ignore lint/correctness/noChildrenProp: <explanation>
 					children={children}
 					NavbarData={navbar}
 					FooterData={footer}

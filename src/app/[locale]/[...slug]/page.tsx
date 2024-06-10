@@ -1,4 +1,5 @@
 import { Page, fetchOnePage } from "@/app/dynamicRendering/index";
+
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -8,10 +9,11 @@ export async function generateMetadata({
   params: { slug: string; locale?: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }): Promise<Metadata> {
-  const slug = "home";
-  const page = await fetchOnePage(slug, params.locale || "");
+//   const slug = "home";
+  const page = await fetchOnePage(params.slug, params.locale || "");
   const { seo } = page;
   
+  if (!seo) return null;
   const metadata: Metadata = {};
 
   // Agregar título y descripción solo si tienen valores válidos
@@ -56,12 +58,12 @@ export async function generateMetadata({
   return metadata;
 }
 
-const Home = async ({ params: { locale } }: { params: { locale: string } }) => {
-  return await Page({
-    params: {
-      locale,
-      slug: "home",
-    },
-  });
+const Home = async ({ params: { locale, slug } }: { params: { locale: string, slug: string } }) => {
+	return await Page({
+		params: {
+			locale,
+			slug,
+		},
+	});
 };
 export default Home;
