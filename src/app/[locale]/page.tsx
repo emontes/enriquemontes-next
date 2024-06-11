@@ -8,10 +8,11 @@ export async function generateMetadata({
   params: { slug: string; locale?: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }): Promise<Metadata> {
-  const slug = "home";
-  const page = await fetchOnePage(slug, params.locale || "");
+  const slug = "home"
+  const page = await fetchOnePage(params.slug, params.locale || "");
   const { seo } = page;
-  
+
+  if (!seo) return null;
   const metadata: Metadata = {};
 
   // Agregar título y descripción solo si tienen valores válidos
@@ -26,7 +27,14 @@ export async function generateMetadata({
   }
 
   // Agregar OpenGraph solo si tiene propiedades válidas
-  const openGraph = {};
+  const openGraph: {
+    type?: string;
+    locale?: string;
+    url?: string;
+    siteName?: string;
+    images?: string[];
+  } = {};
+
   if (seo.metaSocial && seo.metaSocial.length > 0) {
     openGraph.type = "website";
     openGraph.locale = "en_us";
@@ -34,8 +42,13 @@ export async function generateMetadata({
     openGraph.siteName = "Enrique Montes";
     // Puedes agregar más propiedades de OpenGraph utilizando los datos de `page`
   }
-  if (seo.metaImage && seo.metaImage.data && seo.metaImage.data.attributes && seo.metaImage.data.attributes.url) {
-	openGraph.images = [seo.metaImage.data.attributes.url];
+  if (
+    seo.metaImage &&
+    seo.metaImage.data &&
+    seo.metaImage.data.attributes &&
+    seo.metaImage.data.attributes.url
+  ) {
+    openGraph.images = [seo.metaImage.data.attributes.url];
   }
 
   if (Object.keys(openGraph).length > 0) {
@@ -43,7 +56,10 @@ export async function generateMetadata({
   }
 
   // Agregar Twitter solo si tiene propiedades válidas
-  const twitter = {};
+  const twitter: {
+    card?: string;
+    creator?: string;
+  } = {};
   if (seo.metaSocial && seo.metaSocial.length > 0) {
     twitter.card = "summary_large_image";
     twitter.creator = "@el_ade";
