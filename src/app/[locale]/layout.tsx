@@ -6,7 +6,6 @@ import {
 	fetchFooterContent,
 	fetchMetaData,
 	fetchNavbarContent,
-	fetchAllJobs,
 } from "../utils";
 
 const inter = Inter({ subsets: ["latin"] });

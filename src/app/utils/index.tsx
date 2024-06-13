@@ -1,3 +1,4 @@
+
 export const fetchNavbarContent = async (lang: string) => {
 	try {
 		const res = await fetch(
@@ -33,24 +34,6 @@ export const fetchFooterContent = async (lang: string) => {
 	} catch (error) {
 		console.log("error while fetching Footer Content from strapi:", error);
 		return {};
-	}
-};
-
-export const fetchAllJobs = async (lang: string) => {
-	try {
-		const res = await fetch(
-			`${process.env.STRAPI_API_URL}/jobs?populate=*&locale=${lang}`,
-			{
-				headers: {
-					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
-				},
-			},
-		);
-		const data = await res.json();
-		return data["data"]["attributes"];
-	} catch (err) {
-		console.log("error while fetching Jobs from strapi:", err);
-		return [];
 	}
 };
 

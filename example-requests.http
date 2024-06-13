@@ -6,11 +6,13 @@
 GET http://localhost:1337/api/enrique-pages?locale=en
 &filters[slug][$eq]=home
 # &populate=*
-# &populate[0]=PageSections&populate[1]=PageSections.Heading
-# &populate[2]=PageSections.BackgroundImage
-# &populate[3]=PageSections.HeroActions
-&populate=seo.metaImage
-&populate=seo.metaSocial
+# &populate=PageSections
+# &populate=PageSections.Heading
+# &populate=PageSections.BackgroundImage
+# &populate=PageSections.HeroActions
+&populate=PageSections.Job.desc
+# &populate=seo.metaImage
+# &populate=seo.metaSocial
 Authorization: bearer fcdeba1245463f5375231f261512ae00ab04bdbc953de946036c1bac40b20f7fb2262f67153739f483223414f2df8f181e1780b4d36d74279adf44f69082722e0728f3c2fd7a47b7d8455409f0ea30a9618536c10a6083d9c211fa52691faf57a272b305eeaf8cd8d85cae13895d3d3fb0f2500ac6ae7cc97be9bd786f63b303
 
 
@@ -19,12 +21,6 @@ GET http://localhost:1337/api/enrique-pages?populate=*
 # &populate=seo.metaImage
 &locale=en
 Authorization: bearer fcdeba1245463f5375231f261512ae00ab04bdbc953de946036c1bac40b20f7fb2262f67153739f483223414f2df8f181e1780b4d36d74279adf44f69082722e0728f3c2fd7a47b7d8455409f0ea30a9618536c10a6083d9c211fa52691faf57a272b305eeaf8cd8d85cae13895d3d3fb0f2500ac6ae7cc97be9bd786f63b303
-
-### Jobs Full Request
-GET http://localhost:1337/api/jobs?populate=*&locale=en
-Content-Type: application/json
-Authorization: bearer fcdeba1245463f5375231f261512ae00ab04bdbc953de946036c1bac40b20f7fb2262f67153739f483223414f2df8f181e1780b4d36d74279adf44f69082722e0728f3c2fd7a47b7d8455409f0ea30a9618536c10a6083d9c211fa52691faf57a272b305eeaf8cd8d85cae13895d3d3fb0f2500ac6ae7cc97be9bd786f63b303
-
 
 
 filters%5Bslug%5D%5B%24eq%5D=home&populate%5B0%5D=PageSections&populate%5B1%5D=PageSections.Heading&populate%5B2%5D=PageSections.BackgroundImage&populate%5B3%5D=PageSections.HeroActions

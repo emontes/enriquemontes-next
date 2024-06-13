@@ -7,7 +7,7 @@ const SimpleParagraph = ({
 	ActionButtons,
 }: SimpleParagraphProps) => {
 	return (
-		<div className="mt-4 p-10">
+		<div className="mt-4 p-10 text-gray-400">
 			<ReactMarkdown children={Content} />
 		</div>
 	);

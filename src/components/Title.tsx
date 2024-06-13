@@ -1,31 +1,12 @@
-import styled from "styled-components";
-
 const Title = ({ title }) => {
-  return (
-    <Wrapper>
-      <h2>{title || "Default Title"}</h2>
-      <div className="underline"></div>
-    </Wrapper>
-  );
+	return (
+		<div className="mb-16 text-center">
+			<h2 className="bg-gradient-to-r from-primary-7 to-primary-1 text-transparent bg-clip-text inline-block tracking-wider transition-all duration-200 hover:transform hover:skew-y-2 hover:skew-x-5 hover:scale-110 hover:shadow-[0.5rem_1rem_2rem_rgba(0,37,92,0.2)] animate-moveInRight">
+				{title || "Default Title"}
+			</h2>
+			<div className="underline" />
+		</div>
+	);
 };
 
 export default Title;
-
-const Wrapper = styled.div`
-  margin-bottom: 4rem;
-  text-align: center;
-  animation: moveInRight 1s ease-out;
-  background-image: linear-gradient(
-    to right,
-    var(--clr-primary-7),
-    var(--clr-primary-1)
-  );
-  color: transparent;
-  -webkit-background-clip: text;
-  letter-spacing: 0.2rem;
-  transition: all 0.2s;
-  &:hover {
-    transform: skewY(-2deg) skewX(5deg) scale(1.1);
-    text-shadow: 0.5rem 1rem 2rem rgba(0, 37, 92, 0.2);
-  }
-`;

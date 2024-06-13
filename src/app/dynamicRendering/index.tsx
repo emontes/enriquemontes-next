@@ -12,6 +12,7 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 			"PageSections.Heading",
 			"PageSections.BackgroundImage",
 			"PageSections.HeroActions",
+			"PageSections.Job.desc",
 		],
 	});
 
@@ -32,27 +33,32 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 		return {};
 	}
 };
-  
-  export async function Page({
+
+export async function Page({
 	params,
   }: {
 	params: { slug: string; locale?: string };
   }) {
 	const slug = Array.isArray(params.slug) ? params.slug.join("/") : params.slug;
 	const page = await fetchOnePage(slug, params.locale || "");
-	// if (!page || !page.slug || !page.PageSections) return redirect(`/404`);
+  
 	if (!page || !page.slug || !page.PageSections) return null;
 	const { PageSections } = page;
-  
+
 	return (
 	  <main className="">
-		{PageSections && PageSections.length
+		{PageSections?.length
 		  ? PageSections.map((data) => {
 			  const Component = ComponentsMap[data.__component] as React.ComponentType<any>;
-			  return Component ? <Component key={`${data.__component}-${data.id}`} {...data} /> : "";
+
+
+			  return Component ? (
+				<Component key={`${data.__component}-${data.id}`} {...data}/>
+			  ) : (
+				""
+			  );
 			})
 		  : ""}
 	  </main>
 	);
-}
-
+  }

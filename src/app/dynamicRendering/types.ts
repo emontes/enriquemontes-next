@@ -45,4 +45,16 @@ export type JobsProps = {
   Title: string;
   ShowLink: boolean;
   LinkText?: string;
+  Locale: string;
+  Job: {
+    [x: string]: number;
+    id: number;
+    company: string;
+    position: string;
+    date: string;
+    desc: {
+      id: number;
+      name: string;
+    }
+  }
 };

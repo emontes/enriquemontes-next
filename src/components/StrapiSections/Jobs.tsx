@@ -4,12 +4,13 @@ import TitleDisplay from "../Title";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import styled from "styled-components";
 import Link from "next/link";
-import { JobsProps } from "@/app/dynamicRendering/types";
+import type { JobsProps } from "@/app/dynamicRendering/types";
 
-const Jobs = ({ Title, ShowLink, LinkText }: JobsProps) => {
+const Jobs = ({ Title, ShowLink, LinkText, Job }: JobsProps) => {
 	const [value, setValue] = useState(0);
-
-	// const { company, position, date, desc } = jobs[value];
+  if (Job.length === 0) {
+		return null;
+	}
 
 	return (
 		<Wrapper className="section">
@@ -17,7 +18,8 @@ const Jobs = ({ Title, ShowLink, LinkText }: JobsProps) => {
 			<div className={ShowLink ? "jobs-center" : "jobs-center-all"}>
 				{/* btn container */}
 				<div className={ShowLink ? "btn-container" : "btn-container-all"}>
-					{/* {jobs.map((item, index) => {
+					{Job.map((item, index) => {
+            
             return (
               <button
                 key={index}
@@ -29,21 +31,21 @@ const Jobs = ({ Title, ShowLink, LinkText }: JobsProps) => {
                 {item.company}
               </button>
             );
-          })} */}
+          })}
 				</div>
 				{/* job info */}
 				<article className="job-info">
-					{/* <h3>{position}</h3>
-          <h4>{company}</h4>
-          <p className="job-date">{date}</p> */}
-					{/* {desc.map((item) => {
+					<h3>{Job[value].position}</h3>
+          <h4>{Job[value].company}</h4>
+          <p className="job-date">{Job[value].date}</p> 
+					 {Job[value].desc.map((item) => {
             return (
               <div key={item.id} className="job-desc">
                 <FaAngleDoubleRight className="job-icon" />
                 <p>{item.name}</p>
               </div>
             );
-          })} */}
+          })}
 				</article>
 			</div>
 			{ShowLink && (
