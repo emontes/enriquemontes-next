@@ -47,7 +47,6 @@ export type JobsProps = {
   LinkText?: string;
   Locale: string;
   Job: {
-    [x: string]: number;
     id: number;
     company: string;
     position: string;
@@ -55,6 +54,6 @@ export type JobsProps = {
     desc: {
       id: number;
       name: string;
-    }
-  }
+    }[]
+  }[]
 };

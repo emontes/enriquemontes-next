@@ -8,7 +8,7 @@ import type { JobsProps } from "@/app/dynamicRendering/types";
 
 const Jobs = ({ Title, ShowLink, LinkText, Job }: JobsProps) => {
 	const [value, setValue] = useState(0);
-  if (Job.length === 0) {
+  if (!Job) {
 		return null;
 	}
 
