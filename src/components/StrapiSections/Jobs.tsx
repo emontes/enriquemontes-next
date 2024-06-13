@@ -35,18 +35,20 @@ const Jobs = ({ Title, ShowLink, LinkText, Job }: JobsProps) => {
 				</div>
 				{/* job info */}
 				<article className="job-info">
-					<h3>{Job[value].position}</h3>
-          <h4>{Job[value].company}</h4>
-          <p className="job-date">{Job[value].date}</p> 
-					 {Job[value].desc.map((item) => {
-            return (
-              <div key={item.id} className="job-desc">
-                <FaAngleDoubleRight className="job-icon" />
-                <p>{item.name}</p>
-              </div>
-            );
-          })}
-				</article>
+  {Job.length > 0 && value >= 0 && value < Job.length && (
+    <>
+      <h3>{Job[value].position}</h3>
+      <h4>{Job[value].company}</h4>
+      <p className="job-date">{Job[value].date}</p>
+      {Job[value].desc.map((item) => (
+        <div key={item.id} className="job-desc">
+          <FaAngleDoubleRight className="job-icon" />
+          <p>{item.name}</p>
+        </div>
+      ))}
+    </>
+  )}
+</article>
 			</div>
 			{ShowLink && (
 				<Link href="/about" className="btn center-btn">
