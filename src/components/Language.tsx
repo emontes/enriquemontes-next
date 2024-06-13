@@ -51,19 +51,6 @@ const Language = ({ locale }) => {
     setIsOpen(false);
   };
 
-  // Obtener la ruta sin el prefijo del idioma actual
-  const getPathWithoutLocale = () => {
-    const segments = pathname.split("/");
-    const localeSegmentIndex = segments.findIndex(
-      (segment) => segment === locale
-    );
-    if (localeSegmentIndex !== -1) {
-      segments.splice(localeSegmentIndex, 1);
-    }
-    return segments.join("/");
-  };
-
-  const pathWithoutLocale = getPathWithoutLocale();
 
   return (
     <div className="relative font-medium text-base" ref={buttonRef}>
@@ -93,7 +80,7 @@ const Language = ({ locale }) => {
             {(locales as string[]).map((lng) => (
               <li key={lng}>
                 <Link
-                  href={`/${lng}${pathWithoutLocale}`}
+                  href={`/${lng}`}
                   locale={lng}
                   passHref
                   className={`flex items-center justify-center gap-4  rounded-md py-2 px-4 z-10 hover:text-primary-4 ${
