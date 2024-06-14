@@ -1,54 +1,22 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import React, { useState, useRef } from "react";
+// import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useParams, usePathname } from "next/navigation";
-
-import esFlag from "../../public/images/flags/mx.svg";
-import usFlag from "../../public/images/flags/us.svg";
-import ruFlag from "../../public/images/flags/ru.svg";
-import heFlag from "../../public/images/flags/il.svg";
-import deFlag from "../../public/images/flags/de.svg";
-import type { StaticImageData } from "next/image";
-
-interface LanguageName {
-  [key: string]: string;
-}
-
-interface LanguageFlag {
-  [key: string]: StaticImageData;
-}
-
-const languageName: LanguageName = {
-  es: "Español",
-  en: "English",
-  ru: "русский",
-  he: "עברית",
-  de: "Deutsch",
-};
-
-const languageFlag: LanguageFlag = {
-  es: esFlag,
-  en: usFlag,
-  ru: ruFlag,
-  he: heFlag,
-  de: deFlag,
-};
-
-const locales = ["en", "es", "he", "ru", "de"];
+import { Link, locales, useRouter, usePathname, languageFlag, languageName } from '../navigation'
 
 const Language = ({ locale }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
-  const params = useParams();
   const buttonRef = useRef(null);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLanguageChange = () => {
+  const handleLanguageChange = (newLocale) => {
     setIsOpen(false);
+    router.push(router.asPath, undefined, { locale: newLocale });
   };
 
 
@@ -77,10 +45,11 @@ const Language = ({ locale }) => {
               top: `${buttonRef.current?.offsetHeight + 10}px`,
             }}
           >
-            {(locales as string[]).map((lng) => (
+            {(locales as string[]).map((lng) => (            
               <li key={lng}>
                 <Link
-                  href={`/${lng}`}
+                  // href={`/${lng}`}
+                  href={`${pathname}`}
                   locale={lng}
                   passHref
                   className={`flex items-center justify-center gap-4  rounded-md py-2 px-4 z-10 hover:text-primary-4 ${

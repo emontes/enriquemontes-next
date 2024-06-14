@@ -4,7 +4,6 @@ import MainLayout from "@/components/MainLayout";
 
 import {
 	fetchFooterContent,
-	fetchMetaData,
 	fetchNavbarContent,
 } from "../utils";
 
@@ -19,8 +18,8 @@ export async function generateStaticParams() {
 	return [
 		{ locale: "en" },
 		{ locale: "es" },
-		{ locale: "ru" },
 		{ locale: "he" },
+		{ locale: "ru" },		
 		{ locale: "de" },
 		// Agrega más locales según sea necesario
 		// Nota es el que genera las páginas estáticas pero truena si se usa next-intl en algún page.tsx
