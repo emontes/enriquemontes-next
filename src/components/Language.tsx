@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
-// import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, locales, useRouter, usePathname, languageFlag, languageName } from '../navigation'
+import { Link, locales, useRouter, usePathname, languageFlag, languageName } from '../navigation';
 
 const Language = ({ locale }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,9 +15,9 @@ const Language = ({ locale }) => {
 
   const handleLanguageChange = (newLocale) => {
     setIsOpen(false);
-    router.push(router.asPath, undefined, { locale: newLocale });
+    // Usar router.push con el nuevo locale
+    router.push(pathname, { locale: newLocale });
   };
-
 
   return (
     <div className="relative font-medium text-base" ref={buttonRef}>
@@ -27,11 +26,11 @@ const Language = ({ locale }) => {
         onClick={toggleOpen}
       >
         <img
-          src={languageFlag[locale as keyof LanguageName].src}
-          alt={languageName[locale as keyof LanguageName]}
+          src={languageFlag[locale as keyof typeof languageFlag].src}
+          alt={languageName[locale as keyof typeof languageName]}
           className="h-5"
         />
-        <span>{languageName[locale as keyof LanguageName]}</span>
+        <span>{languageName[locale as keyof typeof languageName]}</span>
       </div>
       <AnimatePresence>
         {isOpen && (
@@ -45,24 +44,23 @@ const Language = ({ locale }) => {
               top: `${buttonRef.current?.offsetHeight + 10}px`,
             }}
           >
-            {(locales as string[]).map((lng) => (            
+            {(locales as string[]).map((lng) => (
               <li key={lng}>
                 <Link
-                  // href={`/${lng}`}
-                  href={`${pathname}`}
+                  href={pathname}
                   locale={lng}
                   passHref
-                  className={`flex items-center justify-center gap-4  rounded-md py-2 px-4 z-10 hover:text-primary-4 ${
+                  className={`flex items-center justify-center gap-4 rounded-md py-2 px-4 z-10 hover:text-primary-4 ${
                     lng === locale ? "text-primary-3" : " text-primary-500"
                   }`}
-                  onClick={handleLanguageChange}
+                  onClick={() => handleLanguageChange(lng)}
                 >
                   <img
-                    src={languageFlag[lng as keyof LanguageName].src}
-                    alt={languageName[lng as keyof LanguageName]}
+                    src={languageFlag[lng as keyof typeof languageFlag].src}
+                    alt={languageName[lng as keyof typeof languageName]}
                     className="h-6"
                   />
-                  <span>{languageName[lng as keyof LanguageName]}</span>
+                  <span>{languageName[lng as keyof typeof languageName]}</span>
                 </Link>
               </li>
             ))}
