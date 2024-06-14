@@ -16,7 +16,8 @@ const Language = ({ locale }) => {
   const handleLanguageChange = (newLocale) => {
     setIsOpen(false);
     // Usar router.push con el nuevo locale
-    router.push(pathname, { locale: newLocale });
+    // router.push(pathname, { locale: newLocale });
+    router.replace(pathname, {locale: newLocale});
   };
 
   return (
