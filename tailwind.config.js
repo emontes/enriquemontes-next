@@ -33,9 +33,6 @@ module.exports = {
 
 				"white-transparency-8": "var(--clr-white-transparency-8)",
 			},
-			clipPath: {
-				diagonal: "polygon(0 9vh, 100% 0, 100% 78vh, 0 100%)",
-			},
 		},
 	},
 	plugins: [],
