@@ -1,5 +1,5 @@
 
-import { StrapiButtonType,StrapiHeading,
+import type { StrapiButtonType,StrapiHeading,
   StrapiImage,
   StrapiImageCollection, } from "@/types";
 import dynamic from "next/dynamic";
@@ -26,7 +26,7 @@ export const ComponentsMap = {
 export type HeroSectionProps = {
   __component: string;
   Heading: StrapiHeading;
-  SubTitle: string;
+  SubTitle: StrapiHeading;
   BackgroundImage: StrapiImage;
   HeroActions: StrapiButtonType[];
   Centered: boolean;
