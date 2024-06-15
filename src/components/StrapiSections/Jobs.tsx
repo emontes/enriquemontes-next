@@ -30,7 +30,7 @@ const Jobs = ({ Title, ShowLink, LinkText, Job }: JobsProps) => {
         <article className="min-h-[320px]">
           {Job.length > 0 && value >= 0 && value < Job.length && (
             <>
-              <h3 className="font-normal">{Job[value].position}</h3>
+              <h3 className="font-normal text-primary-4">{Job[value].position}</h3>
               <h4 className="uppercase text-grey-5 bg-grey-9 inline-block py-1.5 px-3 rounded-lg">{Job[value].company}</h4>
               <p className="text-sm text-grey-8 tracking-wider">{Job[value].date}</p>
               {Job[value].desc.map((item) => (
