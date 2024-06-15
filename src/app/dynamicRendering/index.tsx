@@ -14,7 +14,8 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 			"PageSections.BackgroundImage",
 			"PageSections.HeroActions",
 			"PageSections.Job.desc",
-			"PageSections.Service"
+			"PageSections.Service",
+			"PageSections.Service.icon"
 		],
 	});
 
