@@ -8,12 +8,14 @@ const HeroSection = dynamic(() => import('@/components/StrapiSections/HeroSectio
 const HeroHome = dynamic(() => import('@/components/StrapiSections/HeroHome/HeroHome'))
 const SimpleParagraph = dynamic(() => import('@/components/StrapiSections/SimpleParagraph/SimpleParagraph'))
 const Jobs = dynamic(() => import('@/components/StrapiSections/Jobs'))
+const Services = dynamic(() => import('@/components/StrapiSections/Services'))
 
 const StrapiComponentNames = {
   Hero: "page-sections.hero-section",
   HeroHome: "page-sections.hero-home",
   SimpleParagraph: "page-sections.simple-paragraph",
-  Jobs: "page-sections.jobs"
+  Jobs: "page-sections.jobs",
+  Services: "page-sections.services"
 }
 
 export const ComponentsMap = {
@@ -21,6 +23,7 @@ export const ComponentsMap = {
   [StrapiComponentNames.HeroHome]: HeroHome,
   [StrapiComponentNames.SimpleParagraph]: SimpleParagraph,
   [StrapiComponentNames.Jobs]: Jobs,
+  [StrapiComponentNames.Services]: Services,
 };
 
 export type HeroSectionProps = {
@@ -57,3 +60,15 @@ export type JobsProps = {
     }[]
   }[]
 };
+
+export type ServicesProps = {
+  __component: string;
+  BackgroundImage: StrapiImage;
+  Service: {
+    id: number;
+    icon: StrapiImage;
+    title: string;
+    text: string;
+  }[];
+
+}

@@ -14,6 +14,7 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 			"PageSections.BackgroundImage",
 			"PageSections.HeroActions",
 			"PageSections.Job.desc",
+			"PageSections.Service"
 		],
 	});
 
@@ -27,7 +28,7 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 			},
 		});
 		const data = await res.json();
-		console.log(data["data"][0]["attributes"])
+		// console.log(data["data"][0]["attributes"])
 		if (data["data"] && data["data"][0]) return data["data"][0]["attributes"];
 	} catch (error) {
 		console.log("error while fetching a signle Page from strapi:", error);
