@@ -1,172 +1,55 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TitleDisplay from "../Title";
 import { FaAngleDoubleRight } from "react-icons/fa";
-import styled from "styled-components";
 import Link from "next/link";
 import type { JobsProps } from "@/app/dynamicRendering/types";
 
 const Jobs = ({ Title, ShowLink, LinkText, Job }: JobsProps) => {
-	const [value, setValue] = useState(0);
+  const [value, setValue] = useState(0);
   if (!Job) {
-		return null;
-	}
+    return null;
+  }
 
-	return (
-		<Wrapper className="section">
-			<TitleDisplay title={Title} />
-			<div className={ShowLink ? "jobs-center" : "jobs-center-all"}>
-				{/* btn container */}
-				<div className={ShowLink ? "btn-container" : "btn-container-all"}>
-					{Job.map((item, index) => {
-            
-            return (
-              <button
-                key={index}
-                className={
-                  index === value ? "job-btn active-btn" : "job-btn small-font"
-                }
-                onClick={() => setValue(index)}
-              >
-                {item.company}
-              </button>
-            );
-          })}
-				</div>
-				{/* job info */}
-				<article className="job-info">
-  {Job.length > 0 && value >= 0 && value < Job.length && (
-    <>
-      <h3>{Job[value].position}</h3>
-      <h4>{Job[value].company}</h4>
-      <p className="job-date">{Job[value].date}</p>
-      {Job[value].desc.map((item) => (
-        <div key={item.id} className="job-desc">
-          <FaAngleDoubleRight className="job-icon" />
-          <p>{item.name}</p>
+  return (
+    <section className="section bg-white">
+      <TitleDisplay title={Title} />
+      <div className={`w-4/5 mx-auto max-w-[var(--max-width)] ${ShowLink ? "grid grid-cols-1 md:grid-cols-[200px_1fr] gap-16" : ""}`}>
+        <div className={`flex ${ShowLink ? "flex-col justify-start" : "flex-row flex-wrap justify-center"} mb-16`}>
+          {Job.map((item, index) => (
+            <button
+              key={index}
+              className={`bg-transparent border-none capitalize text-lg tracking-wide my-2 mx-2 transition-all cursor-pointer ${index === value ? "text-primary-5 shadow-[0_2px_#2892d7]" : "text-sm"} p-1.5 rounded-lg shadow-md hover:text-primary-5 hover:shadow-[0_2px_#2892d7] $
+              {ShowLink ? "hover:shadow-[-2px_0_#6366F1]" : ""}`}
+              onClick={() => setValue(index)}
+            >
+              {item.company}
+            </button>
+          ))}
         </div>
-      ))}
-    </>
-  )}
-</article>
-			</div>
-			{ShowLink && (
-				<Link href="/about" className="btn center-btn">
-					{LinkText}
-				</Link>
-			)}
-		</Wrapper>
-	);
+        <article className="min-h-[320px]">
+          {Job.length > 0 && value >= 0 && value < Job.length && (
+            <>
+              <h3 className="font-normal">{Job[value].position}</h3>
+              <h4 className="uppercase text-grey-5 bg-grey-9 inline-block py-1.5 px-3 rounded-lg">{Job[value].company}</h4>
+              <p className="text-sm text-grey-8 tracking-wider">{Job[value].date}</p>
+              {Job[value].desc.map((item) => (
+                <div key={item.id} className="grid grid-cols-[auto_1fr] gap-8 items-center mb-5">
+                  <FaAngleDoubleRight className="text-primary-5" />
+                  <p className="mb-0 text-grey-5">{item.name}</p>
+                </div>
+              ))}
+            </>
+          )}
+        </article>
+      </div>
+      {ShowLink && (
+        <Link href="/about" className="btn center-btn">
+          {LinkText}
+        </Link>
+      )}
+    </section>
+  );
 };
 
 export default Jobs;
-
-const Wrapper = styled.section`
-  .jobs-center {
-    width: 80vw;
-    margin: 0 auto;
-    max-width: var(--max-width);
-  }
-  .jobs-center-all {
-    width: 80vw;
-    margin: 0 auto;
-    max-width: var(--max-width);
-  }
-  .btn-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 4rem;
-  }
-  .btn-container-all {
-    display: flex;
-
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin-bottom: 4rem;
-  }
-  .job-btn {
-    background: transparent;
-    border-color: transparent;
-
-    text-transform: capitalize;
-    font-size: 1.25rem;
-    letter-spacing: var(--spacing);
-    margin: 0.5rem;
-    transition: var(--transition);
-    cursor: pointer;
-
-    line-height: 1;
-    padding: 0.375rem 0.75rem;
-    border-radius: var(--radius);
-    box-shadow: var(--light-shadow);
-  }
-  .small-font {
-    font-size: 0.8rem;
-  }
-  .job-btn:hover {
-    color: var(--clr-primary-5);
-    box-shadow: 0 2px var(--clr-primary-5);
-  }
-  .active-btn {
-    color: var(--clr-primary-5);
-    box-shadow: 0 2px var(--clr-primary-5);
-  }
-  .job-info {
-    min-height: 320px;
-  }
-  .job-info h3 {
-    font-weight: 400;
-  }
-  .job-info h4 {
-    text-transform: uppercase;
-    color: var(--clr-grey-5);
-    background: var(--clr-grey-9);
-    display: inline-block;
-    padding: 0.375rem 0.75rem;
-    border-radius: var(--radius);
-  }
-  .job-date {
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-  }
-  .job-desc {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: 2rem;
-    align-items: center;
-    margin-bottom: 1.25rem;
-  }
-  .job-desc p {
-    margin-bottom: 0;
-    color: var(--clr-grey-3);
-  }
-  .job-icon {
-    color: var(--clr-primary-5);
-  }
-  @media screen and (min-width: 992px) {
-    .jobs-center {
-      width: 90vw;
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      column-gap: 4rem;
-    }
-    .btn-container {
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-
-    .active-btn {
-      box-shadow: -2px 0 var(--clr-primary-5);
-    }
-    .job-btn:hover {
-      box-shadow: -2px 0 var(--clr-primary-5);
-    }
-    .job-date {
-      font-size: 1rem;
-      letter-spacing: var(--spacing);
-    }
-  }
-`;
