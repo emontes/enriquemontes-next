@@ -45,7 +45,7 @@ const Navbar = ({ toggleSidebar, data, locale }) => {
 							alt="Enrique Montes"
 							width={140}
 							height={56}
-							className="h-8 w-auto sm:h-10"
+							className="h-6 w-auto sm:h-10 object-contain"
 						/>
 					</div>
 					<div className="-mr-2 -my-2 md:hidden">
