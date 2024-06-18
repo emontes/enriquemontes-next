@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ResourcesProps } from "@/app/dynamicRendering/types";
 
 const Resources = ({ Title, resources }: ResourcesProps) => {
+  // console.log(resources.data)
   return (
     <div className="relative py-16 bg-gradient-to-br from-blue-900 to-teal-300 clip-path-diagonal">
       <h1 className="text-white text-4xl font-bold mb-8 text-center">{Title}</h1>

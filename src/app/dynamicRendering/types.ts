@@ -80,9 +80,16 @@ export type ResourcesProps = {
   __component: string;
   Title: string;
   resources: {
-    title: string;
-    date: string;
-    url: string;
-    image: StrapiImage;
-  }[]
-}
+    data: {
+      id: number;
+      attributes: {
+        title: string;
+        date: string;
+        url: string;
+        image: StrapiImage;
+      }
+      
+    }[];
+  };
+};
+
