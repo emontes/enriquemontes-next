@@ -1,5 +1,5 @@
 
-import type { StrapiButtonType,StrapiHeading,
+import type { StrapiButtonType,StrapiDevelopments,StrapiHeading,
   StrapiImage,
   StrapiImageCollection,
   StrapiResources, } from "@/types";
@@ -11,6 +11,7 @@ const SimpleParagraph = dynamic(() => import('@/components/StrapiSections/Simple
 const Jobs = dynamic(() => import('@/components/StrapiSections/Jobs'))
 const Services = dynamic(() => import('@/components/StrapiSections/Services'))
 const Resources = dynamic(() => import('@/components/StrapiSections/Resources'))
+const Developments = dynamic(() => import('@/components/StrapiSections/Developments'))
 
 const StrapiComponentNames = {
   Hero: "page-sections.hero-section",
@@ -18,7 +19,8 @@ const StrapiComponentNames = {
   SimpleParagraph: "page-sections.simple-paragraph",
   Jobs: "page-sections.jobs",
   Services: "page-sections.services",
-  Resources: "page-sections.resour"
+  Resources: "page-sections.resour",
+  Developments: "page-sections.dev"
 }
 
 export const ComponentsMap = {
@@ -28,6 +30,7 @@ export const ComponentsMap = {
   [StrapiComponentNames.Jobs]: Jobs,
   [StrapiComponentNames.Services]: Services,
   [StrapiComponentNames.Resources]: Resources,
+  [StrapiComponentNames.Developments]: Developments
 };
 
 export type HeroSectionProps = {
@@ -84,3 +87,8 @@ export type ResourcesProps = {
   resources: StrapiResources;
 };
 
+export type DevelopmentsProps = {
+  __component: string;
+  Heading: StrapiHeading;
+  developments: StrapiDevelopments;
+};

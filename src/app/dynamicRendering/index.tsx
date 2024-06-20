@@ -19,6 +19,8 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 			"PageSections.Service.icon",
 			"PageSections.resources",
 			"PageSections.resources.image",
+			"PageSections.developments.image",
+			"PageSections.developments.resources.image",
 		],
 	});
 

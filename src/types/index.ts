@@ -47,3 +47,20 @@ export type StrapiResources = {
     
   }[];
 }
+
+export type StrapiDevelopments = {
+  data: {
+    id: number;
+    attributes: {
+      title: string;
+      slug: string;
+      description: string;
+      github: string;
+      url: string;
+      created: Date;
+      image: StrapiImage;
+      resources: StrapiResources;
+    }
+    
+  }[];
+}
