@@ -4,7 +4,7 @@ import { HeadingText } from "../HeadingText";
 
 const Developments = ({ Heading, developments }: DevelopmentsProps) => {
   return (
-    <div className="relative py-16 bg-gradient-to-br from-green-200 to-green-50 clip-path-diagonal">
+    <div className="relative py-16 bg-gradient-radial from-cyan-950 to-cyan-700 clip-path-diagonal">
       <HeadingText
         attributes={{ id: "DevelopmentsBlock", className: "text-white mb-8 text-center" }}
         HeadingText={Heading.HeadingText}
@@ -32,7 +32,6 @@ const Developments = ({ Heading, developments }: DevelopmentsProps) => {
               )}
               <div className="p-2">
                 <h3 className="text-lg font-semibold mb-1">{develop.attributes.title}</h3>
-                <p className="text-gray-600 text-sm">{develop.attributes.slug}</p>
                 <p className="text-gray-500 text-sm">{develop.attributes.description}</p>
                 {develop.attributes.github && (
                   <p className="text-gray-600 text-sm">

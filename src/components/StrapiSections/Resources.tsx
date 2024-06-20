@@ -11,11 +11,11 @@ const Resources = ({ Title, HeadingType, resources }: ResourcesProps) => {
                   HeadingText={Title}
                   HeadingType={HeadingType}
                 />
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto px-4">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 max-w-6xl mx-auto px-4">
         {resources.data.map((resource) => (
-          <div key={resource.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div key={resource.id} className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-2">
             {resource.attributes.image && resource.attributes.image.data && (
-              <div className="w-full h-32 relative">
+              <div className="w-full h-24 relative">
                 <Image
                   src={`${resource.attributes.image.data.attributes.url}`}
                   alt={resource.attributes.title}

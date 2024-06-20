@@ -1,3 +1,5 @@
+"use client"
+import { motion } from "framer-motion";
 import type { HeroSectionProps } from "@/app/dynamicRendering/types";
 import { HeadingText } from "@/components/HeadingText";
 import Image from "next/image";
@@ -29,8 +31,13 @@ export default function HeroSection({
         )}
         <div className="hero-container absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gradient-to-br from-[rgba(0,37,92,0.7)] to-[rgba(199,226,222,0.9)] rounded-lg">
           <div className="header__text-box absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-            <div className="heading-primary text-primary-10 text-shadow-[1px_1px_2px_rgba(0,0,0,0.5)] uppercase backface-hidden mb-16 font-light">
-              <span className="heading-primary--main block text-4xl tracking-wide animate-moveInLeft">
+            <motion.div
+              className="heading-primary text-primary-10 text-shadow-[1px_1px_2px_rgba(0,0,0,0.5)] uppercase backface-hidden mb-16 font-light"
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="heading-primary--main block text-4xl tracking-wide">
                 <HeadingText
                   attributes={{ id: "HeroTitle", className: "heading-primary--main" }}
                   HeadingText={Heading.HeadingText}
@@ -38,24 +45,35 @@ export default function HeroSection({
                 />
               </span>
               {SubTitle && (
-                <span className="mt-4 block tracking-wide animate-moveInRight">
+                <motion.span
+                  className="mt-4 block tracking-wide"
+                  initial={{ x: 100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
                   <HeadingText
                     attributes={{ id: "HeroSubTitle", className: "" }}
                     HeadingText={SubTitle.HeadingText}
                     HeadingType={SubTitle.HeadingType}
                   />
-                </span>
+                </motion.span>
               )}
-            </div>
+            </motion.div>
             {HeroActions
               ? HeroActions.map((props) => (
-                  <Link
+                  <motion.div
                     key={props.id}
-                    href={`/${props.Link}`}
-                    className="btn btn--white btn--animated"
+                    initial={{ y: 100, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.6 }}
                   >
-                    {props.Text}
-                  </Link>
+                    <Link
+                      href={`/${props.Link}`}
+                      className="btn btn--white btn--animated"
+                    >
+                      {props.Text}
+                    </Link>
+                  </motion.div>
                 ))
               : ""}
           </div>
