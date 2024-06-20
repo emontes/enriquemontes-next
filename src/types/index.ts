@@ -34,3 +34,16 @@ export type StrapiImageCollection = {
     }
   }[]
 }
+
+export type StrapiResources = {
+  data: {
+    id: number;
+    attributes: {
+      title: string;
+      date: string;
+      url: string;
+      image: StrapiImage;
+    }
+    
+  }[];
+}

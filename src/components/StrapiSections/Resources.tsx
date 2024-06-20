@@ -1,16 +1,21 @@
 import Image from "next/image";
 import type { ResourcesProps } from "@/app/dynamicRendering/types";
+import { HeadingText } from "../HeadingText";
 
-const Resources = ({ Title, resources }: ResourcesProps) => {
+const Resources = ({ Title, HeadingType, resources }: ResourcesProps) => {
   // console.log(resources.data)
   return (
-    <div className="relative py-16 bg-gradient-to-br from-blue-900 to-teal-300 clip-path-diagonal">
-      <h1 className="text-white text-4xl font-bold mb-8 text-center">{Title}</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto px-4">
+    <div className="relative py-16 bg-gradient-to-br from-cyan-700 to-blue-50 clip-path-diagonal">     
+      <HeadingText
+                  attributes={{ id: "ResourcesBlock", className: "text-white mb-8 text-center" }}
+                  HeadingText={Title}
+                  HeadingType={HeadingType}
+                />
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto px-4">
         {resources.data.map((resource) => (
           <div key={resource.id} className="bg-white rounded-lg shadow-md overflow-hidden">
             {resource.attributes.image && resource.attributes.image.data && (
-              <div className="w-full h-36 relative">
+              <div className="w-full h-32 relative">
                 <Image
                   src={`${resource.attributes.image.data.attributes.url}`}
                   alt={resource.attributes.title}

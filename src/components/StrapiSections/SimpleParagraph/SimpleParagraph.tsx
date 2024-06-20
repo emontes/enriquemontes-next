@@ -6,9 +6,21 @@ const SimpleParagraph = ({
 	IsParagraphSecondary,
 	ActionButtons,
 }: SimpleParagraphProps) => {
+	const paragraphs = Content.split("\n\n");
 	return (
-		<div className="mt-4 p-10 text-gray-400">
-			<ReactMarkdown children={Content} />
+		<div className="p-2 text-gray-500 bg-amber-50 shadow-md">
+			<div className=" rounded-md p-10 bg-amber-100 shadow-inner">
+			
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {paragraphs.map((paragraph, index) => (
+            <div key={index}>
+              <ReactMarkdown>{paragraph}</ReactMarkdown>
+            </div>
+          ))}
+        </div>
+
+
+			</div>
 		</div>
 	);
 };

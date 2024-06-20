@@ -3,12 +3,17 @@
 // This needs REST Client for Visual Studio Code  for working
 
 ### 
+GET http://localhost:1337/api/developments?populate=resources.image
+Authorization: bearer fcdeba1245463f5375231f261512ae00ab04bdbc953de946036c1bac40b20f7fb2262f67153739f483223414f2df8f181e1780b4d36d74279adf44f69082722e0728f3c2fd7a47b7d8455409f0ea30a9618536c10a6083d9c211fa52691faf57a272b305eeaf8cd8d85cae13895d3d3fb0f2500ac6ae7cc97be9bd786f63b303
+
+
+### 
 GET http://localhost:1337/api/resources?populate=image
 Authorization: bearer fcdeba1245463f5375231f261512ae00ab04bdbc953de946036c1bac40b20f7fb2262f67153739f483223414f2df8f181e1780b4d36d74279adf44f69082722e0728f3c2fd7a47b7d8455409f0ea30a9618536c10a6083d9c211fa52691faf57a272b305eeaf8cd8d85cae13895d3d3fb0f2500ac6ae7cc97be9bd786f63b303
 
 ### Enrique-pages testing with filters
 GET http://localhost:1337/api/enrique-pages?locale=en
-&filters[slug][$eq]=resources
+&filters[slug][$eq]=developments
 # &populate=*
 # &populate=PageSections
 # &populate=PageSections.Heading
@@ -18,8 +23,11 @@ GET http://localhost:1337/api/enrique-pages?locale=en
 # &populate=PageSections.BackgroundImage
 # &populate=PageSections.Service
 # &populate=PageSections.Service.icon
-&populate=PageSections.resources
-&populate=PageSections.resources.image
+# &populate=PageSections.resources
+&populate=PageSections.developments.image
+&populate=PageSections.developments.resources.image
+# &populate=PageSections.developments.resources
+# &populate=PageSections.resources.image
 # &populate=seo.metaImage
 # &populate=seo.metaSocial
 Authorization: bearer fcdeba1245463f5375231f261512ae00ab04bdbc953de946036c1bac40b20f7fb2262f67153739f483223414f2df8f181e1780b4d36d74279adf44f69082722e0728f3c2fd7a47b7d8455409f0ea30a9618536c10a6083d9c211fa52691faf57a272b305eeaf8cd8d85cae13895d3d3fb0f2500ac6ae7cc97be9bd786f63b303

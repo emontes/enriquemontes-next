@@ -1,7 +1,8 @@
 
 import type { StrapiButtonType,StrapiHeading,
   StrapiImage,
-  StrapiImageCollection, } from "@/types";
+  StrapiImageCollection,
+  StrapiResources, } from "@/types";
 import dynamic from "next/dynamic";
 // Lazy Load All the sections
 const HeroSection = dynamic(() => import('@/components/StrapiSections/HeroSection/HeroSection'))
@@ -79,17 +80,7 @@ export type ServicesProps = {
 export type ResourcesProps = {
   __component: string;
   Title: string;
-  resources: {
-    data: {
-      id: number;
-      attributes: {
-        title: string;
-        date: string;
-        url: string;
-        image: StrapiImage;
-      }
-      
-    }[];
-  };
+  HeadingType: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  resources: StrapiResources;
 };
 
