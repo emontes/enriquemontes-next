@@ -34,7 +34,7 @@ const Developments = ({ Heading, developments }: DevelopmentsProps) => {
               <p className="text-gray-600 text-sm">{develop.attributes.description}</p>
               <p className="text-gray-600 text-sm">{develop.attributes.github}</p>
               <p className="text-gray-600 text-sm">{develop.attributes.url}</p>
-              <p className="text-gray-600 text-sm">{develop.attributes.created}</p>
+              <p className="text-gray-600 text-sm">{develop.attributes.created.getFullYear()}</p>
             </div>
           </div>
         ))}
