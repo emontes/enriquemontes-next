@@ -8,6 +8,24 @@
     "copyright": "copyright",
     "allRights": "all rights reserved",
     "siteMade": "Site made with:"
+  },
+  "ContactForm": {
+    "city": "עִיר",
+    "comment": "תגובה",
+    "country": "מדינה",
+    "email": "אימייל",
+    "emailInvalid": "כתובת אימייל לא חוקית",
+    "firstname": "שם פרטי",
+    "lastname": "שם משפחה",
+    "mobilephone": "טלפון נייד",
+    "phone": "טלפון",
+    "required": "זהו שדה חובה",
+    "state": "מדינה",
+    "submit": "שלח",
+    "submitError": "אירעה שגיאה בשליחת הטופס. \nבבקשה נסה שוב.",
+    "submitting": "הַגָשָׁה...",
+    "thankYou": "תודה לך על ההודעה שלך!",
+    "success": "הטופס נשלח בהצלחה"
   }
   
 }

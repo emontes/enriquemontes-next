@@ -13,7 +13,7 @@ export async function generateMetadata({
   const page = await fetchOnePage(params.slug, params.locale || "");
   const { seo } = page;
 
-  if (!seo) return null;
+  if (!seo) return {};
   const metadata: Metadata = MetadataBuilder({ seo })
   return metadata;
 }

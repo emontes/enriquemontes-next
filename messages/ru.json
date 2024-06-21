@@ -8,6 +8,23 @@
     "copyright": "copyright",
     "allRights": "all rights reserved",
     "siteMade": "Site made with:"
+  },
+  "ContactForm": {
+    "city": "Город",
+    "comment": "Комментарий",
+    "country": "Страна",
+    "email": "Электронная почта",
+    "emailInvalid": "Неверный адрес электронной почты",
+    "firstname": "Имя",
+    "lastname": "Фамилия",
+    "mobilephone": "Мобильный телефон",
+    "phone": "Телефон",
+    "required": "Это поле обязательно к заполнению",
+    "state": "Состояние",
+    "submitError": "Произошла ошибка при отправке формы. \nПожалуйста, попробуйте еще раз.",
+    "submitting": "Отправка...",
+    "thankYou": "Спасибо за ваше сообщение!",
+    "success": "Форма успешно отправлена"
   }
   
 }

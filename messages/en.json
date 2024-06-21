@@ -8,6 +8,24 @@
     "copyright": "copyright",
     "allRights": "all rights reserved",
     "siteMade": "Site made with:"
+  },
+  "ContactForm": {
+    "email": "Email",
+    "firstname": "First Name",
+    "lastname": "Last Name",
+    "phone": "Phone",
+    "mobilephone": "Mobile Phone",
+    "country": "Country",
+    "city": "City",
+    "state": "State",
+    "comment": "Comment",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "thankYou": "Thank you for your message!",
+    "submitError": "There was an error submitting the form. Please try again.",
+    "required": "This field is required",
+    "emailInvalid": "Invalid email address",
+    "success": "Form submitted successfully"
   }
   
 }

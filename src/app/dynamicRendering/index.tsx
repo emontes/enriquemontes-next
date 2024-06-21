@@ -10,6 +10,7 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 			"seo.metaSocial",
 			"PageSections",
 			"PageSections.Heading",
+			"PageSections.Image",
 			"PageSections.SubTitle",
 			"PageSections.BackgroundImage",
 			"PageSections.ProfileImage",

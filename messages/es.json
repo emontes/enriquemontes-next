@@ -8,5 +8,23 @@
     "allRights": "Todos los Derechos Reservados",
     "copyright": "Derechos de autor",
     "siteMade": "Sitio hecho con:"
+  },
+  "ContactForm": {
+    "email": "Correo electrónico",
+    "firstname": "Nombre",
+    "lastname": "Apellido",
+    "phone": "Teléfono",
+    "mobilephone": "Teléfono móvil",
+    "country": "País",
+    "city": "Ciudad",
+    "state": "Estado",
+    "comment": "Comentario",
+    "submit": "Enviar",
+    "submitting": "Enviando...",
+    "thankYou": "¡Gracias por tu mensaje!",
+    "submitError": "Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo.",
+    "required": "Este campo es obligatorio",
+    "emailInvalid": "Dirección de correo electrónico inválida",
+    "success": "Formulario enviado exitosamente"
   }
 }

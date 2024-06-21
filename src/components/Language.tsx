@@ -5,7 +5,7 @@ import { Link, locales, useRouter, usePathname, languageFlag, languageName } fro
 
 const Language = ({ locale }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -42,7 +42,7 @@ const Language = ({ locale }) => {
             transition={{ duration: 0.3 }}
             className="absolute left-0 w-full bg-white border border-gray-300 rounded-md py-2 px-2 shadow-lg z-20"
             style={{
-              top: `${buttonRef.current?.offsetHeight + 10}px`,
+              top: `${(buttonRef.current?.offsetHeight ?? 0) + 10}px`,
             }}
           >
             {(locales as string[]).map((lng) => (

@@ -14,7 +14,7 @@ export async function generateMetadata({
   if (!page) return notFound();
   const { seo } = page;
 
-  if (!seo) return null;
+  if (!seo) return {};
   const metadata: Metadata = MetadataBuilder({ seo })
   return metadata;
 }

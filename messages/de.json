@@ -8,5 +8,23 @@
     "allRights": "Alle Rechte vorbehalten",
     "copyright": "Urheberrechte ©",
     "siteMade": "Website erstellt mit:"
+  },
+  "ContactForm": {
+    "city": "Stadt",
+    "comment": "Kommentar",
+    "country": "Land",
+    "email": "Email",
+    "emailInvalid": "Ungültige E-Mail-Adresse",
+    "firstname": "Vorname",
+    "lastname": "Familienname, Nachname",
+    "mobilephone": "Mobiltelefon",
+    "phone": "Telefon",
+    "required": "Dieses Feld ist erforderlich",
+    "state": "Zustand",
+    "submit": "Einreichen",
+    "submitError": "Es gab einen Fehler beim Abschicken des Formulars. \nBitte versuche es erneut.",
+    "submitting": "Einreichen...",
+    "thankYou": "Danke für deine Nachricht!",
+    "success": "Formular erfolgreich eingereicht"
   }
 }
