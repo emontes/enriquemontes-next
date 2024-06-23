@@ -1,6 +1,6 @@
-import { redirect } from "next/navigation";
 import { ComponentsMap } from "./types";
 import qs from "qs";
+import DevelopmentsServer from "@/components/StrapiSections/Developments/DevelopmentsSrver";
 
 export const fetchOnePage = async (slug: string, locale: string) => {
 	const query = qs.stringify({
@@ -55,12 +55,17 @@ export async function Page({
 	const { PageSections } = page;
 
 	return (
-	  <main className="">
+		<main className="">
 		{PageSections?.length
 		  ? PageSections.map((data) => {
+			  if (data.__component === "page-sections.dev") {
+				return (
+				  <DevelopmentsServer key={`${data.__component}-${data.id}`} {...data} locale={params.locale || "en"}/>
+				);
+			  }
 			  const Component = ComponentsMap[data.__component] as React.ComponentType<any>;
 			  return Component ? (
-				<Component key={`${data.__component}-${data.id}`} {...data}/>
+				<Component key={`${data.__component}-${data.id}`} {...data} />
 			  ) : (
 				""
 			  );

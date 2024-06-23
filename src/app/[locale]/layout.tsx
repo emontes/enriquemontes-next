@@ -55,7 +55,6 @@ export default async function LocaleLayout({
 			<body className={inter.className}>
 			<NextIntlClientProvider locale={locale} messages={messages}>
 				<MainLayout
-					// biome-ignore lint/correctness/noChildrenProp: <explanation>
 					children={children}
 					NavbarData={navbar}
 					FooterData={footer}

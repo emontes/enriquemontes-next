@@ -1,4 +1,3 @@
-
 import type { StrapiButtonType,StrapiDevelopments,StrapiHeading,
   StrapiImage,
   StrapiImageCollection,
@@ -11,7 +10,6 @@ const SimpleParagraph = dynamic(() => import('@/components/StrapiSections/Simple
 const Jobs = dynamic(() => import('@/components/StrapiSections/Jobs'))
 const Services = dynamic(() => import('@/components/StrapiSections/Services'))
 const Resources = dynamic(() => import('@/components/StrapiSections/Resources'))
-const Developments = dynamic(() => import('@/components/StrapiSections/Developments'))
 const Contact = dynamic(() => import('@/components/StrapiSections/Contact/Contact'))
 
 const StrapiComponentNames = {
@@ -21,7 +19,6 @@ const StrapiComponentNames = {
   Jobs: "page-sections.jobs",
   Services: "page-sections.services",
   Resources: "page-sections.resour",
-  Developments: "page-sections.dev",
   Contact: "page-sections.contact"
 }
 
@@ -32,7 +29,6 @@ export const ComponentsMap = {
   [StrapiComponentNames.Jobs]: Jobs,
   [StrapiComponentNames.Services]: Services,
   [StrapiComponentNames.Resources]: Resources,
-  [StrapiComponentNames.Developments]: Developments,
   [StrapiComponentNames.Contact]: Contact
 };
 
@@ -94,6 +90,8 @@ export type DevelopmentsProps = {
   __component: string;
   Heading: StrapiHeading;
   developments: StrapiDevelopments;
+  show_all: boolean;
+  locale: string;
 };
 
 export type ContactProps = {

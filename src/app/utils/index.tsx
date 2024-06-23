@@ -55,3 +55,24 @@ export const fetchMetaData = async (lang: string) => {
 		return {};
 	}
 };
+
+export const fetchDevelopments = async (lang: string) => {
+	try {
+		let res = await fetch(
+			`${process.env.STRAPI_API_URL}/developments?populate=image&locale=${lang}&sort=created:desc`,
+			{
+				headers: {
+					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+				},
+			},
+		);
+		const data = await res.json();
+		// console.log('La Data: ', data)
+		// return data["data"]["attributes"];
+		return data["data"]
+		
+	} catch (error) {
+		console.log("error while fetching Meta Data from strapi:", error);
+		return {};
+	}
+};

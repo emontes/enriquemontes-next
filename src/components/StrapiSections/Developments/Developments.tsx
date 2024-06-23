@@ -1,8 +1,12 @@
 import Image from "next/image";
-import type { DevelopmentsProps } from "@/app/dynamicRendering/types";
-import { HeadingText } from "../HeadingText";
+import { HeadingText } from "../../HeadingText";
+import { FaGithub } from "react-icons/fa";
 
-const Developments = ({ Heading, developments }: DevelopmentsProps) => {
+const Developments = ({ Heading, developments }) => { 
+  // console.log('Developments in Developments.tsx: ',  developments)
+  if (!developments || !developments.data || developments.data.length === 0) {
+    return <div>No developments available.</div>;
+  }
   return (
     <div className="relative py-16 bg-gradient-radial from-cyan-950 to-cyan-700 clip-path-diagonal">
       <HeadingText
@@ -36,7 +40,7 @@ const Developments = ({ Heading, developments }: DevelopmentsProps) => {
                 {develop.attributes.github && (
                   <p className="text-gray-600 text-sm">
                     <a href={develop.attributes.github} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                      {develop.attributes.github}
+                      <FaGithub className="inline-block" size={20} />
                     </a>
                   </p>
                 )}
