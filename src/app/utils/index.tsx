@@ -59,7 +59,7 @@ export const fetchMetaData = async (lang: string) => {
 export const fetchDevelopments = async (lang: string) => {
 	try {
 		let res = await fetch(
-			`${process.env.STRAPI_API_URL}/developments?populate=image&locale=${lang}&sort=created:desc`,
+			`${process.env.STRAPI_API_URL}/developments?populate=image&populate=resources.image&locale=${lang}&sort=created:desc`,
 			{
 				headers: {
 					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,

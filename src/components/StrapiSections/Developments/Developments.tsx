@@ -3,7 +3,6 @@ import { HeadingText } from "../../HeadingText";
 import { FaGithub } from "react-icons/fa";
 
 const Developments = ({ Heading, developments }) => {
-	// console.log('Developments in Developments.tsx: ',  developments)
 	if (!developments || !developments.data || developments.data.length === 0) {
 		return <div>No developments available.</div>;
 	}
@@ -27,12 +26,13 @@ const Developments = ({ Heading, developments }) => {
 						year: "numeric",
 						month: "long",
 					});
+					console.log(develop.attributes)
 					return (
 						<div
 							key={develop.id}
 							className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105"
 						>
-							{develop.attributes.image && develop.attributes.image.data && (
+							{develop.attributes.image?.data && (
 								<div className="w-full h-44 relative">
 									<Image
 										src={`${develop.attributes.image.data.attributes.url}`}
@@ -53,8 +53,8 @@ const Developments = ({ Heading, developments }) => {
 								<p className="text-gray-500 text-sm">
 									{develop.attributes.description}
 								</p>
-								{develop.attributes.github && (
-									<p className="text-gray-600 text-sm">
+								<div className="flex items-center space-x-2">
+									{develop.attributes.github && (
 										<a
 											href={develop.attributes.github}
 											target="_blank"
@@ -63,8 +63,26 @@ const Developments = ({ Heading, developments }) => {
 										>
 											<FaGithub className="inline-block" size={20} />
 										</a>
-									</p>
-								)}
+									)}
+									{develop.attributes.resources?.data.map((resource) => (
+										<a
+											key={resource.id}
+											href={resource.attributes.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-blue-500 hover:underline"
+										>
+											<Image
+												src={resource.attributes.image.data.attributes.formats.thumbnail.url}
+												alt={resource.attributes.title}
+												title={resource.attributes.title}
+												width={20}
+												height={20}
+												className="inline-block"
+											/>
+										</a>
+									))}
+								</div>
 								{develop.attributes.url && (
 									<p className="text-gray-600 text-sm">
 										<a
