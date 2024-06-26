@@ -64,3 +64,15 @@ export type StrapiDevelopments = {
     
   }[];
 }
+
+export type StrapiTestimonials = {
+  data: {
+    id: number;
+    attributes: {
+      name: string;
+      title: string;
+      text: string;
+      image: StrapiImage;
+    }
+  }[];
+}

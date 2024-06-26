@@ -1,7 +1,8 @@
 import type { StrapiButtonType,StrapiDevelopments,StrapiHeading,
   StrapiImage,
   StrapiImageCollection,
-  StrapiResources, } from "@/types";
+  StrapiResources,
+  StrapiTestimonials, } from "@/types";
 import dynamic from "next/dynamic";
 // Lazy Load All the sections
 const HeroSection = dynamic(() => import('@/components/StrapiSections/HeroSection/HeroSection'))
@@ -11,6 +12,7 @@ const Jobs = dynamic(() => import('@/components/StrapiSections/Jobs'))
 const Services = dynamic(() => import('@/components/StrapiSections/Services'))
 const Resources = dynamic(() => import('@/components/StrapiSections/Resources'))
 const Contact = dynamic(() => import('@/components/StrapiSections/Contact/Contact'))
+const Testimonials = dynamic(() => import('@/components/StrapiSections/Testimonials/Testimonials'))
 
 const StrapiComponentNames = {
   Hero: "page-sections.hero-section",
@@ -19,7 +21,8 @@ const StrapiComponentNames = {
   Jobs: "page-sections.jobs",
   Services: "page-sections.services",
   Resources: "page-sections.resour",
-  Contact: "page-sections.contact"
+  Contact: "page-sections.contact",
+  Testimonials: "page-sections.testi"
 }
 
 export const ComponentsMap = {
@@ -29,7 +32,8 @@ export const ComponentsMap = {
   [StrapiComponentNames.Jobs]: Jobs,
   [StrapiComponentNames.Services]: Services,
   [StrapiComponentNames.Resources]: Resources,
-  [StrapiComponentNames.Contact]: Contact
+  [StrapiComponentNames.Contact]: Contact,
+  [StrapiComponentNames.Testimonials]: Testimonials
 };
 
 export type HeroSectionProps = {
@@ -95,7 +99,14 @@ export type DevelopmentsProps = {
 };
 
 export type ContactProps = {
-  __componeny: string;
+  __component: string;
   Heading: StrapiHeading;
   Image: StrapiImage;
+}
+
+export type TestimonialProps = {
+  __component: string;
+  Background: StrapiImage;
+  testimonials: StrapiTestimonials;
+
 }
