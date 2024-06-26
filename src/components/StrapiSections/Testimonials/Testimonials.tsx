@@ -7,10 +7,13 @@ const Testimonials = ({ Background, testimonials }: TestimonialProps) => {
         <section className="relative py-20">
             {/* Video de fondo */}
             <div className="absolute inset-0 z-0 overflow-hidden opacity-10">
+                {Background.data &&
                 <video className="object-cover w-full h-full" loop autoPlay muted>
-                    <source src={Background.data.attributes.url} type="video/mp4" />
-                    Your browser is not supported!
-                </video>
+                <source src={Background.data.attributes.url} type="video/mp4" />
+                Your browser is not supported!
+            </video>
+                }
+                
             </div>
 
             {/* Testimonios */}
@@ -35,9 +38,9 @@ const Testimonials = ({ Background, testimonials }: TestimonialProps) => {
 
                         {/* Texto del testimonio */}
                         <div>
-                            <h4 className="mb-2 text-sm md:text-xl font-bold text-gray-700">{testimonial.attributes.title}</h4>
+                            <h4 className="mb-2 text-xs md:text-xl text-gray-700">{testimonial.attributes.title}</h4>
                        
-                            <ReactMarkdown className="text-gray-500 text-xs md:text-base" children={testimonial.attributes.text} />
+                            <ReactMarkdown className="text-gray-500" children={testimonial.attributes.text} />
                         
                         </div>
                     </div>
