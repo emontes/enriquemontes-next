@@ -29,11 +29,11 @@ const data = [
   //   url: "https://www.facebook.com/enriqueadelino",
   // },
 
-  {
-    id: 5,
-    icon: <FaTwitterSquare className="social-icon"></FaTwitterSquare>,
-    url: "https://twitter.com/el_ade",
-  },
+  // {
+  //   id: 5,
+  //   icon: <FaTwitterSquare className="social-icon"></FaTwitterSquare>,
+  //   url: "https://twitter.com/el_ade",
+  // },
 ];
 
 export default data;
