@@ -23,15 +23,18 @@ const Testimonials = ({ Background, testimonials }: TestimonialProps) => {
 				>
 					<div className="flex gap-4  items-center flex-col md:flex-row p-6 transform skew-x-12">
 						{/* Imagen del testimonio */}
+
 						<div className="relative w-40 md:w-52 h-40 md:h-24 mr-6 overflow-hidden rounded-full">
 							<div className="absolute inset-0 rounded-full opacity-80 transition-opacity duration-300">
-								<Image
-									src={testimonial.attributes.image.data.attributes.url}
-									alt={testimonial.attributes.name}
-									layout="fill"
-									objectFit="cover"
-									className="rounded-full hover:blur"
-								/>
+								{testimonial.attributes.image.data && (
+									<Image
+										src={testimonial.attributes.image.data.attributes.url}
+										alt={testimonial.attributes.name}
+										layout="fill"
+										objectFit="cover"
+										className="rounded-full hover:blur"
+									/>
+								)}
 							</div>
 							<div className="absolute inset-0 flex items-center justify-center text-white text-xs uppercase opacity-0 hover:opacity-100 transition-opacity duration-300">
 								{testimonial.attributes.name}
