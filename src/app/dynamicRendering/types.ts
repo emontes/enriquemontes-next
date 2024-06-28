@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 const HeroSection = dynamic(() => import('@/components/StrapiSections/HeroSection/HeroSection'))
 const HeroHome = dynamic(() => import('@/components/StrapiSections/HeroHome/HeroHome'))
 const SimpleParagraph = dynamic(() => import('@/components/StrapiSections/SimpleParagraph/SimpleParagraph'))
+const Paragraph = dynamic(() => import('@/components/StrapiSections/Paragraph/Paragraph'))
 const Jobs = dynamic(() => import('@/components/StrapiSections/Jobs'))
 const Services = dynamic(() => import('@/components/StrapiSections/Services'))
 const Resources = dynamic(() => import('@/components/StrapiSections/Resources'))
@@ -18,6 +19,7 @@ const StrapiComponentNames = {
   Hero: "page-sections.hero-section",
   HeroHome: "page-sections.hero-home",
   SimpleParagraph: "page-sections.simple-paragraph",
+  Paragraph: "page-sections.paragraph",
   Jobs: "page-sections.jobs",
   Services: "page-sections.services",
   Resources: "page-sections.resour",
@@ -29,6 +31,7 @@ export const ComponentsMap = {
   [StrapiComponentNames.Hero]: HeroSection,
   [StrapiComponentNames.HeroHome]: HeroHome,
   [StrapiComponentNames.SimpleParagraph]: SimpleParagraph,
+  [StrapiComponentNames.Paragraph]: Paragraph,
   [StrapiComponentNames.Jobs]: Jobs,
   [StrapiComponentNames.Services]: Services,
   [StrapiComponentNames.Resources]: Resources,
@@ -51,6 +54,13 @@ export type SimpleParagraphProps = {
   Content: string;
   IsParagraphSecondary: boolean;
   DivideInParagraphs: boolean;
+};
+
+export type ParagraphProps = {
+  __component: string;
+  Title: string;
+  Content: string;
+  Images: StrapiImageCollection;
 };
 
 export type JobsProps = {
