@@ -26,7 +26,6 @@ const Developments = ({ Heading, developments }) => {
 						year: "numeric",
 						month: "long",
 					});
-					console.log(develop.attributes)
 					return (
 						<div
 							key={develop.id}

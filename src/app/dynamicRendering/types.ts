@@ -50,7 +50,7 @@ export type SimpleParagraphProps = {
   __component: string;
   Content: string;
   IsParagraphSecondary: boolean;
-  ActionButtons?: StrapiButtonType[];
+  DivideInParagraphs: boolean;
 };
 
 export type JobsProps = {
