@@ -29,7 +29,8 @@ const Hero = (props) => {
           <h3 className="text-xl sm:text-2xl mt-2">{props.Header3}</h3>
           <h4 className="text-lg sm:text-xl mt-1 text-grey-5">{props.Header4}</h4>
           <Link href={props.LinkUrl}>
-            <div className="mt-5 inline-block px-4 sm:px-6 py-2 bg-primary-5 text-white rounded hover:bg-primary-7 cursor-pointer">
+            {/* <div className="mt-5 inline-block px-4 sm:px-6 py-2 bg-primary-5 text-white rounded transition-all duration-300 hover:bg-primary-7 hover:text-sky-800 cursor-pointer capitalize"> */}
+            <div className="btn mt-2">
               {props.LinkText}
             </div>
           </Link>

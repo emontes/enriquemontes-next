@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import Image from "next/image";
-import { ParagraphProps } from "@/app/dynamicRendering/types";
+import type { ParagraphProps } from "@/app/dynamicRendering/types";
 import TitleList from "@/components/Title";
 
 const About = ({ Title, Content, Images }: ParagraphProps) => {
@@ -10,11 +11,11 @@ const About = ({ Title, Content, Images }: ParagraphProps) => {
 
 	return (
         <div className="mt-20 mb-20">
-        <TitleList title={Title} />
+        
 		<div className="flex flex-col md:flex-row gap-2 md:items-center">
 			<div className="p-4 text-gray-500 mb-[10rem] md:mb-2">
-				
-				<ReactMarkdown>{Content}</ReactMarkdown>
+            <TitleList title={Title} />
+				<ReactMarkdown  rehypePlugins={[rehypeRaw]}>{Content}</ReactMarkdown>
 			</div>
 
 			<div className="relative w-full max-w-sm mx-auto p-4 mb-32 md:mb-0">
