@@ -45,8 +45,6 @@ export type HeroSectionProps = {
   SubTitle: StrapiHeading;
   BackgroundImage: StrapiImage;
   HeroActions: StrapiButtonType[];
-  Centered: boolean;
-  HeroImage: StrapiImageCollection;
 };
 
 export type SimpleParagraphProps = {

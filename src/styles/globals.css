@@ -119,7 +119,7 @@ h4 {
 
 .btn {
   text-transform: uppercase;
-  background: var(--clr-primary-5);
+  background: var(--clr-primary-3);
   color: var(--clr-primary-9);
   padding: 0.6rem .8rem;
   letter-spacing: var(--spacing);
@@ -135,8 +135,20 @@ h4 {
 }
 
 .btn:hover {
-  color: var(--clr-primary-1);
-  background: var(--clr-primary-8);
+  color: var(--clr-primary-3);
+  background: var(--clr-primary-9);
+}
+
+/* Styles for secondary button */
+.btn-secondary {
+  background: none;
+  border: var(--clr-primary-3) 2px solid;
+  color: var(--clr-primary-3);
+}
+
+.btn-secondary:hover {
+  background: var(--clr-primary-10);
+  color: var(--clr-primary-4);
 }
 
 .center-btn {
