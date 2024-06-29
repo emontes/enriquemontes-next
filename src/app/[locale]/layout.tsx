@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import MainLayout from "@/components/MainLayout";
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import {
 	fetchFooterContent,
@@ -61,6 +62,7 @@ export default async function LocaleLayout({
 					lang={locale}
 				/>
 			</NextIntlClientProvider>
+			<SpeedInsights />
 			</body>
 		</html>
 	);
