@@ -63,7 +63,7 @@ export default function HeroSection({
 						<div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
 							{HeroActions
 								? HeroActions.map((props, index) => {
-										console.log("Props for item", index, ":", props);
+										// console.log("Props for item", index, ":", props);
 										return (
 											<motion.div
 												key={props.id}
