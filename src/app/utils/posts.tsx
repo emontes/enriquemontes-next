@@ -27,6 +27,16 @@ export interface PostsListData {
 					};
 				};
 			};
+            blogCategories: {
+                data: {
+                    id: number;
+                    attributes: {
+                        slug: string;
+                        title: string;
+                        name: string;
+                    }
+                }[]
+            }
 		};
 	}[];
 	meta: {
