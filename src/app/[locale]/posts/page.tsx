@@ -1,6 +1,6 @@
 import { fetchAllPosts } from "@/app/utils/posts";
 import type { PostsListData } from "@/app/utils/posts";
-import PostsList from "./PostsList";
+import PostsList from "@/components/Posts/PostsList";
 
 export default async function PostsListPage({
 	params: { locale },
@@ -11,8 +11,8 @@ export default async function PostsListPage({
 		<div className="bg-gray-100">
 			<PostsList posts={postsData.data} locale={locale} />
 
-			<div>
-				<h3>Pagination</h3>
+			<div className="flex justify-center text-xs mt-4 text-gray-300">
+				<h3 className="text-sm">Pagination</h3>
 				<p>Page: {postsData.meta.pagination.page}</p>
 				<p>Page Size: {postsData.meta.pagination.pageSize}</p>
 				<p>Page Count: {postsData.meta.pagination.pageCount}</p>

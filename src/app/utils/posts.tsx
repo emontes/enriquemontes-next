@@ -27,7 +27,7 @@ export interface PostsListData {
 					};
 				};
 			};
-            blogCategories: {
+            blog_categories: {
                 data: {
                     id: number;
                     attributes: {
@@ -68,3 +68,59 @@ export const fetchAllPosts = async (lang: string) => {
 		return {};
 	}
 };
+
+export interface PostData {
+    id: number;
+    attributes: {
+      title: string;
+      slug: string;
+      description: string;
+      date: string;
+      content: string;
+      image: {
+        data: {
+          attributes: {
+            formats: {
+              medium: {
+                url: string;
+              };
+            };
+          };
+        };
+      };
+      blog_categories: {
+        data: {
+          id: number;
+          attributes: {
+            title: string;
+            slug: string;
+          };
+        }[];
+      };
+    };
+  }
+  
+  export async function fetchPostBySlug(slug: string, locale: string): Promise<PostData | null> {
+    try {
+      const res = await fetch(
+        `${process.env.STRAPI_API_URL}/blog-posts?filters[slug][$eq]=${slug}&locale=${locale}&populate=*`,
+        {
+          headers: {
+            Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+          },
+          next: { revalidate: 60 },
+        }
+      );
+  
+      if (!res.ok) {
+        throw new Error('Failed to fetch post');
+      }
+  
+      const data = await res.json();
+    //   console.log('La Data: ', data.data[0])
+      return data.data[0] || null;
+    } catch (error) {
+      console.error('Error fetching post:', error);
+      return null;
+    }
+  }
