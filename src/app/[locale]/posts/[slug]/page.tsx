@@ -18,13 +18,15 @@ export async function generateStaticParams() {
 export default async function Post({
 	params,
 }: { params: { locale: string; slug: string } }) {
-	// Implementa esta función para obtener los datos de un post en build timeconsiderando el locale
 
-	const post: PostData = await fetchPostBySlug(params.slug, params.locale);
 
-	if (!post) {
-		notFound();
-	}
+    // const post: PostData = await fetchPostBySlug(params.slug, params.locale);
+
+    const post: PostData | null = await fetchPostBySlug(params.slug, params.locale);
+
+    if (!post) return notFound();
+
+    // console.log('Post: ', post)
 
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
@@ -63,7 +65,10 @@ export default async function Post({
 					{formatDate(post.attributes.date)}
 				</p>
 			</div>
-			<ReactMarkdown className="prose max-w-none text-gray-500" rehypePlugins={[rehypeRaw]}>
+			<ReactMarkdown
+				className="prose max-w-none text-gray-500"
+				rehypePlugins={[rehypeRaw]}
+			>
 				{post.attributes.content}
 			</ReactMarkdown>
 		</article>

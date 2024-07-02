@@ -80,6 +80,7 @@ export interface PostData {
       image: {
         data: {
           attributes: {
+            url: string;
             formats: {
               medium: {
                 url: string;
