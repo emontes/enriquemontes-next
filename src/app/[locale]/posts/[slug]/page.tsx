@@ -19,28 +19,30 @@ import type { Metadata } from "next";
 
 export async function generateMetadata({
     params,
-    searchParams,
   }: {
     params: { slug: string; locale: string };
-    searchParams: { [key: string]: string | string[] | undefined };
   }): Promise<Metadata> {
     const post: PostData | null = await fetchPostBySlug(params.slug, params.locale);
 
     if (!post) return {};
+
+    // Construir el valor de canonical basado en el locale
+    let canonicalUrl = `https://enriquemontes.com/posts/${post.attributes.slug}`;
+    if (params.locale !== 'en') {
+        canonicalUrl = `https://enriquemontes.com/${params.locale}/posts/${post.attributes.slug}`;
+    }
     
     const seo = {
         metaTitle: post.attributes.title,
         metaDescription: post.attributes.description || post.attributes.content.substring(0, 150),
+        canonical: canonicalUrl,
         metaImage: {
             data: {
                 attributes: {
                     url: post.attributes.image.data?.attributes.url || '',
                 }
             }
-        },
-        canonical: `https://enriquemontes.com/posts/${post.attributes.slug}`,
-       
-       
+        },       
     }
 
     const metadata: Metadata = MetadataBuilder({ seo })

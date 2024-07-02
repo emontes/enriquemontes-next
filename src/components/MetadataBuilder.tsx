@@ -13,13 +13,15 @@ interface Metadata {
     card?: string;
     creator?: string;
   };
-  canonical?: string;
+  alternates?: {
+    canonical?: string;
+  };
 }
 
-const MetadataBuilder = ({ seo }: { seo?: any }) => {
+const MetadataBuilder = ({ seo }: { seo?: any }): Metadata => {
   const metadata: Metadata = {};
 
-  // Add title and description (ensure valid values)
+  // Asignar valores principales
   if (seo?.metaTitle) {
     metadata.title = seo.metaTitle;
   }
@@ -29,37 +31,35 @@ const MetadataBuilder = ({ seo }: { seo?: any }) => {
   if (seo?.keywords) {
     metadata.keywords = seo.keywords;
   }
+
+  // Asignación de Canonical URL
   if (seo?.canonical) {
-    metadata.canonical = seo.canonical;
+    metadata.alternates = {
+      canonical: seo.canonical
+    };
   }
 
-  // Build OpenGraph (include only if properties exist)
-  const openGraph: Metadata['openGraph'] = {};
-  if (seo?.metaSocial?.length > 0) {
-    openGraph.type = 'website';
-    openGraph.locale = 'en_us'; // Adjust as needed
-    openGraph.url = 'https://enriquemontes.com'; // Replace with your URL
-    openGraph.siteName = 'Enrique Montes'; // Replace with your site name
-    // Add more OpenGraph properties based on `seo` data
-  }
-  if (seo?.metaImage?.data?.attributes?.url) {
-    openGraph.images = [seo.metaImage.data.attributes.url];
-  }
-  if (Object.keys(openGraph).length > 0) {
-    metadata.openGraph = openGraph;
+  // Construir OpenGraph
+  if (seo?.metaSocial?.length > 0 || seo?.metaImage?.data?.attributes?.url) {
+    metadata.openGraph = {
+      type: 'website',
+      locale: 'en_us', // Ajustar según sea necesario
+      url: 'https://enriquemontes.com', // Reemplaza con tu URL
+      siteName: 'Enrique Montes', // Reemplaza con el nombre de tu sitio
+    };
+
+    if (seo?.metaImage?.data?.attributes?.url) {
+      metadata.openGraph.images = [seo.metaImage.data.attributes.url];
+    }
   }
 
-  // Build Twitter (include only if properties exist)
-  const twitter: Metadata['twitter'] = {};
+  // Construir Twitter
   if (seo?.metaSocial?.length > 0) {
-    twitter.card = 'summary_large_image';
-    twitter.creator = '@el_ade'; // Replace with your Twitter handle
-    // Add more Twitter properties based on `seo` data
+    metadata.twitter = {
+      card: 'summary_large_image',
+      creator: '@el_ade' // Reemplaza con tu handle de Twitter
+    };
   }
-  if (Object.keys(twitter).length > 0) {
-    metadata.twitter = twitter;
-  }
-  
 
   return metadata;
 };
