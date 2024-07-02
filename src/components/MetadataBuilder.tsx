@@ -13,6 +13,7 @@ interface Metadata {
     card?: string;
     creator?: string;
   };
+  canonical?: string;
 }
 
 const MetadataBuilder = ({ seo }: { seo?: any }) => {
@@ -27,6 +28,9 @@ const MetadataBuilder = ({ seo }: { seo?: any }) => {
   }
   if (seo?.keywords) {
     metadata.keywords = seo.keywords;
+  }
+  if (seo?.canonical) {
+    metadata.canonical = seo.canonical;
   }
 
   // Build OpenGraph (include only if properties exist)
@@ -55,6 +59,7 @@ const MetadataBuilder = ({ seo }: { seo?: any }) => {
   if (Object.keys(twitter).length > 0) {
     metadata.twitter = twitter;
   }
+  
 
   return metadata;
 };

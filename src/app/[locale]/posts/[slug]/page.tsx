@@ -5,6 +5,8 @@ import Image from "next/image";
 import { fetchPostBySlug, fetchAllPosts } from "@/app/utils/posts";
 import type { PostData } from "@/app/utils/posts";
 import { BiTime } from "react-icons/bi";
+import MetadataBuilder from "@/components/MetadataBuilder";
+import type { Metadata } from "next";
 
 // export async function generateStaticParams() {
 // 	// Implementa esta función para generar rutas estáticas en build time
@@ -14,6 +16,37 @@ import { BiTime } from "react-icons/bi";
 // 		slug: post.attributes.slug,
 // 	}));
 // }
+
+export async function generateMetadata({
+    params,
+    searchParams,
+  }: {
+    params: { slug: string; locale: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+  }): Promise<Metadata> {
+    const post: PostData | null = await fetchPostBySlug(params.slug, params.locale);
+
+    if (!post) return {};
+    
+    const seo = {
+        metaTitle: post.attributes.title,
+        metaDescription: post.attributes.description || post.attributes.content.substring(0, 150),
+        metaImage: {
+            data: {
+                attributes: {
+                    url: post.attributes.image.data?.attributes.url || '',
+                }
+            }
+        },
+        canonical: `https://enriquemontes.com/posts/${post.attributes.slug}`,
+       
+       
+    }
+
+    const metadata: Metadata = MetadataBuilder({ seo })
+    return metadata;
+  }
+ 
 
 export default async function Post({
 	params,
