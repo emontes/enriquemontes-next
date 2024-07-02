@@ -6,14 +6,14 @@ import { fetchPostBySlug, fetchAllPosts } from "@/app/utils/posts";
 import type { PostData } from "@/app/utils/posts";
 import { BiTime } from "react-icons/bi";
 
-export async function generateStaticParams() {
-	// Implementa esta función para generar rutas estáticas en build time
-	// Deberás obtener todos los slugs de los posts
-	const posts = await fetchAllPosts("es");
-	return posts.data.map((post) => ({
-		slug: post.attributes.slug,
-	}));
-}
+// export async function generateStaticParams() {
+// 	// Implementa esta función para generar rutas estáticas en build time
+// 	// Deberás obtener todos los slugs de los posts
+// 	const posts = await fetchAllPosts("es");
+// 	return posts.data.map((post) => ({
+// 		slug: post.attributes.slug,
+// 	}));
+// }
 
 export default async function Post({
 	params,
