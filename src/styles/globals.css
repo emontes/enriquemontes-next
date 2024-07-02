@@ -225,6 +225,15 @@ code {
   font-size: 0.9rem;
   line-height: 1.5;
   display: block;
+  background-color: #f4f4f4;
+}
+
+:not(pre) > code {
+  display: inline;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  border: 1px saddlebrown solid;
+  line-height: 1.5rem;
 }
 
 blockquote {
