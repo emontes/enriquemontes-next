@@ -1,3 +1,4 @@
+import { useMessages, useLocale } from 'next-intl';
 import Image from "next/image";
 import ContactForm from "./ContactForm";
 import type { ContactProps } from "@/app/dynamicRendering/types";
@@ -9,6 +10,8 @@ export default function ContactPage({
 	Heading,
 	Image: ImageData,
 }: ContactProps) {
+	const messages = useMessages();
+  	const locale = useLocale();
   
 	return (
 		<section className="bg-sky-50">
@@ -37,7 +40,7 @@ export default function ContactPage({
 					</div>
 				)}
 				<div className="w-full md:w-1/2 p-6">
-					<ContactForm />
+				<ContactForm messages={messages} locale={locale} />
 				</div>
 			</div>
 			<div className="bg-gray-800 text-white p-4 text-center">

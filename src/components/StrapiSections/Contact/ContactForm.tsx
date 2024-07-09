@@ -1,12 +1,20 @@
 'use client';
 
+import { NextIntlClientProvider } from 'next-intl';
 import { useTranslations } from 'next-intl';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useState } from 'react';
 
-const ContactForm = () => {
+const ContactForm = ({ messages, locale }) => {
+  return (
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <ContactFormContent />
+    </NextIntlClientProvider>
+  );
+};
+const ContactFormContent = () => {
   const t = useTranslations('ContactForm');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);

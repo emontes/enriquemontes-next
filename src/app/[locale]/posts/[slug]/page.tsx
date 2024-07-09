@@ -8,14 +8,14 @@ import { BiTime } from "react-icons/bi";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 
-// export async function generateStaticParams() {
-// 	// Implementa esta función para generar rutas estáticas en build time
-// 	// Deberás obtener todos los slugs de los posts
-// 	const posts = await fetchAllPosts("es");
-// 	return posts.data.map((post) => ({
-// 		slug: post.attributes.slug,
-// 	}));
-// }
+export async function generateStaticParams() {
+	// Implementa esta función para generar rutas estáticas en build time
+	// Deberás obtener todos los slugs de los posts
+	const posts = await fetchAllPosts("es");
+	return posts.data.map((post) => ({
+		slug: post.attributes.slug,
+	}));
+}
 
 export async function generateMetadata({
     params,
