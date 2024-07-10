@@ -8,15 +8,15 @@ import { BiTime } from "react-icons/bi";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 
-export async function generateStaticParams() {
-	// Implementa esta función para generar rutas estáticas en build time
-	// Deberás obtener todos los slugs de los posts
-	const posts = await fetchAllPosts("es");
-	return posts.data.map((post) => ({
-		slug: post.attributes.slug,
+export async function generateStaticParams({params}: {params: {locale: string}}): Promise<{locale: string, slug: string}[]> {
+	// Implement this function to generate static routes at build time.
+	// You should fetch all the slugs of the pages.
+	const posts = await fetchAllPosts(params.locale);
+	return posts.data.map((page) => ({
+    locale: page.attributes.locale,
+    slug: page.attributes.slug,
 	}));
 }
-
 export async function generateMetadata({
     params,
   }: {
