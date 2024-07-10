@@ -1,8 +1,6 @@
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import MainLayout from "@/components/MainLayout";
-
-import { notFound } from 'next/navigation';
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import {
@@ -44,12 +42,7 @@ export default async function LocaleLayout({
 	children,
 	params: { locale },
 }: LocaleLayoutProps) {
-	let messages;
-  try {
-    messages = (await import(`../../../messages/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
+	
 	const { navbar, footer } = await getPageData({ params: { locale } });
 	return (
 		<html lang={locale}>

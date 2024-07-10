@@ -1,4 +1,21 @@
 
+export const fetchAllPages = async (lang: string) => {
+	try {
+		const res = await fetch(
+			`${process.env.STRAPI_API_URL}/enrique-pages?populate=*&locale=${lang}`,
+			{
+				headers: {
+					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+				},
+			},
+		);
+		const data = await res.json();
+		return data;
+	} catch (error) {
+		console.log("error while fetching pages from strapi:", error);
+		return {};
+	}
+}
 export const fetchNavbarContent = async (lang: string) => {
 	try {
 		const res = await fetch(
