@@ -1,13 +1,12 @@
 import { Page, fetchOnePage } from "@/app/dynamicRendering/index";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: {
   params: { slug: string; locale?: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 }): Promise<Metadata> {
   const slug = "home"
   const page = await fetchOnePage(params.slug, params.locale || "");
@@ -19,6 +18,7 @@ export async function generateMetadata({
 }
 
 const Home = async ({ params: { locale } }: { params: { locale: string } }) => {
+  unstable_setRequestLocale(locale)
   return await Page({
     params: {
       locale,

@@ -4,23 +4,28 @@ import { HeadingText } from "../HeadingText";
 import { NextIntlClientProvider } from 'next-intl';
 import { useTranslations } from 'next-intl';
 
-const Resources = ({messages, locale, Title, HeadingType, resources}) => {
+interface ResourcesWrapperProps extends ResourcesProps {
+  messages: any;
+  locale: string;
+}
 
+const Resources = ({ messages, locale, ...props }: ResourcesWrapperProps) => {
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
-      <ResourcesContent Title={Title} HeadingType={HeadingType} resources={resources}/>
+      <ResourcesContent {...props} />
     </NextIntlClientProvider>
   );    
 }
+
 const ResourcesContent = ({ Title, HeadingType, resources }: ResourcesProps) => {
   const t = useTranslations('Resources');
   return (
     <div className="relative py-16 bg-gradient-to-br from-cyan-700 to-blue-50 clip-path-diagonal">     
       <HeadingText
-                  attributes={{ id: "ResourcesBlock", className: "text-white mb-8 text-center" }}
-                  HeadingText={Title}
-                  HeadingType={HeadingType}
-                />
+        attributes={{ id: "ResourcesBlock", className: "text-white mb-8 text-center" }}
+        HeadingText={Title}
+        HeadingType={HeadingType}
+      />
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 max-w-6xl mx-auto px-4">
         {resources.data.map((resource) => (
           <div key={resource.id} className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-2">
