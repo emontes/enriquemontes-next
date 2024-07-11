@@ -19,6 +19,16 @@
     "required": "This field is required",
     "emailInvalid": "Invalid email address",
     "success": "Form submitted successfully"
+  },
+  "Posts": {
+    "posts": "Posts",
+    "allPosts": "All Posts",
+    "continueReading": "Continue Reading",
+    "aboutMe": "About Me",
+    "recentPosts": "Recent Posts",
+    "viewMore": "View More",
+    "noPosts": "No posts found",
+    "categories": "Categories"
   }
   
 }

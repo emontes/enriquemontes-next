@@ -19,5 +19,15 @@
     "submitting": "Einreichen...",
     "thankYou": "Danke für deine Nachricht!",
     "success": "Formular erfolgreich eingereicht"
+  },
+  "Posts": {
+    "aboutMe": "Über mich",
+    "allPosts": "Alle Artikel",
+    "categories": "Kategorien",
+    "continueReading": "Weiterlesen",
+    "noPosts": "Keine Einträge gefunden",
+    "posts": "Beiträge",
+    "recentPosts": "kürzliche Posts",
+    "viewMore": "Mehr sehen"
   }
 }

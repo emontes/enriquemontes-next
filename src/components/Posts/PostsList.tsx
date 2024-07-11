@@ -2,8 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { BiTime } from "react-icons/bi";
 import Title from "../Title";
+import { NextIntlClientProvider } from "next-intl";
+import { useTranslations } from "next-intl";
 
-export default function PostsList({ posts, locale }) {
+interface PostListProps {
+	posts: any;
+	locale: string;
+}
+const PostList = ({ posts, locale }: PostListProps) => {
+	return (
+		<NextIntlClientProvider locale={locale}>
+			<PostsListContent posts={posts} locale={locale} />
+		</NextIntlClientProvider>
+	);
+};
+
+export default PostList;
+const  PostsListContent =  ({ posts, locale }) => {
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString);
 		return date.toLocaleDateString(locale, {
@@ -12,12 +27,10 @@ export default function PostsList({ posts, locale }) {
 			day: "numeric",
 		});
 	};
-
+	const t = useTranslations("Posts");
 	return (
 		<div className="pt-8 container mx-auto px-4">
-			
-			<Title title="ALL POSTS" />
-
+			<Title title={t("allPosts")} />
 			<div className="flex flex-col lg:flex-row gap-8">
 				{/* Área principal de noticias (3/4) */}
 				<div className="lg:w-3/4 space-y-8">
@@ -33,16 +46,16 @@ export default function PostsList({ posts, locale }) {
 										{/* Imagen del post */}
 										{post.attributes.image.data && (
 											<Image
-											src={
-												post.attributes.image.data.attributes.formats.thumbnail.url
-											}
-											alt={post.attributes.title}
-											width={300}
-											height={200}
-											className="h-48 w-full object-cover md:w-48 transition duration-300 transform hover:scale-105"
-										/>
+												src={
+													post.attributes.image.data.attributes.formats
+														.thumbnail.url
+												}
+												alt={post.attributes.title}
+												width={300}
+												height={200}
+												className="h-48 w-full object-cover md:w-48 transition duration-300 transform hover:scale-105"
+											/>
 										)}
-										
 									</div>
 									<div className="p-6">
 										<div className="flex flex-wrap gap-2 mb-2">
@@ -68,7 +81,7 @@ export default function PostsList({ posts, locale }) {
 											href={`/posts/${post.attributes.slug}`}
 											className="mt-4 inline-block text-blue-500 hover:text-blue-700 transition duration-300"
 										>
-											Continue reading →
+											{t("continueReading")} →
 										</Link>
 										<div className="mt-4 pt-4 border-t border-gray-200">
 											<p className="text-sm text-gray-500 flex items-center">
@@ -82,12 +95,11 @@ export default function PostsList({ posts, locale }) {
 						);
 					})}
 				</div>
-
 				{/* Barra lateral (1/4) */}
 				<div className="lg:w-1/4 space-y-8">
 					<div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition duration-300">
-						<h2 className=" text-lg font-semibold mb-4 text-blue-600">
-							ABOUT ME
+						<h2 className=" text-lg font-semibold mb-4 text-blue-600 uppercase">
+							{t("aboutMe")}
 						</h2>
 						<div className="flex flex-col items-center space-y-4">
 							<Image
@@ -102,10 +114,9 @@ export default function PostsList({ posts, locale }) {
 							</p>
 						</div>
 					</div>
-
 					<div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition duration-300">
-						<h2 className="text-lg font-semibold mb-4 text-blue-600">
-							RECENT POSTS
+						<h2 className="text-lg font-semibold mb-4 text-blue-600 uppercase">
+							{t("recentPosts")}
 						</h2>
 						<ul className="space-y-0">
 							{posts.slice(0, 5).map((post) => (
@@ -116,17 +127,17 @@ export default function PostsList({ posts, locale }) {
 									>
 										{post.attributes.image.data && (
 											<Image
-											src={
-												post.attributes.image.data.attributes.formats.thumbnail
-													.url
-											}
-											alt={post.attributes.title}
-											width={60}
-											height={60}
-											className="rounded"
-										/>
+												src={
+													post.attributes.image.data.attributes.formats
+														.thumbnail.url
+												}
+												alt={post.attributes.title}
+												width={60}
+												height={60}
+												className="rounded"
+											/>
 										)}
-										
+
 										<div>
 											<p className="text-[10px] font-medium group-hover:text-blue-600 transition duration-300">
 												{post.attributes.title}
@@ -140,10 +151,9 @@ export default function PostsList({ posts, locale }) {
 							))}
 						</ul>
 					</div>
-
 					<div className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition duration-300">
-						<h2 className="text-lg font-semibold mb-4 text-blue-600">
-							CATEGORIES
+						<h2 className="text-lg font-semibold mb-4 text-blue-600 uppercase">
+							{t("categories")}
 						</h2>
 						<div className="flex flex-wrap gap-2">
 							{[
@@ -161,7 +171,7 @@ export default function PostsList({ posts, locale }) {
 									key={category}
 									href={`/category/${category.toLowerCase()}`}
 									className={`text-xs font-medium px-2 py-1 rounded-full text-white 
-                                  ${
+                                 ${
 																		[
 																			"bg-blue-500",
 																			"bg-green-500",
@@ -174,7 +184,7 @@ export default function PostsList({ posts, locale }) {
 																			"bg-orange-500",
 																		][index % 9]
 																	}
-                                  hover:opacity-80 transition duration-300`}
+                                 hover:opacity-80 transition duration-300`}
 								>
 									{category}
 								</Link>

@@ -19,5 +19,15 @@
     "required": "Este campo es obligatorio",
     "emailInvalid": "Dirección de correo electrónico inválida",
     "success": "Formulario enviado exitosamente"
+  },
+  "Posts": {
+    "aboutMe": "Acerca de mí",
+    "allPosts": "Todas las publicaciones",
+    "categories": "Categorías",
+    "continueReading": "Sigue leyendo",
+    "noPosts": "No se han encontrado publicaciones",
+    "posts": "Publicaciones",
+    "recentPosts": "Publicaciones recientes",
+    "viewMore": "Ver más"
   }
 }

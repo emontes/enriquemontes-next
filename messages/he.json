@@ -19,5 +19,15 @@
     "submitting": "הַגָשָׁה...",
     "thankYou": "תודה לך על ההודעה שלך!",
     "success": "הטופס נשלח בהצלחה"
+  },
+  "Posts": {
+    "aboutMe": "עליי",
+    "allPosts": "כל הפוסטים",
+    "categories": "קטגוריות",
+    "continueReading": "המשך לקרוא",
+    "noPosts": "לא נמצאו פוסטים",
+    "posts": "פוסטים",
+    "recentPosts": "הודעות האחרונות",
+    "viewMore": "ראה עוד"
   }
 }
