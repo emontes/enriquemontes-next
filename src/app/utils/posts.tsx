@@ -60,8 +60,6 @@ export const fetchAllPosts = async (lang: string) => {
 			},
 		);
 		const data = await res.json();
-        // console.log('La Data: ', data)
-
 		return data;
 	} catch (error) {
 		console.log("error while fetching Postdata Content from strapi:", error);

@@ -1,9 +1,19 @@
 import Image from "next/image";
 import type { ResourcesProps } from "@/app/dynamicRendering/types";
 import { HeadingText } from "../HeadingText";
+import { NextIntlClientProvider } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
-const Resources = ({ Title, HeadingType, resources }: ResourcesProps) => {
-  // console.log(resources.data)
+const Resources = ({messages, locale, Title, HeadingType, resources}) => {
+
+  return (
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <ResourcesContent Title={Title} HeadingType={HeadingType} resources={resources}/>
+    </NextIntlClientProvider>
+  );    
+}
+const ResourcesContent = ({ Title, HeadingType, resources }: ResourcesProps) => {
+  const t = useTranslations('Resources');
   return (
     <div className="relative py-16 bg-gradient-to-br from-cyan-700 to-blue-50 clip-path-diagonal">     
       <HeadingText
@@ -30,7 +40,7 @@ const Resources = ({ Title, HeadingType, resources }: ResourcesProps) => {
             )}
             <div className="p-2">
               <h3 className="text-lg font-semibold mb-1">{resource.attributes.title}</h3>
-              <p className="text-gray-600 text-sm">{resource.attributes.date}</p>
+              <p className="text-gray-600 text-sm">{t("since")}: {resource.attributes.date}</p>
             </div>
           </div>
         ))}

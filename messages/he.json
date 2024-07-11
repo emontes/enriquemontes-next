@@ -1,13 +1,6 @@
 {
-  "Index": {
-    "title": "Hello world!",
-    "textHome": "With over 20 years of experience as a developer, I have been specializing in React.js for the past 5 years. My expertise lies in the popular frameworks Next.js and Gatsby. For headless CMS solutions, I primarily work with Strapi, Contentful, and Sanity. Leveraging my extensive knowledge and skills, I deliver high-quality solutions tailored to meet your unique requirements.",
-    "ImEnrique": "I'm Enrique"
-  },
-  "Footer": {
-    "copyright": "copyright",
-    "allRights": "all rights reserved",
-    "siteMade": "Site made with:"
+  "Resources": {
+    "since": "מאז"
   },
   "ContactForm": {
     "city": "עִיר",
@@ -27,5 +20,4 @@
     "thankYou": "תודה לך על ההודעה שלך!",
     "success": "הטופס נשלח בהצלחה"
   }
-  
 }
