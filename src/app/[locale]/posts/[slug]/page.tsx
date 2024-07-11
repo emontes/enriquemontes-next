@@ -9,7 +9,7 @@ import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 
 export async function generateStaticParams({params}: {params: {locale: string}}): Promise<{locale: string, slug: string}[]> {	
-	const posts = await fetchAllPosts(params.locale);
+	const posts = await fetchAllPosts('es');
 	return posts.data.map(({ attributes: { slug } }) => ({ slug }));
 }
 export async function generateMetadata({
