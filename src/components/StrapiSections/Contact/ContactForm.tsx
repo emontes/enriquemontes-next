@@ -51,7 +51,7 @@ const ContactFormContent = () => {
     const postData = new URLSearchParams({
       ...values,
       hs_context: JSON.stringify({
-        pageUrl: "https://enriquemontes.com/contacto",
+        pageUrl: "https://enriquemontes.com/contact",
         pageName: "Mensaje desde EnriqueMontes.com",
       }),
     });
