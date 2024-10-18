@@ -28,6 +28,8 @@
     "noPosts": "No se han encontrado publicaciones",
     "posts": "Publicaciones",
     "recentPosts": "Publicaciones recientes",
-    "viewMore": "Ver más"
+    "viewMore": "Ver más",
+    "next": "Siguiente",
+    "previous": "Anterior"
   }
 }

@@ -1,3 +1,5 @@
+// src/app/utils/posts.tsx
+
 export interface PostsListData {
     data: {
 		id: number;
@@ -49,23 +51,28 @@ export interface PostsListData {
 	};
 }   
 
-export const fetchAllPosts = async (lang: string) => {
-	try {
-		const res = await fetch(
-			`${process.env.STRAPI_API_URL}/blog-posts?populate=*&locale=${lang}&sort=date:desc`,
-			{
-				headers: {
-					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
-				},
-			},
-		);
-		const data = await res.json();
-		return data;
-	} catch (error) {
-		console.log("error while fetching Postdata Content from strapi:", error);
-		return {};
-	}
+export const fetchAllPosts = async (
+  lang: string,
+  page: number = 1,
+  pageSize: number = 10
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.STRAPI_API_URL}/blog-posts?populate=*&locale=${lang}&sort=date:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+      {
+        headers: {
+          Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+        },
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log("Error fetching posts:", error);
+    return {};
+  }
 };
+
 
 export interface PostData {
     id: number;

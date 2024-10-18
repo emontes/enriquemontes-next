@@ -28,7 +28,9 @@
     "recentPosts": "Recent Posts",
     "viewMore": "View More",
     "noPosts": "No posts found",
-    "categories": "Categories"
+    "categories": "Categories",
+    "next": "Next",
+    "previous": "Previous"
   }
   
 }

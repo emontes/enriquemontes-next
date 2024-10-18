@@ -28,6 +28,8 @@
     "noPosts": "Keine Einträge gefunden",
     "posts": "Beiträge",
     "recentPosts": "kürzliche Posts",
-    "viewMore": "Mehr sehen"
+    "viewMore": "Mehr sehen",
+    "next": "Nächste",
+    "previous": "Vorherige"
   }
 }
