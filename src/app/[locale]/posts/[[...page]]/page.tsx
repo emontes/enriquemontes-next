@@ -14,9 +14,6 @@ export default async function PostsListPage({
   const pageNumber = page.length > 0 ? parseInt(page[0], 10) : 1;
   const postsData: PostsListData = await fetchAllPosts(locale, pageNumber);
 
-  console.log('Locale:', locale);
-  console.log('Page:', page);
-
   return (
     <div className="bg-gray-100">
       <PostsList

@@ -1,3 +1,5 @@
+// src/components/Language.tsx
+
 "use client";
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,6 +21,10 @@ const Language = ({ locale }) => {
     // router.push(pathname, { locale: newLocale });
     router.replace(pathname, {locale: newLocale});
   };
+
+  if (pathname.startsWith("/post/")) {
+    return null;
+  }
 
   return (
     <div className="relative font-medium text-base" ref={buttonRef}>
