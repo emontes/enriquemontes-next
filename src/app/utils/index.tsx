@@ -6,6 +6,7 @@ export const fetchAllPages = async (lang: string) => {
 			{
 				headers: {
 					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
 				},
 			},
 		);
@@ -23,6 +24,7 @@ export const fetchNavbarContent = async (lang: string) => {
 			{
 				headers: {
 					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
 				},
 			},
 		);
@@ -42,6 +44,7 @@ export const fetchFooterContent = async (lang: string) => {
 			{
 				headers: {
 					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
 				},
 			},
 		);
@@ -61,6 +64,7 @@ export const fetchMetaData = async (lang: string) => {
 			{
 				headers: {
 					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
 				},
 			},
 		);
@@ -76,10 +80,11 @@ export const fetchMetaData = async (lang: string) => {
 export const fetchDevelopments = async (lang: string) => {
 	try {
 		let res = await fetch(
-			`${process.env.STRAPI_API_URL}/developments?populate=image&populate=resources.image&locale=${lang}&sort=created:desc&pagination[pageSize]=50`,
+			`${process.env.STRAPI_API_URL}/developments?populate=image&populate=resources.image&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=50`,
 			{
 				headers: {
 					Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
 				},
 			},
 		);

@@ -62,6 +62,7 @@ export const fetchAllPosts = async (
       {
         headers: {
           Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+          "Strapi-Response-Format": "v4",
         },
       }
     );
@@ -113,6 +114,7 @@ export interface PostData {
         {
           headers: {
             Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+            "Strapi-Response-Format": "v4",
           },
           next: { revalidate: 60 },
         }
