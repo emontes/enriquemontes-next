@@ -61,7 +61,7 @@ export const fetchAllPosts = async (
       `${process.env.STRAPI_API_URL}/blog-posts?populate=*&locale=${lang}&sort=date:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
       {
         headers: {
-          Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
           "Strapi-Response-Format": "v4",
         },
       }
@@ -113,7 +113,7 @@ export interface PostData {
         `${process.env.STRAPI_API_URL}/blog-posts?filters[slug][$eq]=${slug}&locale=${locale}&populate=*`,
         {
           headers: {
-            Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+            Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
             "Strapi-Response-Format": "v4",
           },
           next: { revalidate: 60 },

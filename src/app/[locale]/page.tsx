@@ -9,8 +9,8 @@ export async function generateMetadata({
   params: { slug: string; locale?: string };
 }): Promise<Metadata> {
   const slug = "home"
-  const page = await fetchOnePage(params.slug, params.locale || "");
-  const { seo } = page;
+  const page = await fetchOnePage(slug, params.locale || "");
+  const seo = page?.seo;
 
   if (!seo) return {};
   const metadata: Metadata = MetadataBuilder({ seo })
