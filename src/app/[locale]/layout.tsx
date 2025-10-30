@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 interface LocaleLayoutProps {
 	children: React.ReactNode;
-	params: { locale: string };
+	params: Promise<{ locale: string }>;
 }
 
 export async function generateStaticParams() {
@@ -28,8 +28,9 @@ export async function generateStaticParams() {
 }
 
 export async function getPageData({
-	params: { locale },
-}: { params: { locale: string } }) {
+	params,
+}: { params: Promise<{ locale: string }> }) {
+	const {locale} = await params;
 	const NavbarData = await fetchNavbarContent(locale);
 	const FooterData = await fetchFooterContent(locale);
 	return {
@@ -40,10 +41,11 @@ export async function getPageData({
 
 export default async function LocaleLayout({
 	children,
-	params: { locale },
+	params,
 }: LocaleLayoutProps) {
 	
-	const { navbar, footer } = await getPageData({ params: { locale } });
+	const {locale} = await params;
+	const { navbar, footer } = await getPageData({ params: Promise.resolve({ locale }) });
 	return (
 		<html lang={locale}>
 			<body className={inter.className}>

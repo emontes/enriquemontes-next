@@ -5,16 +5,18 @@ import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import { unstable_setRequestLocale } from "next-intl/server";
 
-export async function generateStaticParams({params}: {params: {locale: string}}): Promise<{locale: string, slug: string}[]> {	
-	const pages = await fetchAllPages(params.locale);
+export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
+	const {locale} = await params;
+	const pages = await fetchAllPages(locale);
 	return pages.data.map(({ attributes: { slug } }) => ({ slug }));
 }
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string; locale?: string };
+  params: Promise<{ slug: string; locale?: string }>;
 }): Promise<Metadata> {
-  const page = await fetchOnePage(params.slug, params.locale || "");
+  const {slug, locale} = await params;
+  const page = await fetchOnePage(slug, locale || "");
   if (!page) return notFound();
   const { seo } = page;
 
@@ -23,7 +25,8 @@ export async function generateMetadata({
   return metadata;
 }
 
-const EnriquePage = async ({ params: { locale, slug } }: { params: { locale: string; slug: string } }) => {
+const EnriquePage = async ({ params }: { params: Promise<{ locale: string; slug: string }> }) => {
+  const {locale, slug} = await params;
   unstable_setRequestLocale(locale)
   return await Page({
     params: {
