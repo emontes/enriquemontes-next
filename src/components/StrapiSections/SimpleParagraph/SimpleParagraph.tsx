@@ -16,7 +16,7 @@ const SimpleParagraph = ({
 		
 		// Split by double newlines to get paragraphs
 		const paragraphs = Content.split(/\n\n+/).filter(p => p.trim());
-		const blocks = [];
+		const blocks: string[] = [];
 		
 		for (let i = 0; i < paragraphs.length; i++) {
 			const current = paragraphs[i];
