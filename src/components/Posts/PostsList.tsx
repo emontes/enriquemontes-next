@@ -1,11 +1,12 @@
 // src/components/Posts/PostsList.tsx
 
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { BiTime } from "react-icons/bi";
 import Title from "../Title";
-import { NextIntlClientProvider, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 interface PostListProps {
   posts: any;
@@ -20,9 +21,7 @@ interface PostListProps {
 
 const PostsList = ({ posts, locale, pagination }: PostListProps) => {
   return (
-    <NextIntlClientProvider locale={locale}>
-      <PostsListContent posts={posts} locale={locale} pagination={pagination} />
-    </NextIntlClientProvider>
+    <PostsListContent posts={posts} locale={locale} pagination={pagination} />
   );
 };
 
@@ -40,6 +39,18 @@ const PostsListContent = ({ posts, locale, pagination }) => {
     });
   };
 
+  // Safety check for posts
+  if (!posts || !Array.isArray(posts) || posts.length === 0) {
+    return (
+      <div className="pt-8 container mx-auto px-4">
+        <Title title={t("allPosts")} />
+        <div className="text-center py-12">
+          <p className="text-gray-600">No posts available.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-8 container mx-auto px-4">
       <Title title={t("allPosts")} />
@@ -54,12 +65,10 @@ const PostsListContent = ({ posts, locale, pagination }) => {
               <div className="md:flex">
                 <div className="md:flex-shrink-0">
                   {/* Imagen del post */}
-                  {post.attributes.image.data && (
+                  {post?.attributes?.image?.data?.attributes?.formats?.thumbnail?.url && (
                     <Image
-                      src={
-                        post.attributes.image.data.attributes.formats.thumbnail.url
-                      }
-                      alt={post.attributes.title}
+                      src={post.attributes.image.data.attributes.formats.thumbnail.url}
+                      alt={post.attributes.title || 'Post image'}
                       width={300}
                       height={200}
                       className="h-48 w-full object-cover md:w-48 transition duration-300 transform hover:scale-105"
@@ -68,7 +77,7 @@ const PostsListContent = ({ posts, locale, pagination }) => {
                 </div>
                 <div className="p-6">
                   <div className="flex flex-wrap gap-2 mb-2">
-                    {post.attributes.blog_categories.data.map((category) => (
+                    {post?.attributes?.blog_categories?.data?.map((category) => (
                       <span
                         key={category.id}
                         className="px-2 py-1 bg-gray-200 text-gray-700 text-xs font-medium rounded-full"
@@ -130,15 +139,13 @@ const PostsListContent = ({ posts, locale, pagination }) => {
               {posts.slice(0, 5).map((post) => (
                 <li key={post.id} className="group">
                   <Link
-                    href={`/${locale}/post/${post.attributes.slug}`}
+                    href={`/${locale}/post/${post?.attributes?.slug || '#'}`}
                     className="flex items-start space-x-2 group-hover:bg-gray-50 p-2 rounded transition duration-300"
                   >
-                    {post.attributes.image.data && (
+                    {post?.attributes?.image?.data?.attributes?.formats?.thumbnail?.url && (
                       <Image
-                        src={
-                          post.attributes.image.data.attributes.formats.thumbnail.url
-                        }
-                        alt={post.attributes.title}
+                        src={post.attributes.image.data.attributes.formats.thumbnail.url}
+                        alt={post.attributes.title || 'Post image'}
                         width={60}
                         height={60}
                         className="rounded"
@@ -147,10 +154,10 @@ const PostsListContent = ({ posts, locale, pagination }) => {
 
                     <div>
                       <p className="text-[10px] font-medium group-hover:text-blue-600 transition duration-300">
-                        {post.attributes.title}
+                        {post?.attributes?.title || 'Untitled'}
                       </p>
                       <p className="-mt-3 text-[8px] text-gray-400">
-                        {formatDate(post.attributes.date)}
+                        {post?.attributes?.date && formatDate(post.attributes.date)}
                       </p>
                     </div>
                   </Link>

@@ -44,8 +44,10 @@ const Testimonials = ({ Background, testimonials }: TestimonialProps) => {
                     <Image
                       src={testimonial.attributes.image.data.attributes.url}
                       alt={testimonial.attributes.name}
-                      layout="fill"
-                      objectFit="cover"
+                      fill
+                      style={{
+                        objectFit: 'cover'
+                      }}
                       className="rounded-full"
                     />
                   )}

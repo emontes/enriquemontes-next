@@ -51,26 +51,85 @@ export interface PostsListData {
 	};
 }   
 
+// Función de utilidad para reintentos con backoff exponencial
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+const fetchWithRetry = async (
+  url: string, 
+  options: RequestInit, 
+  maxRetries: number = 3,
+  baseDelay: number = 1000
+): Promise<Response> => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: AbortSignal.timeout(10000) // 10 segundos timeout
+      });
+      
+      if (response.ok) {
+        return response;
+      }
+      
+      // Si no es el último intento, esperar antes de reintentar
+      if (attempt < maxRetries) {
+        const delay = baseDelay * Math.pow(2, attempt - 1);
+        console.log(`Strapi request failed (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms...`);
+        await sleep(delay);
+      }
+    } catch (error) {
+      console.log(`Strapi request error (attempt ${attempt}/${maxRetries}):`, error);
+      
+      // Si es el último intento, lanzar el error
+      if (attempt === maxRetries) {
+        throw error;
+      }
+      
+      // Esperar antes de reintentar
+      const delay = baseDelay * Math.pow(2, attempt - 1);
+      await sleep(delay);
+    }
+  }
+  
+  throw new Error(`Failed after ${maxRetries} attempts`);
+};
+
 export const fetchAllPosts = async (
   lang: string,
   page: number = 1,
   pageSize: number = 10
 ) => {
   try {
-    const res = await fetch(
-      `${process.env.STRAPI_API_URL}/blog-posts?populate=*&locale=${lang}&sort=date:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+    const url = `${process.env.STRAPI_API_URL}/blog-posts?populate=*&locale=${lang}&sort=date:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+    
+    const res = await fetchWithRetry(
+      url,
       {
         headers: {
           Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
           "Strapi-Response-Format": "v4",
         },
+        next: { revalidate: 300 }, // 5 minutos de cache
       }
     );
+    
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log("Error fetching posts:", error);
-    return {};
+    console.error("Error fetching posts after retries:", error);
+    
+    // Retornar datos vacíos pero con estructura válida para que la UI no se rompa
+    return {
+      data: [],
+      meta: {
+        pagination: {
+          page: 1,
+          pageSize: 10,
+          pageCount: 0,
+          total: 0
+        }
+      }
+    };
   }
 };
 

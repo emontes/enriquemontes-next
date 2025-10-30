@@ -11,9 +11,11 @@ const Hero = (props) => {
         <Image
           src={props.BackgroundImage.data.attributes.formats.medium.url}
           alt="Background Image"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
+          fill
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center'
+          }}
           className="z-0 filter blur-sm"
         />
       )}
@@ -55,7 +57,10 @@ const Hero = (props) => {
               <Image
                 src={props.ProfileImage.data.attributes.formats.medium.url}
                 alt="Profile Image"
-                layout="fill"
+                fill
+                style={{
+                  objectFit: 'cover'
+                }}
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-primary-5 to-gray-800 opacity-25 rounded-full" />
