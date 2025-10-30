@@ -26,7 +26,7 @@ const About = ({ Title, Content, Images }: ParagraphProps) => {
 					>
 						<Image
 							src={image.attributes.url}
-							alt={image.attributes.alternativeText}
+							alt={image.attributes.alternativeText || `Image ${index + 1}`}
 							width={320}
 							height={240}
 							className="object-cover rounded"

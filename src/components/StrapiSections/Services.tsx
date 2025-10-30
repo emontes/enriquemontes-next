@@ -29,7 +29,7 @@ const Services = ({ BackgroundImage, Service }: ServicesProps) => {
 									<div className=" to- flex justify-center mb-4">
 										<Image
 											src={icon.data.attributes.url}
-											alt={icon.data.attributes.alternativeText}
+											alt={icon.data.attributes.alternativeText || title || 'Service icon'}
 											width={100}
 											height={100}
 											className="filter brightness-[0.4] sepia-[0.9] opacity-50"

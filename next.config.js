@@ -6,7 +6,7 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: true,
-	trailingSlash: true, // Agregado para verificar el manejo de rutas
+	trailingSlash: false,
 	images: {
 		domains: [
 			"res.cloudinary.com",

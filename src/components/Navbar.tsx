@@ -8,32 +8,34 @@ import Language from "./Language";
 const Navbar = ({ toggleSidebar, data, locale }) => {
 	const [isVisible, setIsVisible] = useState(true);
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
+	const [isScrolled, setIsScrolled] = useState(false);
 
 	useEffect(() => {
+		// Set initial scroll state on client
+		setIsScrolled(window.scrollY > 0);
+		
 		const handleScroll = () => {
 			const currentScrollPos = window.scrollY;
 
 			setIsVisible(prevScrollPos > currentScrollPos || currentScrollPos < 80);
-
+			setIsScrolled(currentScrollPos > 0);
 			setPrevScrollPos(currentScrollPos);
 		};
 
-		if (typeof window !== "undefined") {
-			window.addEventListener("scroll", handleScroll);
+		window.addEventListener("scroll", handleScroll);
 
-			return () => {
-				window.removeEventListener("scroll", handleScroll);
-			};
-		}
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
 	}, [prevScrollPos]);
 
 	return (
 		<div
 			className={`bg-white dark:bg-grey-3 w-full z-50 transition-transform duration-300 ${
 				isVisible
-					? typeof window !== "undefined" && window.scrollY === 0
-						? ""
-						: "fixed top-0 shadow-md border-b-2 border-b-primary-5"
+					? isScrolled
+						? "fixed top-0 shadow-md border-b-2 border-b-primary-5"
+						: ""
 					: "-translate-y-full"
 			}`}
 		>

@@ -64,6 +64,7 @@ export const fetchAllPosts = async (
           Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
           "Strapi-Response-Format": "v4",
         },
+        next: { revalidate: 3600 },
       }
     );
     const data = await res.json();
