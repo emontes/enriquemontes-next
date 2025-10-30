@@ -69,18 +69,48 @@ const Footer = (data) => {
 
 			<div className="mt-12 flex items-center justify-center text-2xl">
 				{data.data.siteMade && data.data.siteMade}
-				<motion.div
-					className="relative ml-6 invert dark:invert-0 drop-shadow-[0_0_0.3rem_#ffffff70]"
-					animate={{ y: ["0%", "-50%", "0%"] }}
-					transition={{
-						duration: 2,
-						ease: "easeInOut",
-						repeat: 999,
-						repeatType: "reverse",
-					}}
-				>
-					<Image src="/next.svg" alt="Next.js Logo" width={80} height={37} />
-				</motion.div>
+				<div className="flex items-center space-x-2 ml-6">
+					<motion.span
+						className="invert dark:invert-0 drop-shadow-[0_0_0.3rem_#ffffff70]"
+						animate={{ y: ["0%", "-50%", "0%"] }}
+						transition={{
+							duration: 2,
+							ease: "easeInOut",
+							repeat: 999,
+							repeatType: "reverse",
+						}}
+					>
+						Strapi
+					</motion.span>
+					<span className="text-primary-5">+</span>
+					<motion.div
+						className="relative invert dark:invert-0 drop-shadow-[0_0_0.3rem_#ffffff70]"
+						animate={{ y: ["0%", "-50%", "0%"] }}
+						transition={{
+							duration: 2,
+							ease: "easeInOut",
+							repeat: 999,
+							repeatType: "reverse",
+							delay: 0.2,
+						}}
+					>
+						<Image src="/next.svg" alt="Next.js Logo" width={80} height={37} />
+					</motion.div>
+					<span className="text-primary-5">+</span>
+					<motion.span
+						className="invert dark:invert-0 drop-shadow-[0_0_0.3rem_#ffffff70]"
+						animate={{ y: ["0%", "-50%", "0%"] }}
+						transition={{
+							duration: 2,
+							ease: "easeInOut",
+							repeat: 999,
+							repeatType: "reverse",
+							delay: 0.4,
+						}}
+					>
+						n8n
+					</motion.span>
+				</div>
 			</div>
 		</footer>
 	);
