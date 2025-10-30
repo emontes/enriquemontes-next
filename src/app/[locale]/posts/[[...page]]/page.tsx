@@ -7,10 +7,11 @@ import type { PostsListData } from "@/app/utils/posts";
 import PostsList from "@/components/Posts/PostsList";
 
 export default async function PostsListPage({
-  params: { locale, page = [] },
+  params,
 }: {
-  params: { locale: string; page?: string[] };
+  params: Promise<{ locale: string; page?: string[] }>;
 }) {
+  const {locale, page = []} = await params;
   const pageNumber = page.length > 0 ? parseInt(page[0], 10) : 1;
   const postsData: PostsListData = await fetchAllPosts(locale, pageNumber);
 

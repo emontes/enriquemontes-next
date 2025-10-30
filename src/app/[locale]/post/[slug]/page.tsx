@@ -9,7 +9,8 @@ import { BiTime } from "react-icons/bi";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 
-export async function generateStaticParams({ params }: { params: { locale: string } }): Promise<{ locale: string; slug: string }[]> {
+export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string; slug: string }[]> {
+    const {locale} = await params;
     const posts = await fetchAllPosts("es");
     return posts.data.map(({ attributes: { slug } }) => ({ slug }));
 }
@@ -17,15 +18,16 @@ export async function generateStaticParams({ params }: { params: { locale: strin
 export async function generateMetadata({
     params,
 }: {
-    params: { slug: string; locale: string };
+    params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-    const post: PostData | null = await fetchPostBySlug(params.slug, params.locale);
+    const {slug, locale} = await params;
+    const post: PostData | null = await fetchPostBySlug(slug, locale);
 
     if (!post) return {};
 
     let canonicalUrl = `https://enriquemontes.com/posts/${post.attributes.slug}`;
-    if (params.locale !== "en") {
-        canonicalUrl = `https://enriquemontes.com/${params.locale}/posts/${post.attributes.slug}`;
+    if (locale !== "en") {
+        canonicalUrl = `https://enriquemontes.com/${locale}/posts/${post.attributes.slug}`;
     }
 
     const seo = {
@@ -47,14 +49,15 @@ export async function generateMetadata({
 
 export default async function Post({
     params,
-}: { params: { locale: string; slug: string } }) {
-    const post: PostData | null = await fetchPostBySlug(params.slug, params.locale);
+}: { params: Promise<{ locale: string; slug: string }> }) {
+    const {slug, locale} = await params;
+    const post: PostData | null = await fetchPostBySlug(slug, locale);
 
     if (!post) return notFound();
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString(params.locale, {
+        return date.toLocaleDateString(locale, {
             year: "numeric",
             month: "long",
             day: "numeric",

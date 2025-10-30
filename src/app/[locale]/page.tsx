@@ -6,18 +6,20 @@ import { unstable_setRequestLocale } from "next-intl/server";
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string; locale?: string };
+  params: Promise<{ slug: string; locale?: string }>;
 }): Promise<Metadata> {
+  const {locale} = await params;
   const slug = "home"
-  const page = await fetchOnePage(params.slug, params.locale || "");
-  const { seo } = page;
+  const page = await fetchOnePage(slug, locale || "");
+  const seo = page?.seo;
 
   if (!seo) return {};
   const metadata: Metadata = MetadataBuilder({ seo })
   return metadata;
 }
 
-const Home = async ({ params: { locale } }: { params: { locale: string } }) => {
+const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
+  const {locale} = await params;
   unstable_setRequestLocale(locale)
   return await Page({
     params: {

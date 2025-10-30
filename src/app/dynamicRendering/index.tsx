@@ -36,6 +36,7 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 		const res = await fetch(url, {
 			headers: {
 				Authorization: `bearer ${process.env.STRAPI_API_TOKEN}`,
+				"Strapi-Response-Format": "v4",
 			},
 		});
 		const data = await res.json();
