@@ -38,6 +38,7 @@ export type StrapiImageCollection = {
 export type StrapiResources = {
   data: {
     id: number;
+    documentId: string;
     attributes: {
       title: string;
       date: string;
@@ -59,7 +60,18 @@ export type StrapiDevelopments = {
       url: string;
       created: Date;
       image: StrapiImage;
-      resources: StrapiResources;
+      resources: {
+        data: {
+          id: number;
+          documentId: string;
+          attributes: {
+            title: string;
+            date: string;
+            url: string;
+            image: StrapiImage;
+          };
+        }[];
+      };
     }
     
   }[];

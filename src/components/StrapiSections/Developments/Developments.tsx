@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { HeadingText } from "../../HeadingText";
 import { FaGithub } from "react-icons/fa";
 
@@ -33,16 +34,31 @@ const Developments = ({ Heading, developments }) => {
 						>
 							{develop.attributes.image?.data && (
 								<div className="w-full h-44 relative">
-									<Image
-										src={`${develop.attributes.image.data.attributes.url}`}
-										alt={develop.attributes.title}
-										fill
-										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-										className="object-cover transition-opacity duration-300 hover:opacity-100 opacity-75"
-										style={{
-											objectFit: "cover",
-										}}
-									/>
+									{develop.attributes.slug ? (
+										<Link href={`/developments/${develop.attributes.slug}`}>
+											<Image
+												src={`${develop.attributes.image.data.attributes.url}`}
+												alt={develop.attributes.title}
+												fill
+												sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+												className="object-cover transition-opacity duration-300 hover:opacity-100 opacity-75 cursor-pointer"
+												style={{
+													objectFit: "cover",
+												}}
+											/>
+										</Link>
+									) : (
+										<Image
+											src={`${develop.attributes.image.data.attributes.url}`}
+											alt={develop.attributes.title}
+											fill
+											sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+											className="object-cover transition-opacity duration-300 hover:opacity-100 opacity-75"
+											style={{
+												objectFit: "cover",
+											}}
+										/>
+									)}
 								</div>
 							)}
 							<div className="p-2">
@@ -64,22 +80,20 @@ const Developments = ({ Heading, developments }) => {
 										</a>
 									)}
 									{develop.attributes.resources?.data.map((resource) => (
-										<a
+										<Link
 											key={resource.id}
-											href={resource.attributes.url}
-											target="_blank"
-											rel="noopener noreferrer"
+											href={`/resource/${resource.documentId}`}
 											className="text-blue-500 hover:underline"
+											title={resource.attributes.title}
 										>
 											<Image
 												src={resource.attributes.image.data.attributes.formats.thumbnail.url}
 												alt={resource.attributes.title}
-												title={resource.attributes.title}
 												width={20}
 												height={20}
-												className="inline-block"
+												className="inline-block cursor-pointer"
 											/>
-										</a>
+										</Link>
 									))}
 								</div>
 								{develop.attributes.url && (

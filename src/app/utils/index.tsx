@@ -101,3 +101,71 @@ export const fetchDevelopments = async (lang: string) => {
 		return {};
 	}
 };
+
+export const fetchOneDevelopment = async (slug: string, locale: string) => {
+	try {
+		let res = await fetch(
+			`${process.env.STRAPI_API_URL}/developments?populate=image&populate=resources.image&locale=${locale}&filters[slug][$eq]=${slug}`,
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
+				},
+			},
+		);
+		const data = await res.json();
+		
+		if (data["data"] && data["data"][0]) {
+			return data["data"][0];
+		}
+		return null;
+		
+	} catch (error) {
+		console.log("error while fetching development from strapi:", error);
+		return null;
+	}
+};
+
+export const fetchResources = async (lang: string) => {
+	try {
+		let res = await fetch(
+			`${process.env.STRAPI_API_URL}/resources?populate=image&populate=developments.image&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=50`,
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
+				},
+			},
+		);
+		const data = await res.json();
+		return data["data"]
+		
+	} catch (error) {
+		console.log("error while fetching resources from strapi:", error);
+		return [];
+	}
+};
+
+export const fetchOneResource = async (documentId: string, locale: string) => {
+	try {
+		let res = await fetch(
+			`${process.env.STRAPI_API_URL}/resources?populate=image&populate=developments.image&locale=${locale}&filters[documentId][$eq]=${documentId}`,
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
+				},
+			},
+		);
+		const data = await res.json();
+		
+		if (data["data"] && data["data"][0]) {
+			return data["data"][0];
+		}
+		return null;
+		
+	} catch (error) {
+		console.log("error while fetching resource from strapi:", error);
+		return null;
+	}
+};

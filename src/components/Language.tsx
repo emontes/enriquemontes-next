@@ -3,23 +3,19 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, locales, useRouter, usePathname, languageFlag, languageName } from '../navigation';
+import { Link, locales, usePathname, languageFlag, languageName } from '../navigation';
 
 const Language = ({ locale }) => {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
   const pathname = usePathname();
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLanguageChange = (newLocale) => {
+  const handleLanguageChange = () => {
     setIsOpen(false);
-    // Usar router.push con el nuevo locale
-    // router.push(pathname, { locale: newLocale });
-    router.replace(pathname, {locale: newLocale});
   };
 
   if (pathname.startsWith("/post/")) {
@@ -56,11 +52,10 @@ const Language = ({ locale }) => {
                 <Link
                   href={pathname}
                   locale={lng}
-                  passHref
                   className={`flex items-center justify-center gap-4 rounded-md py-2 px-4 z-10 hover:text-primary-4 ${
                     lng === locale ? "text-primary-3" : " text-primary-500"
                   }`}
-                  onClick={() => handleLanguageChange(lng)}
+                  onClick={handleLanguageChange}
                 >
                   <img
                     src={languageFlag[lng as keyof typeof languageFlag].src}

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ResourcesProps } from "@/app/dynamicRendering/types";
 import { HeadingText } from "../HeadingText";
 import { NextIntlClientProvider } from 'next-intl';
@@ -28,7 +29,11 @@ const ResourcesContent = ({ Title, HeadingType, resources }: ResourcesProps) => 
       />
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 max-w-6xl mx-auto px-4">
         {resources.data.map((resource) => (
-          <div key={resource.id} className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-2">
+          <Link 
+            key={resource.id} 
+            href={`/resource/${resource.documentId}`}
+            className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer"
+          >
             {resource.attributes.image?.data && (
               <div className="w-full h-24 relative">
                 <Image
@@ -47,7 +52,7 @@ const ResourcesContent = ({ Title, HeadingType, resources }: ResourcesProps) => 
               <h3 className="text-lg font-semibold mb-1">{resource.attributes.title}</h3>
               <p className="text-gray-600 text-sm">{t("since")}: {resource.attributes.date}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
