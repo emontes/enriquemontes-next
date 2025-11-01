@@ -3,6 +3,8 @@ import "@/styles/globals.css";
 import MainLayout from "@/components/MainLayout";
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { unstable_setRequestLocale } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 
 import {
 	fetchFooterContent,
@@ -48,19 +50,20 @@ export default async function LocaleLayout({
     const {locale} = await params;
     unstable_setRequestLocale(locale);
     const { navbar, footer } = await getPageData({ params: Promise.resolve({ locale }) });
+    const messages = await getMessages();
     return (
-		<html lang={locale}>
-			<body className={inter.className}>
-		
-				<MainLayout
-					children={children}
-					NavbarData={navbar}
-					FooterData={footer}
-					lang={locale}
-				/>
-		
-			<SpeedInsights />
-			</body>
-		</html>
-	);
+        <html lang={locale}>
+            <body className={inter.className}>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    <MainLayout
+                        children={children}
+                        NavbarData={navbar}
+                        FooterData={footer}
+                        lang={locale}
+                    />
+                </NextIntlClientProvider>
+                <SpeedInsights />
+            </body>
+        </html>
+    );
 }

@@ -94,6 +94,28 @@ const fetchWithRetry = async (
   throw new Error(`Failed after ${maxRetries} attempts`);
 };
 
+// Lightweight slug fetcher to keep build-time cache small
+export const fetchPostSlugs = async (
+  lang: string,
+  pageSize: number = 1000
+) => {
+  try {
+    const url = `${process.env.STRAPI_API_URL}/blog-posts?fields[0]=slug&fields[1]=date&locale=${lang}&sort=date:desc&pagination[page]=1&pagination[pageSize]=${pageSize}`;
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        "Strapi-Response-Format": "v4",
+      },
+      next: { revalidate: 3600 },
+    });
+    const data = await res.json();
+    return Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.error("Error fetching post slugs:", error);
+    return [];
+  }
+};
+
 export const fetchAllPosts = async (
   lang: string,
   page: number = 1,

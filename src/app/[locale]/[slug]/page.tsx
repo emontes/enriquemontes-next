@@ -1,18 +1,17 @@
 import { Page, fetchOnePage } from "@/app/dynamicRendering/index";
-import { fetchAllPages } from "@/app/utils/index";
+import { fetchAllPages, fetchPageSlugs } from "@/app/utils/index";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import { unstable_setRequestLocale } from "next-intl/server";
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
 	try {
 		const {locale} = await params;
-		const pages = await fetchAllPages(locale);
-		return pages.data.map(({ attributes: { slug } }) => ({ locale, slug }));
+		const pages = await fetchPageSlugs(locale);
+		return pages.map(({ attributes: { slug } }) => ({ locale, slug }));
 	} catch {
 		return [];
 	}

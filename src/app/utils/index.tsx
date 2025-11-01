@@ -9,6 +9,7 @@ export const fetchAllPages = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -27,6 +28,7 @@ export const fetchNavbarContent = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -39,6 +41,60 @@ export const fetchNavbarContent = async (lang: string) => {
 	}
 };
 
+// Lightweight slug fetchers to avoid large payloads during build
+export const fetchResourceSlugs = async (lang: string) => {
+  try {
+    const url = `${process.env.STRAPI_API_URL}/resources?fields[0]=slug&fields[1]=documentId&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=1000`;
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        "Strapi-Response-Format": "v4",
+      },
+      next: { revalidate: 3600 },
+    });
+    const data = await res.json();
+    return Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.log("error while fetching resource slugs from strapi:", error);
+    return [];
+  }
+};
+
+export const fetchDevelopmentSlugs = async (lang: string) => {
+  try {
+    const url = `${process.env.STRAPI_API_URL}/developments?fields[0]=slug&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=1000`;
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        "Strapi-Response-Format": "v4",
+      },
+      next: { revalidate: 3600 },
+    });
+    const data = await res.json();
+    return Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.log("error while fetching development slugs from strapi:", error);
+    return [];
+  }
+};
+
+export const fetchPageSlugs = async (lang: string) => {
+  try {
+    const url = `${process.env.STRAPI_API_URL}/enrique-pages?fields[0]=slug&locale=${lang}&pagination[pageSize]=1000`;
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        "Strapi-Response-Format": "v4",
+      },
+      next: { revalidate: 3600 },
+    });
+    const data = await res.json();
+    return Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.log("error while fetching page slugs from strapi:", error);
+    return [];
+  }
+};
 export const fetchFooterContent = async (lang: string) => {
 	try {
 		const res = await fetch(
@@ -48,6 +104,7 @@ export const fetchFooterContent = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -69,6 +126,7 @@ export const fetchMetaData = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -90,6 +148,7 @@ export const fetchDevelopments = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -112,6 +171,7 @@ export const fetchOneDevelopment = async (slug: string, locale: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -148,6 +208,7 @@ export const fetchResources = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -186,6 +247,7 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		let data = await res.json();
@@ -199,6 +261,7 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 						Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 						"Strapi-Response-Format": "v4",
 					},
+					next: { revalidate: 3600 },
 				},
 			);
 			data = await res.json();

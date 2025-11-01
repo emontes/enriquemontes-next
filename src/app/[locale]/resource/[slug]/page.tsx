@@ -1,21 +1,17 @@
-import { fetchOneResource, fetchResources } from "@/app/utils";
+import { fetchOneResource, fetchResources, fetchResourceSlugs } from "@/app/utils";
 import ResourceDetail from "@/components/ResourceDetail/ResourceDetail";
 import { notFound } from 'next/navigation';
 import { unstable_setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { getTranslations } from 'next-intl/server';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
 	try {
 		const {locale} = await params;
-		const resources = await fetchResources(locale);
-		return resources
-			.map(({ attributes: { slug }, documentId }) => ({ 
-				slug: slug || documentId 
-			}));
+		const resources = await fetchResourceSlugs(locale);
+		return resources.map(({ attributes: { slug }, documentId }) => ({ slug: slug || documentId }));
 	} catch {
 		return [];
 	}
