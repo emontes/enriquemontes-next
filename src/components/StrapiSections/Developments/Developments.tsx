@@ -82,7 +82,7 @@ const Developments = ({ Heading, developments }) => {
 									{develop.attributes.resources?.data.map((resource) => (
 										<Link
 											key={resource.id}
-											href={`/resource/${resource.documentId}`}
+											href={`/resource/${resource.attributes.slug || resource.documentId}`}
 											className="text-blue-500 hover:underline"
 											title={resource.attributes.title}
 										>

@@ -31,5 +31,18 @@
     "viewMore": "ראה עוד",
     "next": "הַבָּא",
     "previous": "קוֹדֵם"
+  },
+  "DevelopmentDetail": {
+    "viewProject": "צפה בפרויקט",
+    "github": "GitHub",
+    "resourcesUsed": "משאבים בשימוש",
+    "metaTitle": "פרטי הפיתוח"
+  },
+  "ResourceDetail": {
+    "visitWebsite": "בקר באתר",
+    "projectsUsingResource": "פרויקטים המשתמשים במשאב זה",
+    "noProjectsFound": "לא נמצאו פרויקטים רשומים המשתמשים במשאב זה.",
+    "viewProject": "צפה בפרויקט",
+    "metaTitle": "פרטי משאב"
   }
 }

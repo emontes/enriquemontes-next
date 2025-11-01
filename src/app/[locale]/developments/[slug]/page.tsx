@@ -3,6 +3,7 @@ import DevelopmentDetail from "@/components/DevelopmentDetail/DevelopmentDetail"
 import { notFound } from 'next/navigation';
 import { unstable_setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
+import { getTranslations } from 'next-intl/server';
 
 export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
 	const {locale} = await params;
@@ -28,12 +29,13 @@ export async function generateMetadata({
   if (!development) return {};
   
   const { attributes } = development;
+  const t = await getTranslations({ locale, namespace: 'DevelopmentDetail' });
   
   return {
-    title: attributes.title,
+    title: `${t('metaTitle')}: ${attributes.title}`,
     description: attributes.description?.substring(0, 160) || '',
     openGraph: {
-      title: attributes.title,
+      title: `${t('metaTitle')}: ${attributes.title}`,
       description: attributes.description?.substring(0, 160) || '',
       images: attributes.image?.data?.attributes ? [{
         url: attributes.image.data.attributes.url.startsWith('http') 
@@ -62,7 +64,7 @@ const DevelopmentPage = async ({ params }: { params: Promise<{ locale: string; s
     notFound();
   }
 
-  return <DevelopmentDetail development={development} />;
+  return await DevelopmentDetail({ development, locale });
 };
 
 export default DevelopmentPage;

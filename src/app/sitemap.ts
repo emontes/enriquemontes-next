@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { fetchDevelopments, fetchResources } from "@/app/utils";
 import { fetchAllPosts } from "@/app/utils/posts";
 
-const BASE_URL = "https://enriquemontes.com";
+const BASE_URL = process.env.BASE_URL || "https://enriquemontes.com";
 
 const locales = ["", "en", "es", "he", "ru", "de"];
 
@@ -64,16 +64,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Dynamic entries: resources (slug is documentId)
+  // Dynamic entries: resources (slug优先, fallback to documentId)
   for (const l of locales) {
     const strapiLocale = mapStrapiLocale(l);
     try {
       const resources = await fetchResources(strapiLocale);
       if (Array.isArray(resources)) {
         for (const r of resources) {
-          const docId = r?.documentId;
-          if (!docId) continue;
-          const url = l ? `${BASE_URL}/${l}/resource/${docId}` : `${BASE_URL}/resource/${docId}`;
+          const slug = r?.attributes?.slug || r?.documentId;
+          if (!slug) continue;
+          const url = l ? `${BASE_URL}/${l}/resource/${slug}` : `${BASE_URL}/resource/${slug}`;
           sitemap.push({
             url,
             lastModified: new Date(),

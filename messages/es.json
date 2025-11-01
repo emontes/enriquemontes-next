@@ -31,5 +31,18 @@
     "viewMore": "Ver más",
     "next": "Siguiente",
     "previous": "Anterior"
+  },
+  "DevelopmentDetail": {
+    "viewProject": "Ver proyecto",
+    "github": "GitHub",
+    "resourcesUsed": "Recursos Utilizados",
+    "metaTitle": "Detalles del Desarrollo"
+  },
+  "ResourceDetail": {
+    "visitWebsite": "Visitar sitio web",
+    "projectsUsingResource": "Proyectos que utilizan este recurso",
+    "noProjectsFound": "No hay proyectos registrados que utilicen este recurso.",
+    "viewProject": "Ver proyecto",
+    "metaTitle": "Detalles del Recurso"
   }
 }

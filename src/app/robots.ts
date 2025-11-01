@@ -6,7 +6,7 @@ import type { MetadataRoute } from "next";
  * @see https://rotecna.com/robots.txt
  */
 
-const BASE_URL = "https://enriquemontes.com";
+const BASE_URL = process.env.BASE_URL || "https://enriquemontes.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {

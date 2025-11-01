@@ -31,6 +31,19 @@
     "categories": "Categories",
     "next": "Next",
     "previous": "Previous"
+  },
+  "DevelopmentDetail": {
+    "viewProject": "View Project",
+    "github": "GitHub",
+    "resourcesUsed": "Resources Used",
+    "metaTitle": "Details of Development"
+  },
+  "ResourceDetail": {
+    "visitWebsite": "Visit Website",
+    "projectsUsingResource": "Projects using this resource",
+    "noProjectsFound": "No projects registered using this resource.",
+    "viewProject": "View Project",
+    "metaTitle": "Resource Details"
   }
   
 }

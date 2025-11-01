@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { fetchDevelopments } from "@/app/utils";
+import { getTranslations } from 'next-intl/server';
+import DevelopmentCard from "@/components/DevelopmentCard/DevelopmentCard";
 
 interface ResourceDetailProps {
   resource: {
@@ -42,12 +45,18 @@ interface ResourceDetailProps {
       };
     };
   };
+  locale: string;
 }
 
-const ResourceDetail = ({ resource }: ResourceDetailProps) => {
+const ResourceDetail = async ({ resource, locale }: ResourceDetailProps) => {
   const { attributes } = resource;
+  const t = await getTranslations({ locale, namespace: 'ResourceDetail' });
   
   if (!attributes) return null;
+
+  // Fetch developments in current locale to ensure we only show projects that exist in this language
+  const currentLocaleDevelopments = await fetchDevelopments(locale);
+  const currentLocaleDevelopmentIds = new Set(currentLocaleDevelopments.map(d => d.id));
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('es-ES', {
@@ -82,24 +91,26 @@ const ResourceDetail = ({ resource }: ResourceDetailProps) => {
               rel="noopener noreferrer"
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
-              Visitar sitio web
+              {t('visitWebsite')}
             </a>
           )}
         </div>
 
         {/* Main Image */}
         {attributes.image?.data?.attributes && (
-          <div className="mb-12">
-            <Image
-              src={attributes.image.data.attributes.url.startsWith('http') 
-                ? attributes.image.data.attributes.url 
-                : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`}
-              alt={attributes.image.data.attributes.alternativeText || attributes.title}
-              width={attributes.image.data.attributes.width}
-              height={attributes.image.data.attributes.height}
-              className="w-full rounded-lg shadow-lg"
-              priority
-            />
+          <div className="mb-12 flex justify-center">
+            <div className="relative w-64 h-64">
+              <Image
+                src={attributes.image.data.attributes.url.startsWith('http') 
+                  ? attributes.image.data.attributes.url 
+                  : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`}
+                alt={attributes.image.data.attributes.alternativeText || attributes.title}
+                width={attributes.image.data.attributes.width}
+                height={attributes.image.data.attributes.height}
+                className="w-full h-full object-contain rounded-lg shadow-lg"
+                priority
+              />
+            </div>
           </div>
         )}
 
@@ -107,46 +118,23 @@ const ResourceDetail = ({ resource }: ResourceDetailProps) => {
         {attributes.developments?.data && attributes.developments.data.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Proyectos que utilizan este recurso
+              {t('projectsUsingResource')}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {attributes.developments.data.map((development) => (
-                <div
-                  key={development.id}
-                  className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow"
-                >
-                  {development.attributes.image?.data?.attributes && (
-                    <div className="mb-4">
-                      <Image
-                        src={development.attributes.image.data.attributes.url.startsWith('http') 
-                          ? development.attributes.image.data.attributes.url 
-                          : `${process.env.STRAPI_API_URL}${development.attributes.image.data.attributes.url}`}
-                        alt={development.attributes.image.data.attributes.alternativeText || development.attributes.title}
-                        width={development.attributes.image.data.attributes.width}
-                        height={development.attributes.image.data.attributes.height}
-                        className="w-full h-48 object-cover rounded-md"
-                      />
-                    </div>
-                  )}
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {development.attributes.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 line-clamp-3">
-                    {development.attributes.description}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">
-                      {new Date(development.attributes.created).getFullYear()}
-                    </span>
-                    <Link
-                      href={`/developments/${development.attributes.slug}`}
-                      className="text-blue-600 hover:text-blue-800 font-medium"
-                    >
-                      Ver proyecto →
-                    </Link>
-                  </div>
-                </div>
-              ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {attributes.developments.data
+                .filter((development) => {
+                  // Only show developments that exist in the current locale
+                  return currentLocaleDevelopmentIds.has(development.id) && 
+                         development.attributes.slug && 
+                         development.attributes.title;
+                })
+                .map((development) => (
+                  <DevelopmentCard
+                    key={development.id}
+                    development={development}
+                    locale={locale}
+                  />
+                ))}
             </div>
           </div>
         )}
@@ -155,7 +143,7 @@ const ResourceDetail = ({ resource }: ResourceDetailProps) => {
         {(!attributes.developments?.data || attributes.developments.data.length === 0) && (
           <div className="bg-gray-50 rounded-lg p-8 text-center">
             <p className="text-gray-600 text-lg">
-              No hay proyectos registrados que utilicen este recurso.
+              {t('noProjectsFound')}
             </p>
           </div>
         )}

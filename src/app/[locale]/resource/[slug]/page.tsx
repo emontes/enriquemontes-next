@@ -3,12 +3,15 @@ import ResourceDetail from "@/components/ResourceDetail/ResourceDetail";
 import { notFound } from 'next/navigation';
 import { unstable_setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
+import { getTranslations } from 'next-intl/server';
 
 export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
 	const {locale} = await params;
 	const resources = await fetchResources(locale);
 	return resources
-		.map(({ documentId }) => ({ slug: documentId }));
+		.map(({ attributes: { slug }, documentId }) => ({ 
+			slug: slug || documentId 
+		}));
 }
 
 export async function generateMetadata({
@@ -27,13 +30,14 @@ export async function generateMetadata({
   if (!resource) return {};
   
   const { attributes } = resource;
+  const t = await getTranslations({ locale, namespace: 'ResourceDetail' });
   
   return {
-    title: `${attributes.title} | Recurso`,
-    description: `Recurso técnico: ${attributes.kind}. ${attributes.title}`,
+    title: `${attributes.title} | ${t('metaTitle')}`,
+    description: `${t('metaTitle')}: ${attributes.kind}. ${attributes.title}`,
     openGraph: {
-      title: `${attributes.title} | Recurso`,
-      description: `Recurso técnico: ${attributes.kind}. ${attributes.title}`,
+      title: `${attributes.title} | ${t('metaTitle')}`,
+      description: `${t('metaTitle')}: ${attributes.kind}. ${attributes.title}`,
       images: attributes.image?.data?.attributes ? [{
         url: attributes.image.data.attributes.url.startsWith('http') 
           ? attributes.image.data.attributes.url 
@@ -61,7 +65,7 @@ const ResourcePage = async ({ params }: { params: Promise<{ locale: string; slug
     notFound();
   }
 
-  return <ResourceDetail resource={resource} />;
+  return await ResourceDetail({ resource, locale });
 };
 
 export default ResourcePage;
