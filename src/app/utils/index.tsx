@@ -179,21 +179,16 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 		}, { encodeValuesOnly: true });
 
 		// First try to find by slug field
-		const url = `${process.env.STRAPI_API_URL}/resources?${populateQuery}&locale=${locale}&filters[slug][$eq]=${slug}`;
-		console.log('[fetchOneResource] Fetching:', url);
-		
-		let res = await fetch(url, {
-			headers: {
-				Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-				"Strapi-Response-Format": "v4",
+		let res = await fetch(
+			`${process.env.STRAPI_API_URL}/resources?${populateQuery}&locale=${locale}&filters[slug][$eq]=${slug}`,
+			{
+				headers: {
+					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+					"Strapi-Response-Format": "v4",
+				},
 			},
-		});
+		);
 		let data = await res.json();
-		console.log('[fetchOneResource] Response data keys:', Object.keys(data));
-		if (data.data?.[0]) {
-			console.log('[fetchOneResource] First result has image:', !!data.data[0].attributes?.image);
-			console.log('[fetchOneResource] First result developments count:', data.data[0].attributes?.developments?.data?.length || 0);
-		}
 		
 		// If not found by slug, try to find by documentId (for backward compatibility)
 		if (!data["data"] || data["data"].length === 0) {

@@ -82,14 +82,6 @@ const ResourceDetail = async ({ resource, locale }: ResourceDetailProps) => {
   
   if (!attributes) return null;
 
-  // Debug: Log resource image data
-  console.log(`[ResourceDetail] Resource ${attributes.title}:`, {
-    hasImage: !!attributes.image,
-    imageData: attributes.image?.data,
-    imageUrl: attributes.image?.data?.attributes?.url,
-    developmentsCount: attributes.developments?.data?.length || 0
-  });
-
   // Fetch developments in current locale to ensure we only show projects that exist in this language
   const currentLocaleDevelopments = await fetchDevelopments(locale);
   const currentLocaleDevelopmentIds = new Set(currentLocaleDevelopments.map(d => d.id));
@@ -162,24 +154,15 @@ const ResourceDetail = async ({ resource, locale }: ResourceDetailProps) => {
                          development.attributes.slug && 
                          development.attributes.title;
                 })
-                .map((development) => {
-                  // Debug: Log development data structure
-                  console.log(`[ResourceDetail] Development ${development.attributes.title}:`, {
-                    hasImage: !!development.attributes.image,
-                    imageData: development.attributes.image?.data,
-                    imageUrl: development.attributes.image?.data?.attributes?.url
-                  });
-                  
-                  return (
-                    <DevelopmentCard
-                      key={development.id}
-                      development={development}
-                      locale={locale}
-                      showResourceLinks={true}
-                      resources={development.attributes.resources?.data || []}
-                    />
-                  );
-                })}
+                .map((development) => (
+                  <DevelopmentCard
+                    key={development.id}
+                    development={development}
+                    locale={locale}
+                    showResourceLinks={true}
+                    resources={development.attributes.resources?.data || []}
+                  />
+                ))}
             </div>
           </div>
         )}

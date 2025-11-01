@@ -69,14 +69,6 @@ const DevelopmentCard = async ({
     month: "long",
   });
 
-  // Debug: Log image URL
-  if (attributes.image?.data?.attributes?.url) {
-    const finalUrl = getImageUrl(attributes.image.data.attributes.url);
-    console.log(`[DevelopmentCard] ${attributes.title}:`, finalUrl);
-  } else {
-    console.log(`[DevelopmentCard] ${attributes.title}: NO IMAGE DATA`);
-  }
-
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 group">
       {attributes.image?.data?.attributes && (
