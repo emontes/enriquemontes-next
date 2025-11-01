@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 interface PostListProps {
   posts: any;
   locale: string;
-  pagination: {
+  pagination?: {
     page: number;
     pageSize: number;
     pageCount: number;
@@ -206,29 +206,6 @@ const PostsListContent = ({ posts, locale, pagination }) => {
             </div>
           </div>
         </div>
-      </div>
-      {/* Controles de paginación */}
-      <div className="flex justify-center mt-8 space-x-4">
-        {pagination.page > 1 && (
-          <Link
-            href={
-              pagination.page - 1 === 1
-                ? `/${locale}/posts`
-                : `/${locale}/posts/${pagination.page - 1}`
-            }
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            {t("previous")}
-          </Link>
-        )}
-        {pagination.page < pagination.pageCount && (
-          <Link
-            href={`/${locale}/posts/${pagination.page + 1}`}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-          >
-            {t("next")}
-          </Link>
-        )}
       </div>
     </div>
   );

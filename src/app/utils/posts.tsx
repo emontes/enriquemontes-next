@@ -97,21 +97,30 @@ const fetchWithRetry = async (
 export const fetchAllPosts = async (
   lang: string,
   page: number = 1,
-  pageSize: number = 10
+  pageSize: number = 10,
+  options?: { cache?: "force-cache" | "no-store"; revalidate?: number | false }
 ) => {
   try {
     const url = `${process.env.STRAPI_API_URL}/blog-posts?populate=*&locale=${lang}&sort=date:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
     
-    const res = await fetchWithRetry(
-      url,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-          "Strapi-Response-Format": "v4",
-        },
-        next: { revalidate: 300 }, // 5 minutos de cache
+    const fetchOptions: RequestInit & { next?: { revalidate?: number }; cache?: RequestCache } = {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        "Strapi-Response-Format": "v4",
+      },
+    };
+
+    // Control de cache: por defecto, mantener ISR 5 minutos
+    if (options?.cache) {
+      fetchOptions.cache = options.cache;
+    } else {
+      const revalidate = options?.revalidate === false ? undefined : (options?.revalidate ?? 300);
+      if (typeof revalidate === "number") {
+        fetchOptions.next = { revalidate };
       }
-    );
+    }
+
+    const res = await fetchWithRetry(url, fetchOptions);
     
     const data = await res.json();
     return data;
