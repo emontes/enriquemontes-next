@@ -11,6 +11,8 @@ const nextConfig = {
 		domains: [
 			"res.cloudinary.com",
 			"abundant-book-6ad757f3c9.media.strapiapp.com",
+			"localhost",
+			"127.0.0.1",
 		],
 	},
 };

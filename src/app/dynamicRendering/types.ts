@@ -4,16 +4,16 @@ import type { StrapiButtonType,StrapiDevelopments,StrapiHeading,
   StrapiResources,
   StrapiTestimonials, } from "@/types";
 import dynamic from "next/dynamic";
-// Lazy Load All the sections
-const HeroSection = dynamic(() => import('@/components/StrapiSections/HeroSection/HeroSection'))
-const HeroHome = dynamic(() => import('@/components/StrapiSections/HeroHome/HeroHome'))
-const SimpleParagraph = dynamic(() => import('@/components/StrapiSections/SimpleParagraph/SimpleParagraph'))
-const Paragraph = dynamic(() => import('@/components/StrapiSections/Paragraph/Paragraph'))
-const Jobs = dynamic(() => import('@/components/StrapiSections/Jobs'))
-const Services = dynamic(() => import('@/components/StrapiSections/Services'))
-const Resources = dynamic(() => import('@/components/StrapiSections/Resources'))
-const Contact = dynamic(() => import('@/components/StrapiSections/Contact/Contact'))
-const Testimonials = dynamic(() => import('@/components/StrapiSections/Testimonials/Testimonials'))
+// Lazy Load All the sections with loading state
+const HeroSection = dynamic(() => import('@/components/StrapiSections/HeroSection/HeroSection'), { ssr: true })
+const HeroHome = dynamic(() => import('@/components/StrapiSections/HeroHome/HeroHome'), { ssr: true })
+const SimpleParagraph = dynamic(() => import('@/components/StrapiSections/SimpleParagraph/SimpleParagraph'), { ssr: true })
+const Paragraph = dynamic(() => import('@/components/StrapiSections/Paragraph/Paragraph'), { ssr: true })
+const Jobs = dynamic(() => import('@/components/StrapiSections/Jobs'), { ssr: true })
+const Services = dynamic(() => import('@/components/StrapiSections/Services'), { ssr: true })
+const Resources = dynamic(() => import('@/components/StrapiSections/Resources'), { ssr: true })
+const Contact = dynamic(() => import('@/components/StrapiSections/Contact/Contact'), { ssr: true })
+const Testimonials = dynamic(() => import('@/components/StrapiSections/Testimonials/Testimonials'), { ssr: true })
 
 const StrapiComponentNames = {
   Hero: "page-sections.hero-section",

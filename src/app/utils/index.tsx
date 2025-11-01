@@ -126,10 +126,22 @@ export const fetchOneDevelopment = async (slug: string, locale: string) => {
 	}
 };
 
+const slugify = (text: string): string => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '')
+    .replace(/\-\-+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
+};
+
 export const fetchResources = async (lang: string) => {
 	try {
 		let res = await fetch(
-			`${process.env.STRAPI_API_URL}/resources?populate=image&populate=developments.image&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=50`,
+			`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=50`,
 			{
 				headers: {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -146,10 +158,11 @@ export const fetchResources = async (lang: string) => {
 	}
 };
 
-export const fetchOneResource = async (documentId: string, locale: string) => {
+export const fetchOneResource = async (slug: string, locale: string) => {
 	try {
+		// First try to find by slug field
 		let res = await fetch(
-			`${process.env.STRAPI_API_URL}/resources?populate=image&populate=developments.image&locale=${locale}&filters[documentId][$eq]=${documentId}`,
+			`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${locale}&filters[slug][$eq]=${slug}`,
 			{
 				headers: {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -157,7 +170,30 @@ export const fetchOneResource = async (documentId: string, locale: string) => {
 				},
 			},
 		);
-		const data = await res.json();
+		let data = await res.json();
+		
+		// If not found by slug, try to find by documentId (for backward compatibility)
+		if (!data["data"] || data["data"].length === 0) {
+			res = await fetch(
+				`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${locale}&filters[documentId][$eq]=${slug}`,
+				{
+					headers: {
+						Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+						"Strapi-Response-Format": "v4",
+					},
+				},
+			);
+			data = await res.json();
+		}
+		
+		// If still not found, try to find by matching slugified title
+		if (!data["data"] || data["data"].length === 0) {
+			const allResources = await fetchResources(locale);
+			const matched = allResources.find(resource => 
+				slugify(resource.attributes.title) === slug
+			);
+			return matched || null;
+		}
 		
 		if (data["data"] && data["data"][0]) {
 			return data["data"][0];

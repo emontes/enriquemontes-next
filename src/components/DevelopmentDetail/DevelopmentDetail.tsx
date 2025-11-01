@@ -1,4 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+
+const getImageUrl = (url: string): string => {
+  if (url.startsWith('http')) return url;
+  // Remove /api from STRAPI_API_URL if present
+  const baseUrl = process.env.STRAPI_API_URL?.replace('/api', '') || 'http://localhost:1337';
+  return `${baseUrl}${url}`;
+};
 
 interface DevelopmentDetailProps {
   development: {
@@ -25,6 +34,7 @@ interface DevelopmentDetailProps {
           id: number;
           attributes: {
             title: string;
+            slug?: string;
             description?: string;
             url?: string;
             image?: {
@@ -42,10 +52,12 @@ interface DevelopmentDetailProps {
       };
     };
   };
+  locale: string;
 }
 
-const DevelopmentDetail = ({ development }: DevelopmentDetailProps) => {
+const DevelopmentDetail = async ({ development, locale }: DevelopmentDetailProps) => {
   const { attributes } = development;
+  const t = await getTranslations({ locale, namespace: 'DevelopmentDetail' });
   
   if (!attributes) return null;
 
@@ -78,7 +90,7 @@ const DevelopmentDetail = ({ development }: DevelopmentDetailProps) => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Ver proyecto
+                {t('viewProject')}
               </a>
             )}
             {attributes.github && (
@@ -88,7 +100,7 @@ const DevelopmentDetail = ({ development }: DevelopmentDetailProps) => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
               >
-                GitHub
+                {t('github')}
               </a>
             )}
           </div>
@@ -98,9 +110,7 @@ const DevelopmentDetail = ({ development }: DevelopmentDetailProps) => {
         {attributes.image?.data?.attributes && (
           <div className="mb-8">
             <Image
-              src={attributes.image.data.attributes.url.startsWith('http') 
-                ? attributes.image.data.attributes.url 
-                : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`}
+              src={getImageUrl(attributes.image.data.attributes.url)}
               alt={attributes.image.data.attributes.alternativeText || attributes.title}
               width={attributes.image.data.attributes.width}
               height={attributes.image.data.attributes.height}
@@ -123,32 +133,42 @@ const DevelopmentDetail = ({ development }: DevelopmentDetailProps) => {
         {attributes.resources?.data && attributes.resources.data.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Recursos relacionados
+              {t('resourcesUsed')}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {attributes.resources.data.map((resource) => (
                 <div
                   key={resource.id}
-                  className="bg-white rounded-lg shadow-md p-6 border border-gray-200"
+                  className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-shadow"
                 >
                   {resource.attributes.image?.data?.attributes && (
                     <div className="mb-4">
-                      <Image
-                        src={resource.attributes.image.data.attributes.url.startsWith('http') 
-                          ? resource.attributes.image.data.attributes.url 
-                          : `${process.env.STRAPI_API_URL}${resource.attributes.image.data.attributes.url}`}
-                        alt={resource.attributes.image.data.attributes.alternativeText || resource.attributes.title}
-                        width={resource.attributes.image.data.attributes.width}
-                        height={resource.attributes.image.data.attributes.height}
-                        className="w-full h-48 object-cover rounded-md"
-                      />
+                      {resource.attributes.slug ? (
+                        <Link href={`/${locale}/resource/${resource.attributes.slug}`}>
+                          <Image
+                            src={getImageUrl(resource.attributes.image.data.attributes.url)}
+                            alt={resource.attributes.image.data.attributes.alternativeText || resource.attributes.title}
+                            width={resource.attributes.image.data.attributes.width}
+                            height={resource.attributes.image.data.attributes.height}
+                            className="w-full h-32 object-cover rounded-md cursor-pointer hover:opacity-90 transition-opacity"
+                          />
+                        </Link>
+                      ) : (
+                        <Image
+                          src={getImageUrl(resource.attributes.image.data.attributes.url)}
+                          alt={resource.attributes.image.data.attributes.alternativeText || resource.attributes.title}
+                          width={resource.attributes.image.data.attributes.width}
+                          height={resource.attributes.image.data.attributes.height}
+                          className="w-full h-32 object-cover rounded-md"
+                        />
+                      )}
                     </div>
                   )}
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
                     {resource.attributes.title}
                   </h3>
                   {resource.attributes.description && (
-                    <p className="text-gray-600 mb-4">
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                       {resource.attributes.description}
                     </p>
                   )}
@@ -157,9 +177,9 @@ const DevelopmentDetail = ({ development }: DevelopmentDetailProps) => {
                       href={resource.attributes.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 font-medium"
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium break-all"
                     >
-                      Ver recurso →
+                      {resource.attributes.url}
                     </a>
                   )}
                 </div>

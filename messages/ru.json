@@ -31,5 +31,18 @@
     "viewMore": "Посмотреть больше",
     "next": "Следующий",
     "previous": "Предыдущий"
+  },
+  "DevelopmentDetail": {
+    "viewProject": "Посмотреть проект",
+    "github": "GitHub",
+    "resourcesUsed": "Используемые ресурсы",
+    "metaTitle": "Детали разработки"
+  },
+  "ResourceDetail": {
+    "visitWebsite": "Посетить веб-сайт",
+    "projectsUsingResource": "Проекты, использующие этот ресурс",
+    "noProjectsFound": "Нет зарегистрированных проектов, использующих этот ресурс.",
+    "viewProject": "Посмотреть проект",
+    "metaTitle": "Детали ресурса"
   }
 }
