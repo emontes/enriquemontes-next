@@ -2,7 +2,6 @@ import type { MetadataRoute } from "next";
 import { fetchDevelopments, fetchResources } from "@/app/utils";
 import { fetchAllPosts } from "@/app/utils/posts";
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 86400; // Revalidate daily
 
 const BASE_URL = process.env.BASE_URL || "https://enriquemontes.com";
@@ -52,36 +51,46 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const mapStrapiLocale = (l: string) => (l === "" ? "en" : l);
 
   // Dynamic entries: posts
-  for (const l of locales) {
-    const strapiLocale = mapStrapiLocale(l);
-    try {
-      const posts = await withTimeout(fetchAllPosts(strapiLocale, 1, 100, { cache: "force-cache" }), 8000, { data: [] } as any);
+  try {
+    const postsResults = await Promise.all(
+      locales.map((l) =>
+        withTimeout(
+          fetchAllPosts(mapStrapiLocale(l), 1, 100, { cache: "force-cache" }),
+          8000,
+          { data: [] } as any
+        )
+      )
+    );
+    postsResults.forEach((posts, idx) => {
+      const l = locales[idx];
       if (posts?.data?.length) {
         for (const p of posts.data) {
-          const slug = p?.attributes?.slug;
+          const slug = (p as any)?.attributes?.slug;
           if (!slug) continue;
           const url = l ? `${BASE_URL}/${l}/post/${slug}` : `${BASE_URL}/post/${slug}`;
           sitemap.push({
             url,
-            lastModified: p?.attributes?.date ? new Date(p.attributes.date) : new Date(),
+            lastModified: (p as any)?.attributes?.date ? new Date((p as any).attributes.date) : new Date(),
             changeFrequency: "weekly",
             priority: 0.6,
           });
         }
       }
-    } catch (e) {
-      // ignore per-locale failures
-    }
+    });
+  } catch (e) {
+    // ignore failures
   }
 
   // Dynamic entries: resources (slug优先, fallback to documentId)
-  for (const l of locales) {
-    const strapiLocale = mapStrapiLocale(l);
-    try {
-      const resources = await withTimeout(fetchResources(strapiLocale), 8000, []);
+  try {
+    const resourcesResults = await Promise.all(
+      locales.map((l) => withTimeout(fetchResources(mapStrapiLocale(l)), 8000, []))
+    );
+    resourcesResults.forEach((resources, idx) => {
+      const l = locales[idx];
       if (Array.isArray(resources)) {
-        for (const r of resources) {
-          const slug = r?.attributes?.slug || r?.documentId;
+        for (const r of resources as any[]) {
+          const slug = (r as any)?.attributes?.slug || (r as any)?.documentId;
           if (!slug) continue;
           const url = l ? `${BASE_URL}/${l}/resource/${slug}` : `${BASE_URL}/resource/${slug}`;
           sitemap.push({
@@ -92,19 +101,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           });
         }
       }
-    } catch (e) {
-      // ignore per-locale failures
-    }
+    });
+  } catch (e) {
+    // ignore failures
   }
 
   // Dynamic entries: developments (slug per locale)
-  for (const l of locales) {
-    const strapiLocale = mapStrapiLocale(l);
-    try {
-      const developments = await withTimeout(fetchDevelopments(strapiLocale), 8000, [] as any);
+  try {
+    const developmentsResults = await Promise.all(
+      locales.map((l) => withTimeout(fetchDevelopments(mapStrapiLocale(l)), 8000, [] as any))
+    );
+    developmentsResults.forEach((developments, idx) => {
+      const l = locales[idx];
       if (Array.isArray(developments)) {
-        for (const d of developments) {
-          const slug = d?.attributes?.slug;
+        for (const d of developments as any[]) {
+          const slug = (d as any)?.attributes?.slug;
           if (!slug) continue;
           const url = l ? `${BASE_URL}/${l}/developments/${slug}` : `${BASE_URL}/developments/${slug}`;
           sitemap.push({
@@ -115,10 +126,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           });
         }
       }
-    } catch (e) {
-      // ignore per-locale failures
-    }
+    });
+  } catch (e) {
+    // ignore failures
   }
 
   return sitemap;
 }
+

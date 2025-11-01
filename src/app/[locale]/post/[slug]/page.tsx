@@ -3,16 +3,19 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { fetchPostBySlug, fetchAllPosts } from "@/app/utils/posts";
+import { fetchPostBySlug, fetchAllPosts, fetchPostSlugs } from "@/app/utils/posts";
 import type { PostData } from "@/app/utils/posts";
 import { BiTime } from "react-icons/bi";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 
+export const revalidate = 3600;
+export const dynamicParams = false;
+
 export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string; slug: string }[]> {
-    const {locale} = await params;
-    const posts = await fetchAllPosts("es");
-    return posts.data.map(({ attributes: { slug } }) => ({ slug }));
+    const { locale } = await params;
+    const posts = await fetchPostSlugs(locale, 1000);
+    return posts.map(({ attributes: { slug } }) => ({ locale, slug }));
 }
 
 export async function generateMetadata({
@@ -21,7 +24,10 @@ export async function generateMetadata({
     params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
     const {slug, locale} = await params;
-    const post: PostData | null = await fetchPostBySlug(slug, locale);
+    let post: PostData | null = await fetchPostBySlug(slug, locale);
+    if (!post && locale !== 'es') {
+        post = await fetchPostBySlug(slug, 'es');
+    }
 
     if (!post) return {};
 
@@ -50,8 +56,11 @@ export async function generateMetadata({
 export default async function Post({
     params,
 }: { params: Promise<{ locale: string; slug: string }> }) {
-    const {slug, locale} = await params;
-    const post: PostData | null = await fetchPostBySlug(slug, locale);
+    const { slug, locale } = await params;
+    let post: PostData | null = await fetchPostBySlug(slug, locale);
+    if (!post && locale !== 'es') {
+        post = await fetchPostBySlug(slug, 'es');
+    }
 
     if (!post) return notFound();
 

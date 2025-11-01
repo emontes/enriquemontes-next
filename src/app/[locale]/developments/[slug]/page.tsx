@@ -1,17 +1,16 @@
-import { fetchOneDevelopment, fetchDevelopments } from "@/app/utils";
+import { fetchOneDevelopment, fetchDevelopments, fetchDevelopmentSlugs } from "@/app/utils";
 import DevelopmentDetail from "@/components/DevelopmentDetail/DevelopmentDetail";
 import { notFound } from 'next/navigation';
 import { unstable_setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { getTranslations } from 'next-intl/server';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600;
 
 export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
 	try {
 		const {locale} = await params;
-		const developments = await fetchDevelopments(locale);
+		const developments = await fetchDevelopmentSlugs(locale);
 		return developments
 			.filter(({ attributes: { slug } }) => slug !== null)
 			.map(({ attributes: { slug } }) => ({ locale, slug }));

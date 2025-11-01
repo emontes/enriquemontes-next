@@ -6,6 +6,12 @@ import { HeadingText } from "../HeadingText";
 import { NextIntlClientProvider } from 'next-intl';
 import { useTranslations } from 'next-intl';
 
+const getImageUrl = (url: string): string => {
+  if (url.startsWith('http')) return url;
+  // This runs on client, but we can use a hardcoded fallback since images should be from Cloudinary
+  return url; // If not absolute, return as-is (shouldn't happen with Cloudinary)
+};
+
 interface ResourcesWrapperProps extends ResourcesProps {
   messages: any;
   locale: string;
@@ -39,9 +45,7 @@ const ResourcesBase = ({ Title, HeadingType, resources, sinceLabel }: ResourcesP
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 max-w-6xl mx-auto px-4">
         {resources.data.map((resource) => {
           const imageUrl = resource.attributes.image?.data?.attributes?.url;
-          const normalizedImageUrl = imageUrl 
-            ? (imageUrl.startsWith('http') ? imageUrl : `${process.env.NEXT_PUBLIC_STRAPI_API_URL || process.env.STRAPI_API_URL}${imageUrl}`)
-            : null;
+          const normalizedImageUrl = imageUrl ? getImageUrl(imageUrl) : null;
           
           const content = (
             <>

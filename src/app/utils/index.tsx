@@ -1,3 +1,4 @@
+import qs from "qs";
 
 export const fetchAllPages = async (lang: string) => {
 	try {
@@ -8,6 +9,7 @@ export const fetchAllPages = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -26,6 +28,7 @@ export const fetchNavbarContent = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -38,6 +41,60 @@ export const fetchNavbarContent = async (lang: string) => {
 	}
 };
 
+// Lightweight slug fetchers to avoid large payloads during build
+export const fetchResourceSlugs = async (lang: string) => {
+  try {
+    const url = `${process.env.STRAPI_API_URL}/resources?fields[0]=slug&fields[1]=documentId&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=1000`;
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        "Strapi-Response-Format": "v4",
+      },
+      next: { revalidate: 3600 },
+    });
+    const data = await res.json();
+    return Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.log("error while fetching resource slugs from strapi:", error);
+    return [];
+  }
+};
+
+export const fetchDevelopmentSlugs = async (lang: string) => {
+  try {
+    const url = `${process.env.STRAPI_API_URL}/developments?fields[0]=slug&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=1000`;
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        "Strapi-Response-Format": "v4",
+      },
+      next: { revalidate: 3600 },
+    });
+    const data = await res.json();
+    return Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.log("error while fetching development slugs from strapi:", error);
+    return [];
+  }
+};
+
+export const fetchPageSlugs = async (lang: string) => {
+  try {
+    const url = `${process.env.STRAPI_API_URL}/enrique-pages?fields[0]=slug&locale=${lang}&pagination[pageSize]=1000`;
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        "Strapi-Response-Format": "v4",
+      },
+      next: { revalidate: 3600 },
+    });
+    const data = await res.json();
+    return Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.log("error while fetching page slugs from strapi:", error);
+    return [];
+  }
+};
 export const fetchFooterContent = async (lang: string) => {
 	try {
 		const res = await fetch(
@@ -47,6 +104,7 @@ export const fetchFooterContent = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -68,6 +126,7 @@ export const fetchMetaData = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -89,6 +148,7 @@ export const fetchDevelopments = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -111,6 +171,7 @@ export const fetchOneDevelopment = async (slug: string, locale: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -147,6 +208,7 @@ export const fetchResources = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -160,14 +222,32 @@ export const fetchResources = async (lang: string) => {
 
 export const fetchOneResource = async (slug: string, locale: string) => {
 	try {
+		// Build proper deep populate query
+		const populateQuery = qs.stringify({
+			populate: {
+				image: true,
+				developments: {
+					populate: {
+						image: true,
+						resources: {
+							populate: {
+								image: true
+							}
+						}
+					}
+				}
+			}
+		}, { encodeValuesOnly: true });
+
 		// First try to find by slug field
 		let res = await fetch(
-			`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${locale}&filters[slug][$eq]=${slug}`,
+			`${process.env.STRAPI_API_URL}/resources?${populateQuery}&locale=${locale}&filters[slug][$eq]=${slug}`,
 			{
 				headers: {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				next: { revalidate: 3600 },
 			},
 		);
 		let data = await res.json();
@@ -175,12 +255,13 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 		// If not found by slug, try to find by documentId (for backward compatibility)
 		if (!data["data"] || data["data"].length === 0) {
 			res = await fetch(
-				`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${locale}&filters[documentId][$eq]=${slug}`,
+				`${process.env.STRAPI_API_URL}/resources?${populateQuery}&locale=${locale}&filters[documentId][$eq]=${slug}`,
 				{
 					headers: {
 						Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 						"Strapi-Response-Format": "v4",
 					},
+					next: { revalidate: 3600 },
 				},
 			);
 			data = await res.json();

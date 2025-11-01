@@ -5,7 +5,6 @@ import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
 import PostsList from '@/components/Posts/PostsList';
 import { fetchAllPosts } from '@/app/utils/posts';
 
-export const dynamic = 'force-dynamic';
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function PostsStaticPage({
@@ -19,7 +18,7 @@ export default async function PostsStaticPage({
   // Fetch latest 100 posts with revalidation
   let postsData;
   try {
-    postsData = await fetchAllPosts(locale, 1, 100, { cache: 'no-store' });
+    postsData = await fetchAllPosts(locale, 1, 100, { revalidate: 3600 });
   } catch {
     postsData = { data: [] };
   }
@@ -33,3 +32,4 @@ export default async function PostsStaticPage({
     </div>
   );
 }
+
