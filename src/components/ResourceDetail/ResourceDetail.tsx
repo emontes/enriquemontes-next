@@ -4,6 +4,13 @@ import { fetchDevelopments } from "@/app/utils";
 import { getTranslations } from 'next-intl/server';
 import DevelopmentCard from "@/components/DevelopmentCard/DevelopmentCard";
 
+const getImageUrl = (url: string): string => {
+  if (url.startsWith('http')) return url;
+  // Remove /api from STRAPI_API_URL if present
+  const baseUrl = process.env.STRAPI_API_URL?.replace('/api', '') || 'http://localhost:1337';
+  return `${baseUrl}${url}`;
+};
+
 interface ResourceDetailProps {
   resource: {
     id: number;
@@ -40,6 +47,27 @@ interface ResourceDetailProps {
               };
             };
             created: string;
+            resources?: {
+              data: Array<{
+                id: number;
+                attributes: {
+                  title: string;
+                  slug?: string;
+                  image?: {
+                    data?: {
+                      attributes: {
+                        formats?: {
+                          thumbnail?: {
+                            url: string;
+                          };
+                        };
+                      };
+                    };
+                  };
+                };
+                documentId: string;
+              }>;
+            };
           };
         }>;
       };
@@ -101,9 +129,7 @@ const ResourceDetail = async ({ resource, locale }: ResourceDetailProps) => {
           <div className="mb-12 flex justify-center">
             <div className="relative w-64 h-64">
               <Image
-                src={attributes.image.data.attributes.url.startsWith('http') 
-                  ? attributes.image.data.attributes.url 
-                  : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`}
+                src={getImageUrl(attributes.image.data.attributes.url)}
                 alt={attributes.image.data.attributes.alternativeText || attributes.title}
                 width={attributes.image.data.attributes.width}
                 height={attributes.image.data.attributes.height}
@@ -133,6 +159,8 @@ const ResourceDetail = async ({ resource, locale }: ResourceDetailProps) => {
                     key={development.id}
                     development={development}
                     locale={locale}
+                    showResourceLinks={true}
+                    resources={development.attributes.resources?.data || []}
                   />
                 ))}
             </div>

@@ -2,6 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
+const getImageUrl = (url: string): string => {
+  if (url.startsWith('http')) return url;
+  // Remove /api from STRAPI_API_URL if present
+  const baseUrl = process.env.STRAPI_API_URL?.replace('/api', '') || 'http://localhost:1337';
+  return `${baseUrl}${url}`;
+};
+
 interface DevelopmentDetailProps {
   development: {
     id: number;
@@ -103,9 +110,7 @@ const DevelopmentDetail = async ({ development, locale }: DevelopmentDetailProps
         {attributes.image?.data?.attributes && (
           <div className="mb-8">
             <Image
-              src={attributes.image.data.attributes.url.startsWith('http') 
-                ? attributes.image.data.attributes.url 
-                : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`}
+              src={getImageUrl(attributes.image.data.attributes.url)}
               alt={attributes.image.data.attributes.alternativeText || attributes.title}
               width={attributes.image.data.attributes.width}
               height={attributes.image.data.attributes.height}
@@ -141,9 +146,7 @@ const DevelopmentDetail = async ({ development, locale }: DevelopmentDetailProps
                       {resource.attributes.slug ? (
                         <Link href={`/${locale}/resource/${resource.attributes.slug}`}>
                           <Image
-                            src={resource.attributes.image.data.attributes.url.startsWith('http') 
-                              ? resource.attributes.image.data.attributes.url 
-                              : `${process.env.STRAPI_API_URL}${resource.attributes.image.data.attributes.url}`}
+                            src={getImageUrl(resource.attributes.image.data.attributes.url)}
                             alt={resource.attributes.image.data.attributes.alternativeText || resource.attributes.title}
                             width={resource.attributes.image.data.attributes.width}
                             height={resource.attributes.image.data.attributes.height}
@@ -152,9 +155,7 @@ const DevelopmentDetail = async ({ development, locale }: DevelopmentDetailProps
                         </Link>
                       ) : (
                         <Image
-                          src={resource.attributes.image.data.attributes.url.startsWith('http') 
-                            ? resource.attributes.image.data.attributes.url 
-                            : `${process.env.STRAPI_API_URL}${resource.attributes.image.data.attributes.url}`}
+                          src={getImageUrl(resource.attributes.image.data.attributes.url)}
                           alt={resource.attributes.image.data.attributes.alternativeText || resource.attributes.title}
                           width={resource.attributes.image.data.attributes.width}
                           height={resource.attributes.image.data.attributes.height}

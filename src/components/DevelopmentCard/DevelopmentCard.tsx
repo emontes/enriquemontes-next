@@ -47,6 +47,13 @@ interface DevelopmentCardProps {
   }>;
 }
 
+const getImageUrl = (url: string): string => {
+  if (url.startsWith('http')) return url;
+  // Remove /api from STRAPI_API_URL if present
+  const baseUrl = process.env.STRAPI_API_URL?.replace('/api', '') || 'http://localhost:1337';
+  return `${baseUrl}${url}`;
+};
+
 const DevelopmentCard = async ({ 
   development, 
   locale, 
@@ -69,9 +76,7 @@ const DevelopmentCard = async ({
           {attributes.slug ? (
             <Link href={`/${locale}/developments/${attributes.slug}`}>
               <Image
-                src={attributes.image.data.attributes.url.startsWith('http') 
-                  ? attributes.image.data.attributes.url 
-                  : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`}
+                src={getImageUrl(attributes.image.data.attributes.url)}
                 alt={attributes.image.data.attributes.alternativeText || attributes.title}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -83,9 +88,7 @@ const DevelopmentCard = async ({
             </Link>
           ) : (
             <Image
-              src={attributes.image.data.attributes.url.startsWith('http') 
-                ? attributes.image.data.attributes.url 
-                : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`}
+              src={getImageUrl(attributes.image.data.attributes.url)}
               alt={attributes.image.data.attributes.alternativeText || attributes.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -106,24 +109,33 @@ const DevelopmentCard = async ({
         </p>
         {showResourceLinks && resources.length > 0 && (
           <div className="flex items-center space-x-2 mt-2">
-            {resources.map((resource) => (
-              <Link
-                key={resource.id}
-                href={`/${locale}/resource/${resource.attributes.slug || resource.documentId}`}
-                className="text-blue-500 hover:underline"
-                title={resource.attributes.title}
-              >
-                {resource.attributes.image?.data?.attributes?.formats?.thumbnail && (
-                  <Image
-                    src={resource.attributes.image.data.attributes.formats.thumbnail.url}
-                    alt={resource.attributes.title}
-                    width={20}
-                    height={20}
-                    className="inline-block cursor-pointer"
-                  />
-                )}
-              </Link>
-            ))}
+            {resources.map((resource) => {
+              const rawThumb = resource.attributes.image?.data?.attributes?.formats?.thumbnail?.url;
+              const thumbUrl = rawThumb ? getImageUrl(rawThumb) : undefined;
+              const imageEl = thumbUrl ? (
+                <Image
+                  src={thumbUrl}
+                  alt={resource.attributes.title}
+                  width={20}
+                  height={20}
+                  className="inline-block cursor-pointer"
+                />
+              ) : null;
+              return resource.attributes.slug ? (
+                <Link
+                  key={resource.id}
+                  href={`/${locale}/resource/${resource.attributes.slug}`}
+                  className="text-blue-500 hover:underline"
+                  title={resource.attributes.title}
+                >
+                  {imageEl}
+                </Link>
+              ) : (
+                <span key={resource.id} title={resource.attributes.title}>
+                  {imageEl}
+                </span>
+              );
+            })}
           </div>
         )}
         <div className="flex items-center justify-between mt-2">

@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import MainLayout from "@/components/MainLayout";
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { unstable_setRequestLocale } from "next-intl/server";
 
 import {
 	fetchFooterContent,
@@ -43,10 +44,11 @@ export default async function LocaleLayout({
 	children,
 	params,
 }: LocaleLayoutProps) {
-	
-	const {locale} = await params;
-	const { navbar, footer } = await getPageData({ params: Promise.resolve({ locale }) });
-	return (
+    
+    const {locale} = await params;
+    unstable_setRequestLocale(locale);
+    const { navbar, footer } = await getPageData({ params: Promise.resolve({ locale }) });
+    return (
 		<html lang={locale}>
 			<body className={inter.className}>
 		

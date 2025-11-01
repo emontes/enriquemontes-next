@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import type { ResourcesProps } from "@/app/dynamicRendering/types";
@@ -11,15 +12,23 @@ interface ResourcesWrapperProps extends ResourcesProps {
 }
 
 const Resources = ({ messages, locale, ...props }: ResourcesWrapperProps) => {
-  return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
-      <ResourcesContent {...props} />
-    </NextIntlClientProvider>
-  );    
+  // If we have messages and locale, render with intl; otherwise render a non-intl fallback
+  if (messages && locale) {
+    return (
+      <NextIntlClientProvider messages={messages} locale={locale}>
+        <ResourcesContentIntl {...props} />
+      </NextIntlClientProvider>
+    );
+  }
+  return <ResourcesBase {...props} sinceLabel={"Since"} />;
 }
 
-const ResourcesContent = ({ Title, HeadingType, resources }: ResourcesProps) => {
+const ResourcesContentIntl = (props: ResourcesProps) => {
   const t = useTranslations('Resources');
+  return <ResourcesBase {...props} sinceLabel={t('since')} />;
+};
+
+const ResourcesBase = ({ Title, HeadingType, resources, sinceLabel }: ResourcesProps & { sinceLabel: string }) => {
   return (
     <div className="relative py-16 bg-gradient-to-br from-cyan-700 to-blue-50 clip-path-diagonal">     
       <HeadingText
@@ -28,32 +37,52 @@ const ResourcesContent = ({ Title, HeadingType, resources }: ResourcesProps) => 
         HeadingType={HeadingType}
       />
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 max-w-6xl mx-auto px-4">
-        {resources.data.map((resource) => (
-          <Link 
-            key={resource.id} 
-            href={`/resource/${resource.documentId}`}
-            className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer"
-          >
-            {resource.attributes.image?.data && (
-              <div className="w-full h-24 relative">
-                <Image
-                  src={`${resource.attributes.image.data.attributes.url}`}
-                  alt={resource.attributes.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover"
-                  style={{
-                    objectFit: "cover",
-                  }}
-                />
+        {resources.data.map((resource) => {
+          const imageUrl = resource.attributes.image?.data?.attributes?.url;
+          const normalizedImageUrl = imageUrl 
+            ? (imageUrl.startsWith('http') ? imageUrl : `${process.env.NEXT_PUBLIC_STRAPI_API_URL || process.env.STRAPI_API_URL}${imageUrl}`)
+            : null;
+          
+          const content = (
+            <>
+              {normalizedImageUrl && (
+                <div className="w-full h-24 relative">
+                  <Image
+                    src={normalizedImageUrl}
+                    alt={resource.attributes.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    style={{
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              )}
+              <div className="p-2">
+                <h3 className="text-lg font-semibold mb-1">{resource.attributes.title}</h3>
+                <p className="text-gray-600 text-sm">{sinceLabel}: {resource.attributes.date}</p>
               </div>
-            )}
-            <div className="p-2">
-              <h3 className="text-lg font-semibold mb-1">{resource.attributes.title}</h3>
-              <p className="text-gray-600 text-sm">{t("since")}: {resource.attributes.date}</p>
+            </>
+          );
+
+          return resource.attributes.slug ? (
+            <Link 
+              key={resource.id} 
+              href={`/resource/${resource.attributes.slug}`}
+              className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:-translate-y-2 cursor-pointer"
+            >
+              {content}
+            </Link>
+          ) : (
+            <div
+              key={resource.id}
+              className="bg-white rounded-lg shadow-md overflow-hidden"
+            >
+              {content}
             </div>
-          </Link>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

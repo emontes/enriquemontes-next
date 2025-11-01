@@ -5,24 +5,35 @@ import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import { unstable_setRequestLocale } from "next-intl/server";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
+
 export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
-	const {locale} = await params;
-	const pages = await fetchAllPages(locale);
-	return pages.data.map(({ attributes: { slug } }) => ({ slug }));
+	try {
+		const {locale} = await params;
+		const pages = await fetchAllPages(locale);
+		return pages.data.map(({ attributes: { slug } }) => ({ locale, slug }));
+	} catch {
+		return [];
+	}
 }
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string; locale?: string }>;
 }): Promise<Metadata> {
-  const {slug, locale} = await params;
-  const page = await fetchOnePage(slug, locale || "");
-  if (!page) return notFound();
-  const { seo } = page;
+  try {
+    const {slug, locale} = await params;
+    const page = await fetchOnePage(slug, locale || "");
+    if (!page) return {};
+    const { seo } = page;
 
-  if (!seo) return {};
-  const metadata: Metadata = MetadataBuilder({ seo })
-  return metadata;
+    if (!seo) return {};
+    const metadata: Metadata = MetadataBuilder({ seo })
+    return metadata;
+  } catch {
+    return {};
+  }
 }
 
 const EnriquePage = async ({ params }: { params: Promise<{ locale: string; slug: string }> }) => {

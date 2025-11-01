@@ -2,9 +2,19 @@ import type { MetadataRoute } from "next";
 import { fetchDevelopments, fetchResources } from "@/app/utils";
 import { fetchAllPosts } from "@/app/utils/posts";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 86400; // Revalidate daily
+
 const BASE_URL = process.env.BASE_URL || "https://enriquemontes.com";
 
 const locales = ["", "en", "es", "he", "ru", "de"];
+
+async function withTimeout<T>(p: Promise<T>, ms = 5000, fallback: T | null = null): Promise<T | null> {
+  return Promise.race([
+    p.then((v) => v).catch(() => fallback),
+    new Promise<T | null>((resolve) => setTimeout(() => resolve(fallback), ms))
+  ]);
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes = [
@@ -45,7 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const l of locales) {
     const strapiLocale = mapStrapiLocale(l);
     try {
-      const posts = await fetchAllPosts(strapiLocale, 1, 100, { cache: "force-cache" });
+      const posts = await withTimeout(fetchAllPosts(strapiLocale, 1, 100, { cache: "force-cache" }), 8000, { data: [] } as any);
       if (posts?.data?.length) {
         for (const p of posts.data) {
           const slug = p?.attributes?.slug;
@@ -68,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const l of locales) {
     const strapiLocale = mapStrapiLocale(l);
     try {
-      const resources = await fetchResources(strapiLocale);
+      const resources = await withTimeout(fetchResources(strapiLocale), 8000, []);
       if (Array.isArray(resources)) {
         for (const r of resources) {
           const slug = r?.attributes?.slug || r?.documentId;
@@ -91,7 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const l of locales) {
     const strapiLocale = mapStrapiLocale(l);
     try {
-      const developments = await fetchDevelopments(strapiLocale);
+      const developments = await withTimeout(fetchDevelopments(strapiLocale), 8000, [] as any);
       if (Array.isArray(developments)) {
         for (const d of developments) {
           const slug = d?.attributes?.slug;

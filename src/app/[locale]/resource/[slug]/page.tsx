@@ -5,13 +5,20 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { getTranslations } from 'next-intl/server';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
+
 export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
-	const {locale} = await params;
-	const resources = await fetchResources(locale);
-	return resources
-		.map(({ attributes: { slug }, documentId }) => ({ 
-			slug: slug || documentId 
-		}));
+	try {
+		const {locale} = await params;
+		const resources = await fetchResources(locale);
+		return resources
+			.map(({ attributes: { slug }, documentId }) => ({ 
+				slug: slug || documentId 
+			}));
+	} catch {
+		return [];
+	}
 }
 
 export async function generateMetadata({
@@ -19,35 +26,38 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  const {slug, locale} = await params;
-  let resource = await fetchOneResource(slug, locale);
-  
-  // Fallback to Spanish if resource not found in requested locale
-  if (!resource && locale !== 'es') {
-    resource = await fetchOneResource(slug, 'es');
-  }
-  
-  if (!resource) return {};
-  
-  const { attributes } = resource;
-  const t = await getTranslations({ locale, namespace: 'ResourceDetail' });
-  
-  return {
-    title: `${attributes.title} | ${t('metaTitle')}`,
-    description: `${t('metaTitle')}: ${attributes.kind}. ${attributes.title}`,
-    openGraph: {
+  try {
+    const {slug, locale} = await params;
+    let resource = await fetchOneResource(slug, locale);
+    
+    if (!resource && locale !== 'es') {
+      resource = await fetchOneResource(slug, 'es');
+    }
+    
+    if (!resource) return {};
+    
+    const { attributes } = resource;
+    const t = await getTranslations({ locale, namespace: 'ResourceDetail' });
+    
+    return {
       title: `${attributes.title} | ${t('metaTitle')}`,
       description: `${t('metaTitle')}: ${attributes.kind}. ${attributes.title}`,
-      images: attributes.image?.data?.attributes ? [{
-        url: attributes.image.data.attributes.url.startsWith('http') 
-          ? attributes.image.data.attributes.url 
-          : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`,
-        width: attributes.image.data.attributes.width,
-        height: attributes.image.data.attributes.height,
-        alt: attributes.image.data.attributes.alternativeText || attributes.title,
-      }] : [],
-    },
-  };
+      openGraph: {
+        title: `${attributes.title} | ${t('metaTitle')}`,
+        description: `${t('metaTitle')}: ${attributes.kind}. ${attributes.title}`,
+        images: attributes.image?.data?.attributes ? [{
+          url: attributes.image.data.attributes.url.startsWith('http') 
+            ? attributes.image.data.attributes.url 
+            : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`,
+          width: attributes.image.data.attributes.width,
+          height: attributes.image.data.attributes.height,
+          alt: attributes.image.data.attributes.alternativeText || attributes.title,
+        }] : [],
+      },
+    };
+  } catch {
+    return {};
+  }
 }
 
 const ResourcePage = async ({ params }: { params: Promise<{ locale: string; slug: string }> }) => {

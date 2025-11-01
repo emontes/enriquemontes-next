@@ -43,6 +43,7 @@ export type StrapiResources = {
       title: string;
       date: string;
       url: string;
+      slug?: string;
       image: StrapiImage;
     }
     
@@ -68,6 +69,7 @@ export type StrapiDevelopments = {
             title: string;
             date: string;
             url: string;
+            slug?: string;
             image: StrapiImage;
           };
         }[];

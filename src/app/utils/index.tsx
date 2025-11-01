@@ -141,7 +141,7 @@ const slugify = (text: string): string => {
 export const fetchResources = async (lang: string) => {
 	try {
 		let res = await fetch(
-			`${process.env.STRAPI_API_URL}/resources?populate=image&populate=developments.image&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=50`,
+			`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${lang}&sort=createdAt:desc&pagination[pageSize]=50`,
 			{
 				headers: {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -162,7 +162,7 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 	try {
 		// First try to find by slug field
 		let res = await fetch(
-			`${process.env.STRAPI_API_URL}/resources?populate=image&populate=developments.image&locale=${locale}&filters[slug][$eq]=${slug}`,
+			`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${locale}&filters[slug][$eq]=${slug}`,
 			{
 				headers: {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
@@ -175,7 +175,7 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 		// If not found by slug, try to find by documentId (for backward compatibility)
 		if (!data["data"] || data["data"].length === 0) {
 			res = await fetch(
-				`${process.env.STRAPI_API_URL}/resources?populate=image&populate=developments.image&locale=${locale}&filters[documentId][$eq]=${slug}`,
+				`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${locale}&filters[documentId][$eq]=${slug}`,
 				{
 					headers: {
 						Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
