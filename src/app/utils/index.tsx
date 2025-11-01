@@ -1,3 +1,4 @@
+import qs from "qs";
 
 export const fetchAllPages = async (lang: string) => {
 	try {
@@ -160,22 +161,44 @@ export const fetchResources = async (lang: string) => {
 
 export const fetchOneResource = async (slug: string, locale: string) => {
 	try {
+		// Build proper deep populate query
+		const populateQuery = qs.stringify({
+			populate: {
+				image: true,
+				developments: {
+					populate: {
+						image: true,
+						resources: {
+							populate: {
+								image: true
+							}
+						}
+					}
+				}
+			}
+		}, { encodeValuesOnly: true });
+
 		// First try to find by slug field
-		let res = await fetch(
-			`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${locale}&filters[slug][$eq]=${slug}`,
-			{
-				headers: {
-					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-					"Strapi-Response-Format": "v4",
-				},
+		const url = `${process.env.STRAPI_API_URL}/resources?${populateQuery}&locale=${locale}&filters[slug][$eq]=${slug}`;
+		console.log('[fetchOneResource] Fetching:', url);
+		
+		let res = await fetch(url, {
+			headers: {
+				Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+				"Strapi-Response-Format": "v4",
 			},
-		);
+		});
 		let data = await res.json();
+		console.log('[fetchOneResource] Response data keys:', Object.keys(data));
+		if (data.data?.[0]) {
+			console.log('[fetchOneResource] First result has image:', !!data.data[0].attributes?.image);
+			console.log('[fetchOneResource] First result developments count:', data.data[0].attributes?.developments?.data?.length || 0);
+		}
 		
 		// If not found by slug, try to find by documentId (for backward compatibility)
 		if (!data["data"] || data["data"].length === 0) {
 			res = await fetch(
-				`${process.env.STRAPI_API_URL}/resources?populate=image&populate[developments][populate]=image,resources&populate[developments][populate][resources][populate]=image&locale=${locale}&filters[documentId][$eq]=${slug}`,
+				`${process.env.STRAPI_API_URL}/resources?${populateQuery}&locale=${locale}&filters[documentId][$eq]=${slug}`,
 				{
 					headers: {
 						Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
