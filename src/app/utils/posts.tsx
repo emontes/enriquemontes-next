@@ -101,7 +101,7 @@ export const fetchPostSlugs = async (
 ) => {
   try {
     const url = `${process.env.STRAPI_API_URL}/blog-posts?fields[0]=slug&fields[1]=date&locale=${lang}&sort=date:desc&pagination[page]=1&pagination[pageSize]=${pageSize}`;
-    const res = await fetch(url, {
+    const res = await fetchWithRetry(url, {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
         "Strapi-Response-Format": "v4",
@@ -199,7 +199,7 @@ export interface PostData {
   
   export async function fetchPostBySlug(slug: string, locale: string): Promise<PostData | null> {
     try {
-      const res = await fetch(
+      const res = await fetchWithRetry(
         `${process.env.STRAPI_API_URL}/blog-posts?filters[slug][$eq]=${slug}&locale=${locale}&populate=*`,
         {
           headers: {
@@ -209,11 +209,11 @@ export interface PostData {
           next: { revalidate: 60 },
         }
       );
-  
+
       if (!res.ok) {
         throw new Error('Failed to fetch post');
       }
-  
+
       const data = await res.json();
     //   console.log('La Data: ', data.data[0])
       return data.data[0] || null;

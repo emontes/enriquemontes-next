@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { fetchDevelopments, fetchResources } from "@/app/utils";
-import { fetchAllPosts } from "@/app/utils/posts";
+import { fetchDevelopments, fetchResourceSlugs } from "@/app/utils";
+import { fetchPostSlugs } from "@/app/utils/posts";
 
 export const revalidate = 86400; // Revalidate daily
 
@@ -53,18 +53,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic entries: posts
   try {
     const postsResults = await Promise.all(
-      locales.map((l) =>
-        withTimeout(
-          fetchAllPosts(mapStrapiLocale(l), 1, 100, { cache: "force-cache" }),
-          8000,
-          { data: [] } as any
-        )
-      )
+      locales.map((l) => withTimeout(fetchPostSlugs(mapStrapiLocale(l), 1000), 6000, [] as any[]))
     );
     postsResults.forEach((posts, idx) => {
       const l = locales[idx];
-      if (posts?.data?.length) {
-        for (const p of posts.data) {
+      if (Array.isArray(posts) && posts.length) {
+        for (const p of posts) {
           const slug = (p as any)?.attributes?.slug;
           if (!slug) continue;
           const url = l ? `${BASE_URL}/${l}/post/${slug}` : `${BASE_URL}/post/${slug}`;
@@ -84,13 +78,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic entries: resources (slug优先, fallback to documentId)
   try {
     const resourcesResults = await Promise.all(
-      locales.map((l) => withTimeout(fetchResources(mapStrapiLocale(l)), 8000, []))
+      locales.map((l) => withTimeout(fetchResourceSlugs(mapStrapiLocale(l)), 6000, [] as any[]))
     );
     resourcesResults.forEach((resources, idx) => {
       const l = locales[idx];
       if (Array.isArray(resources)) {
         for (const r of resources as any[]) {
-          const slug = (r as any)?.attributes?.slug || (r as any)?.documentId;
+          const slug = (r as any)?.attributes?.slug;
           if (!slug) continue;
           const url = l ? `${BASE_URL}/${l}/resource/${slug}` : `${BASE_URL}/resource/${slug}`;
           sitemap.push({

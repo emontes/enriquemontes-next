@@ -7,11 +7,13 @@ import { getTranslations } from 'next-intl/server';
 
 export const revalidate = 3600;
 
-export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
+export async function generateStaticParams({ params }: { params: { locale: string } }): Promise<{ locale: string, slug: string }[]> 	{
 	try {
-		const {locale} = await params;
+		const { locale } = params;
 		const resources = await fetchResourceSlugs(locale);
-		return resources.map(({ attributes: { slug }, documentId }) => ({ slug: slug || documentId }));
+		return resources
+			.filter((r: any) => r?.attributes?.slug)
+			.map((r: any) => ({ locale, slug: r.attributes.slug }));
 	} catch {
 		return [];
 	}
@@ -23,7 +25,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
   try {
-    const {slug, locale} = await params;
+    const { slug, locale } = await params;
     let resource = await fetchOneResource(slug, locale);
     
     if (!resource && locale !== 'es') {
@@ -57,7 +59,7 @@ export async function generateMetadata({
 }
 
 const ResourcePage = async ({ params }: { params: Promise<{ locale: string; slug: string }> }) => {
-  const {locale, slug} = await params;
+  const { locale, slug } = await params;
   unstable_setRequestLocale(locale);
   
   let resource = await fetchOneResource(slug, locale);

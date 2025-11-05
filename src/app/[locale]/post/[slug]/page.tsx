@@ -13,9 +13,15 @@ export const revalidate = 3600;
 export const dynamicParams = false;
 
 export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string; slug: string }[]> {
-    const { locale } = await params;
-    const posts = await fetchPostSlugs(locale, 1000);
-    return posts.map(({ attributes: { slug } }) => ({ locale, slug }));
+    try {
+        const { locale } = await params;
+        const posts = await fetchPostSlugs(locale, 1000);
+        return posts
+            .filter((p: any) => p?.attributes?.slug)
+            .map(({ attributes: { slug } }: any) => ({ locale, slug }));
+    } catch {
+        return [];
+    }
 }
 
 export async function generateMetadata({
