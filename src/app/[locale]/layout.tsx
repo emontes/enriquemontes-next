@@ -50,7 +50,7 @@ export default async function LocaleLayout({
     const {locale} = await params;
     unstable_setRequestLocale(locale);
     const { navbar, footer } = await getPageData({ params: Promise.resolve({ locale }) });
-    const messages = await getMessages();
+    const messages = (await import(`../../../messages/${locale}.json`)).default;
     return (
         <html lang={locale}>
             <body className={inter.className}>

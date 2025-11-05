@@ -18,7 +18,13 @@ const ContactForm = ({ messages, locale }) => {
   );
 };
 const ContactFormContent = () => {
-  const t = useTranslations('ContactForm');
+  let t;
+  try {
+    t = useTranslations('ContactForm');
+  } catch (error) {
+    console.warn('useTranslations failed, using fallback:', error);
+    t = (key) => key; // fallback to key
+  }
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
