@@ -22,10 +22,10 @@ const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
   const {locale} = await params;
   unstable_setRequestLocale(locale)
   return await Page({
-    params: {
+    params: Promise.resolve({
       locale,
       slug: "home",
-    },
+    }),
   });
 };
 export default Home;

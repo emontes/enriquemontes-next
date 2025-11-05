@@ -51,10 +51,11 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 export async function Page({
 	params,
   }: {
-	params: { slug: string; locale?: string };
+	params: Promise<{ slug: string; locale?: string }>;
   }) {
-	const slug = Array.isArray(params.slug) ? params.slug.join("/") : params.slug;
-	const page = await fetchOnePage(slug, params.locale || "");
+	const { slug, locale } = await params;
+	const slugStr = Array.isArray(slug) ? slug.join("/") : slug;
+	const page = await fetchOnePage(slugStr, locale || "");
   
 	if (!page || !page.slug || !page.PageSections) return null;
 	const { PageSections } = page;
@@ -65,7 +66,7 @@ export async function Page({
 		  ? PageSections.map((data) => {
 			  if (data.__component === "page-sections.dev") {
 				return (
-				  <DevelopmentsServer key={`${data.__component}-${data.id}`} {...data} locale={params.locale || "en"}/>
+				  <DevelopmentsServer key={`${data.__component}-${data.id}`} {...data} locale={locale || "en"}/>
 				);
 			  }
 			  const Component = ComponentsMap[data.__component] as React.ComponentType<any>;

@@ -7,9 +7,9 @@ import { getTranslations } from 'next-intl/server';
 
 export const revalidate = 3600;
 
-export async function generateStaticParams({ params }: { params: { locale: string } }): Promise<{ locale: string, slug: string }[]> 	{
+export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string, slug: string }[]> 	{
 	try {
-		const { locale } = params;
+		const { locale } = await params;
 		const resources = await fetchResourceSlugs(locale);
 		return resources
 			.filter((r: any) => r?.attributes?.slug)
