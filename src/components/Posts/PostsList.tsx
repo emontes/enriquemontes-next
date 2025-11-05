@@ -28,7 +28,13 @@ const PostsList = ({ posts, locale, pagination }: PostListProps) => {
 export default PostsList;
 
 const PostsListContent = ({ posts, locale, pagination }) => {
-  const t = useTranslations("Posts");
+  let t;
+  try {
+    t = useTranslations("Posts");
+  } catch (error) {
+    console.warn('useTranslations failed, using fallback:', error);
+    t = (key) => key; // fallback to key
+  }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

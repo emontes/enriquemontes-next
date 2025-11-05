@@ -30,45 +30,54 @@ const Testimonials = ({ Background, testimonials }: TestimonialProps) => {
       )}
 
       {/* Contenedor de testimonios */}
-      <div className="relative z-10">
-        {testimonials.data.map((testimonial) => (
-          <div
-            key={testimonial.id}
-            className="relative w-3/4 max-w-2xl mx-auto mb-8 bg-opacity-60 bg-gray-100 rounded shadow-lg transform -skew-x-12 hover:shadow-xl transition-shadow duration-300"
-          >
-            <div className="flex gap-4 items-center flex-col md:flex-row p-6 transform skew-x-12">
-              {/* Contenedor de la imagen y el nombre */}
-              <div className="relative w-40 h-40 md:w-[24rem] md:h-[8rem] mr-6 overflow-hidden rounded-full group">
-                <div className="absolute inset-0 transition-all duration-300 group-hover:blur">
-                  {testimonial.attributes.image.data && (
-                    <Image
-                      src={testimonial.attributes.image.data.attributes.url}
-                      alt={testimonial.attributes.name}
-                      fill
-                      style={{
-                        objectFit: 'cover'
-                      }}
-                      className="rounded-full"
-                    />
-                  )}
+      <div className="relative z-10 py-12 w-full px-2 sm:px-4 md:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.data.map((testimonial) => (
+            <div
+              key={testimonial.id}
+              className="relative bg-white bg-opacity-60 rounded-lg shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform -skew-x-6 hover:-skew-x-3 group overflow-hidden mx-2"
+            >
+              <div className="transform skew-x-6 group-hover:skew-x-3 transition-transform duration-300">
+                {/* Contenedor de la imagen */}
+                <div className="flex justify-center mb-6">
+                  <div className="relative w-32 h-32 overflow-hidden rounded-full">
+                    {testimonial.attributes.image.data && (
+                      <Image
+                        src={testimonial.attributes.image.data.attributes.url}
+                        alt={testimonial.attributes.name}
+                        fill
+                        style={{
+                          objectFit: 'cover'
+                        }}
+                        className="group-hover:opacity-90 transition-opacity duration-300"
+                        sizes="(max-width: 768px) 128px, 192px"
+                      />
+                    )}
+                  </div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center text-white text-xs uppercase opacity-0 group-hover:opacity-100 transition duration-300 transform translate-y-full group-hover:translate-y-0">
-                  {testimonial.attributes.name}
+                
+                {/* Nombre */}
+                <div className="text-center mb-4">
+                  <h4 className="text-lg font-medium text-gray-800">
+                    {testimonial.attributes.name}
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    {testimonial.attributes.title}
+                  </p>
                 </div>
-              </div>
-              {/* Texto del testimonio */}
-              <div>
-                <h4 className="mb-2 text-xs md:text-xl text-gray-700">
-                  {testimonial.attributes.title}
-                </h4>
-                <ReactMarkdown
-                  className="text-gray-500"
-                  children={testimonial.attributes.text}
-                />
+                
+                {/* Texto del testimonio */}
+                <div className="text-center px-2">
+                  <ReactMarkdown className="text-gray-600 text-sm">
+                    {testimonial.attributes.text}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        </div>
       </div>
     </section>
   );

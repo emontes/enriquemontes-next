@@ -30,7 +30,13 @@ const Resources = ({ messages, locale, ...props }: ResourcesWrapperProps) => {
 }
 
 const ResourcesContentIntl = (props: ResourcesProps) => {
-  const t = useTranslations('Resources');
+  let t;
+  try {
+    t = useTranslations('Resources');
+  } catch (error) {
+    console.warn('useTranslations failed, using fallback:', error);
+    t = (key) => key; // fallback to key
+  }
   return <ResourcesBase {...props} sinceLabel={t('since')} />;
 };
 
