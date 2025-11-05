@@ -8,6 +8,9 @@ import axios from 'axios';
 import { useState } from 'react';
 
 const ContactForm = ({ messages, locale }) => {
+  if (!messages || !locale) {
+    return null;
+  }
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
       <ContactFormContent />
