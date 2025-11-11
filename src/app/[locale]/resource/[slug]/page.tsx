@@ -15,17 +15,15 @@ export async function generateStaticParams(): Promise<{locale: string, slug: str
 	for (const locale of locales) {
 		try {
 			const resources = await fetchResourceSlugs(locale);
-			console.log(`[generateStaticParams] Resources for ${locale}:`, resources.length);
 			const params = resources
-				.filter((r: any) => r?.slug)
-				.map((r: any) => ({ locale, slug: r.slug }));
+				.filter((r: any) => r?.attributes?.slug)
+				.map((r: any) => ({ locale, slug: r.attributes.slug }));
 			allParams.push(...params);
 		} catch (error) {
 			console.error(`Error generating static params for resources (${locale}):`, error);
 		}
 	}
 	
-	console.log(`[generateStaticParams] Total resource params:`, allParams.length);
 	return allParams;
 }
 
