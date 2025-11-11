@@ -1,4 +1,4 @@
-import { fetchOneResource, fetchResources, fetchResourceSlugs } from "@/app/utils";
+import { fetchOneResource, fetchResourceSlugs } from "@/app/utils";
 import ResourceDetail from "@/components/ResourceDetail/ResourceDetail";
 import { notFound } from 'next/navigation';
 import { unstable_setRequestLocale } from "next-intl/server";
@@ -6,17 +6,27 @@ import type { Metadata } from "next";
 import { getTranslations } from 'next-intl/server';
 
 export const revalidate = 3600;
+export const dynamicParams = false;
 
-export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string, slug: string }[]> 	{
-	try {
-		const { locale } = await params;
-		const resources = await fetchResourceSlugs(locale);
-		return resources
-			.filter((r: any) => r?.attributes?.slug)
-			.map((r: any) => ({ locale, slug: r.attributes.slug }));
-	} catch {
-		return [];
+export async function generateStaticParams(): Promise<{locale: string, slug: string}[]> {	
+	const locales = ['en', 'es', 'he', 'ru', 'de'];
+	const allParams: {locale: string, slug: string}[] = [];
+	
+	for (const locale of locales) {
+		try {
+			const resources = await fetchResourceSlugs(locale);
+			console.log(`[generateStaticParams] Resources for ${locale}:`, resources.length);
+			const params = resources
+				.filter((r: any) => r?.slug)
+				.map((r: any) => ({ locale, slug: r.slug }));
+			allParams.push(...params);
+		} catch (error) {
+			console.error(`Error generating static params for resources (${locale}):`, error);
+		}
 	}
+	
+	console.log(`[generateStaticParams] Total resource params:`, allParams.length);
+	return allParams;
 }
 
 export async function generateMetadata({
@@ -64,7 +74,6 @@ const ResourcePage = async ({ params }: { params: Promise<{ locale: string; slug
   
   let resource = await fetchOneResource(slug, locale);
   
-  // Fallback to Spanish if resource not found in requested locale
   if (!resource && locale !== 'es') {
     resource = await fetchOneResource(slug, 'es');
   }

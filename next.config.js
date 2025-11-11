@@ -8,7 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   trailingSlash: false,
   // Enable static exports for SSG
-  output: 'export',
+  // output: 'export',
   
   // Configure image optimization for static export
   images: {
