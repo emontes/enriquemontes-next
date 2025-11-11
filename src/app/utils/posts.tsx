@@ -55,42 +55,62 @@ export interface PostsListData {
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const fetchWithRetry = async (
-  url: string, 
-  options: RequestInit, 
-  maxRetries: number = 3,
+  url: string,
+  options: RequestInit,
+  maxRetries: number = 5,
   baseDelay: number = 1000
 ): Promise<Response> => {
+  const isProd = process.env.NODE_ENV === 'production';
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const response = await fetch(url, {
         ...options,
-        signal: AbortSignal.timeout(10000) // 10 segundos timeout
+        // 20 segundos timeout para entornos con más latencia (p. ej., Strapi Cloud)
+        signal: AbortSignal.timeout(20000)
       });
-      
+
       if (response.ok) {
         return response;
       }
-      
-      // Si no es el último intento, esperar antes de reintentar
+
+      const status = response.status;
+      const retryable = status === 429 || (status >= 500 && status <= 599);
+
+      // Si no es un error recuperable, no reintentar
+      if (!retryable) {
+        if (!isProd) {
+          console.log(`Strapi request non-retryable status ${status} on attempt ${attempt}/${maxRetries}`);
+        }
+        throw new Error(`HTTP ${status}`);
+      }
+
       if (attempt < maxRetries) {
-        const delay = baseDelay * Math.pow(2, attempt - 1);
-        console.log(`Strapi request failed (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms...`);
+        const jitter = Math.floor(Math.random() * 250);
+        const delay = baseDelay * Math.pow(2, attempt - 1) + jitter;
+        if (!isProd) {
+          console.log(`Strapi request failed (status ${status}) attempt ${attempt}/${maxRetries}, retrying in ${delay}ms...`);
+        }
         await sleep(delay);
+        continue;
       }
     } catch (error) {
-      console.log(`Strapi request error (attempt ${attempt}/${maxRetries}):`, error);
-      
-      // Si es el último intento, lanzar el error
       if (attempt === maxRetries) {
-        throw error;
+        if (!isProd) {
+          console.error('Strapi request error, exhausted retries:', error);
+        }
+        throw new Error(`Failed after ${maxRetries} attempts`);
       }
-      
-      // Esperar antes de reintentar
-      const delay = baseDelay * Math.pow(2, attempt - 1);
+
+      // Esperar antes de reintentar (con jitter)
+      const jitter = Math.floor(Math.random() * 250);
+      const delay = baseDelay * Math.pow(2, attempt - 1) + jitter;
+      if (!isProd) {
+        console.log(`Strapi request error (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms...`);
+      }
       await sleep(delay);
     }
   }
-  
+
   throw new Error(`Failed after ${maxRetries} attempts`);
 };
 
