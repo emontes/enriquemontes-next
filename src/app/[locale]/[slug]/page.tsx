@@ -3,7 +3,7 @@ import { fetchAllPages, fetchPageSlugs } from "@/app/utils/index";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 
 // Revalidate every hour (3600 seconds)
 export const revalidate = 3600;
@@ -64,7 +64,7 @@ const EnriquePage = async ({
   const { locale, slug } = await params;
   
   try {
-    unstable_setRequestLocale(locale);
+    setRequestLocale(locale);
     
     const page = await fetchOnePage(slug, locale).catch(error => {
       console.error(`Error fetching page content for ${slug} (${locale}):`, error);

@@ -8,6 +8,7 @@ import type { PostData } from "@/app/utils/posts";
 import { BiTime } from "react-icons/bi";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
+import { setRequestLocale } from 'next-intl/server';
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -63,6 +64,7 @@ export default async function Post({
     params,
 }: { params: Promise<{ locale: string; slug: string }> }) {
     const { slug, locale } = await params;
+    setRequestLocale(locale);
     let post: PostData | null = await fetchPostBySlug(slug, locale);
     if (!post && locale !== 'es') {
         post = await fetchPostBySlug(slug, 'es');

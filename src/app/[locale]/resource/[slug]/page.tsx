@@ -1,7 +1,7 @@
 import { fetchOneResource, fetchResourceSlugs } from "@/app/utils";
 import ResourceDetail from "@/components/ResourceDetail/ResourceDetail";
 import { notFound } from 'next/navigation';
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { getTranslations } from 'next-intl/server';
 
@@ -68,7 +68,7 @@ export async function generateMetadata({
 
 const ResourcePage = async ({ params }: { params: Promise<{ locale: string; slug: string }> }) => {
   const { locale, slug } = await params;
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
   
   let resource = await fetchOneResource(slug, locale);
   

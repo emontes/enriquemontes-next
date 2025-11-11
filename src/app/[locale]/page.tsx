@@ -1,7 +1,7 @@
 import { Page, fetchOnePage } from "@/app/dynamicRendering/index";
 import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
-import { unstable_setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({
   params,
@@ -20,7 +20,7 @@ export async function generateMetadata({
 
 const Home = async ({ params }: { params: Promise<{ locale: string }> }) => {
   const {locale} = await params;
-  unstable_setRequestLocale(locale)
+  setRequestLocale(locale)
   return await Page({
     params: Promise.resolve({
       locale,

@@ -3,9 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ResourcesProps } from "@/app/dynamicRendering/types";
 import { HeadingText } from "../HeadingText";
-import { NextIntlClientProvider } from 'next-intl';
-import { useTranslations } from 'next-intl';
-
 const getImageUrl = (url: string): string => {
   if (url.startsWith('http')) return url;
   // This runs on client, but we can use a hardcoded fallback since images should be from Cloudinary
@@ -13,31 +10,14 @@ const getImageUrl = (url: string): string => {
 };
 
 interface ResourcesWrapperProps extends ResourcesProps {
-  messages: any;
-  locale: string;
+  messages?: any;
+  locale?: string;
 }
 
 const Resources = ({ messages, locale, ...props }: ResourcesWrapperProps) => {
-  // If we have messages and locale, render with intl; otherwise render a non-intl fallback
-  if (messages && locale) {
-    return (
-      <NextIntlClientProvider messages={messages} locale={locale}>
-        <ResourcesContentIntl {...props} />
-      </NextIntlClientProvider>
-    );
-  }
-  return <ResourcesBase {...props} sinceLabel={"Since"} />;
-}
-
-const ResourcesContentIntl = (props: ResourcesProps) => {
-  let t;
-  try {
-    t = useTranslations('Resources');
-  } catch (error) {
-    console.warn('useTranslations failed, using fallback:', error);
-    t = (key) => key; // fallback to key
-  }
-  return <ResourcesBase {...props} sinceLabel={t('since')} />;
+  // Extract the translation directly from messages without using hooks
+  const sinceLabel = messages?.Resources?.since || 'Since';
+  return <ResourcesBase {...props} sinceLabel={sinceLabel} />;
 };
 
 const ResourcesBase = ({ Title, HeadingType, resources, sinceLabel }: ResourcesProps & { sinceLabel: string }) => {

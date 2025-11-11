@@ -2,7 +2,6 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import MainLayout from "@/components/MainLayout";
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 
@@ -48,9 +47,8 @@ export default async function LocaleLayout({
 }: LocaleLayoutProps) {
     
     const {locale} = await params;
-    unstable_setRequestLocale(locale);
     const { navbar, footer } = await getPageData({ params: Promise.resolve({ locale }) });
-    const messages = (await import(`../../../messages/${locale}.json`)).default;
+    const messages = await getMessages();
     return (
         <html lang={locale}>
             <body className={inter.className}>

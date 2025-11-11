@@ -1,6 +1,7 @@
 import { ComponentsMap } from "./types";
 import qs from "qs";
 import DevelopmentsServer from "@/components/StrapiSections/Developments/DevelopmentsSrver";
+import { getMessages } from 'next-intl/server';
 
 export const fetchOnePage = async (slug: string, locale: string) => {
 	const query = qs.stringify({
@@ -59,6 +60,9 @@ export async function Page({
   
 	if (!page || !page.slug || !page.PageSections) return null;
 	const { PageSections } = page;
+	
+	// Get messages for client components that use next-intl
+	const messages = await getMessages();
 
 	return (
 		<main className="">
@@ -70,8 +74,12 @@ export async function Page({
 				);
 			  }
 			  const Component = ComponentsMap[data.__component] as React.ComponentType<any>;
+			  // Pass messages and locale to components that need next-intl
+			  const componentProps = ['page-sections.resour', 'page-sections.contact'].includes(data.__component)
+				? { ...data, messages, locale: locale || "en" }
+				: data;
 			  return Component ? (
-				<Component key={`${data.__component}-${data.id}`} {...data} />
+				<Component key={`${data.__component}-${data.id}`} {...componentProps} />
 			  ) : (
 				""
 			  );

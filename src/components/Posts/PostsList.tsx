@@ -7,6 +7,7 @@ import Link from "next/link";
 import { BiTime } from "react-icons/bi";
 import Title from "../Title";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 
 interface PostListProps {
   posts: any;
@@ -28,13 +29,7 @@ const PostsList = ({ posts, locale, pagination }: PostListProps) => {
 export default PostsList;
 
 const PostsListContent = ({ posts, locale, pagination }) => {
-  let t;
-  try {
-    t = useTranslations("Posts");
-  } catch (error) {
-    console.warn('useTranslations failed, using fallback:', error);
-    t = (key) => key; // fallback to key
-  }
+  const t = useTranslations("Posts");
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

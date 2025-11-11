@@ -1,30 +1,24 @@
 'use client';
 
-import { NextIntlClientProvider } from 'next-intl';
-import { useTranslations } from 'next-intl';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useState } from 'react';
 
 const ContactForm = ({ messages, locale }) => {
-  if (!messages || !locale) {
-    return null;
-  }
-  return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
-      <ContactFormContent />
-    </NextIntlClientProvider>
-  );
+  // Extract translations directly from messages
+  const translations = messages?.ContactForm || {};
+  
+  const t = (key: string) => translations[key] || key;
+  
+  return <ContactFormContent t={t} />;
 };
-const ContactFormContent = () => {
-  let t;
-  try {
-    t = useTranslations('ContactForm');
-  } catch (error) {
-    console.warn('useTranslations failed, using fallback:', error);
-    t = (key) => key; // fallback to key
-  }
+
+interface ContactFormContentProps {
+  t: (key: string) => string;
+}
+
+const ContactFormContent = ({ t }: ContactFormContentProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);

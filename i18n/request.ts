@@ -22,25 +22,22 @@ async function loadMessages(locale: string) {
   }
 }
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  // Ensure we have a valid locale
-  const locale = typeof requestLocale === 'string' && locales.includes(requestLocale as any)
-    ? requestLocale
+export default getRequestConfig(async ({ locale }) => {
+  // For static export, locale is already provided
+  const validLocale = locale && locales.includes(locale as any)
+    ? locale
     : defaultLocale;
 
   try {
     return {
-      locale,
-      messages: await loadMessages(locale),
-      // Enable SSG for all pages
-      unstable_serialize: 'json',
+      locale: validLocale,
+      messages: await loadMessages(validLocale),
     };
   } catch (error) {
     console.error('Failed to configure i18n:', error);
     return {
       locale: defaultLocale,
       messages: {},
-      unstable_serialize: 'json',
     };
   }
 });

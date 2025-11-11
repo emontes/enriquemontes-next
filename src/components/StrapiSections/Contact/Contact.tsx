@@ -1,4 +1,4 @@
-import { useMessages, useLocale } from 'next-intl';
+'use client';
 import Image from "next/image";
 import ContactForm from "./ContactForm";
 import type { ContactProps } from "@/app/dynamicRendering/types";
@@ -6,12 +6,17 @@ import { HeadingText } from "@/components/HeadingText";
 import { Caveat } from "next/font/google";
 
 const caveat = Caveat({ weight: "400", subsets: ["latin"] });
+interface ContactPageWrapperProps extends ContactProps {
+	messages?: any;
+	locale?: string;
+}
+
 export default function ContactPage({
 	Heading,
 	Image: ImageData,
-}: ContactProps) {
-	const messages = useMessages();
-  	const locale = useLocale();
+	messages,
+	locale = 'en',
+}: ContactPageWrapperProps) {
   
 	return (
 		<section className="bg-sky-50">

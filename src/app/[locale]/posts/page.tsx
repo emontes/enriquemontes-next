@@ -1,11 +1,16 @@
 // src/app/[locale]/posts/page.tsx
 
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, unstable_setRequestLocale } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import PostsList from '@/components/Posts/PostsList';
 import { fetchAllPosts } from '@/app/utils/posts';
+import { locales } from '@/navigation';
 
 export const revalidate = 3600; // Revalidate every hour
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 export default async function PostsStaticPage({
   params,
@@ -13,7 +18,7 @@ export default async function PostsStaticPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
 
   // Fetch latest 100 posts with revalidation
   let postsData;
@@ -25,11 +30,11 @@ export default async function PostsStaticPage({
   const messages = await getMessages();
 
   return (
-    <div className="bg-gray-100">
-      <NextIntlClientProvider messages={messages} locale={locale}>
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      <div className="bg-gray-100">
         <PostsList posts={postsData?.data || []} locale={locale} />
-      </NextIntlClientProvider>
-    </div>
+      </div>
+    </NextIntlClientProvider>
   );
 }
 
