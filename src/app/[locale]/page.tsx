@@ -3,6 +3,19 @@ import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 
+// Revalidate every hour (3600 seconds)
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+  return [
+    { locale: "en" },
+    { locale: "es" },
+    { locale: "he" },
+    { locale: "ru" },
+    { locale: "de" },
+  ];
+}
+
 export async function generateMetadata({
   params,
 }: {
