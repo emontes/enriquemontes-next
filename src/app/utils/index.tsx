@@ -28,6 +28,7 @@ export const fetchNavbarContent = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				cache: 'force-cache',
 				next: { revalidate: 3600 },
 			},
 		);
@@ -104,6 +105,7 @@ export const fetchFooterContent = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
+				cache: 'force-cache',
 				next: { revalidate: 3600 },
 			},
 		);

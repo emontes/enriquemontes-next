@@ -17,6 +17,12 @@ interface LocaleLayoutProps {
 	params: Promise<{ locale: string }>;
 }
 
+// Force cache for all fetches in layout to persist data across server restarts
+export const fetchCache = 'force-cache';
+
+// Revalidate layout data every hour
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
 	return [
 		{ locale: "en" },
