@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { getTranslations } from 'next-intl/server';
 
 export const revalidate = 3600;
+const FALLBACK_LOCALE = process.env.NEXT_PUBLIC_FALLBACK_LOCALE || 'en';
 
 export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
 	try {
@@ -28,8 +29,8 @@ export async function generateMetadata({
     const {slug, locale} = await params;
     let development = await fetchOneDevelopment(slug, locale);
     
-    if (!development && locale !== 'es') {
-      development = await fetchOneDevelopment(slug, 'es');
+    if (!development && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+      development = await fetchOneDevelopment(slug, FALLBACK_LOCALE);
     }
     
     if (!development) return {};
@@ -64,9 +65,9 @@ const DevelopmentPage = async ({ params }: { params: Promise<{ locale: string; s
   
   let development = await fetchOneDevelopment(slug, locale);
   
-  // Fallback to Spanish if development not found in requested locale
-  if (!development && locale !== 'es') {
-    development = await fetchOneDevelopment(slug, 'es');
+  // Fallback to default locale if development not found in requested locale
+  if (!development && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+    development = await fetchOneDevelopment(slug, FALLBACK_LOCALE);
   }
   
   if (!development) {

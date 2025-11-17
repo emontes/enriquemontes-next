@@ -2,8 +2,20 @@ import { ComponentsMap } from "./types";
 import qs from "qs";
 import DevelopmentsServer from "@/components/StrapiSections/Developments/DevelopmentsSrver";
 import { getMessages } from 'next-intl/server';
+import { notFound } from "next/navigation";
 
-export const fetchOnePage = async (slug: string, locale: string) => {
+const FALLBACK_LOCALE = process.env.NEXT_PUBLIC_FALLBACK_LOCALE || 'en';
+
+type FetchOnePageOptions = {
+	allowFallback?: boolean;
+};
+
+export const fetchOnePage = async (
+	slug: string,
+	locale: string,
+	options: FetchOnePageOptions = { allowFallback: true }
+) => {
+	const { allowFallback = true } = options;
 	const query = qs.stringify({
 		filters: { slug: { $eq: slug } },
 		populate: [
@@ -42,12 +54,25 @@ export const fetchOnePage = async (slug: string, locale: string) => {
 			cache: 'force-cache',
 			next: { revalidate: 3600 },
 		});
+
+		if (!res.ok) {
+			throw new Error(`Failed to fetch page "${slug}" (${locale || 'default'}) - ${res.status}`);
+		}
+
 		const data = await res.json();
-		// console.log(data["data"][0]["attributes"])
-		if (data["data"] && data["data"][0]) return data["data"][0]["attributes"];
+		if (data?.data && data.data[0]) {
+			return data.data[0].attributes;
+		}
+		if (allowFallback && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+			return fetchOnePage(slug, FALLBACK_LOCALE, { allowFallback: false });
+		}
+		return null;
 	} catch (error) {
-		console.log("error while fetching a signle Page from strapi:", error);
-		return {};
+		console.error("error while fetching a single Page from strapi:", error);
+		if (allowFallback && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+			return fetchOnePage(slug, FALLBACK_LOCALE, { allowFallback: false });
+		}
+		throw error;
 	}
 };
 
@@ -59,8 +84,10 @@ export async function Page({
 	const { slug, locale } = await params;
 	const slugStr = Array.isArray(slug) ? slug.join("/") : slug;
 	const page = await fetchOnePage(slugStr, locale || "");
-  
-	if (!page || !page.slug || !page.PageSections) return null;
+	
+	if (!page || !page.slug || !page.PageSections) {
+		notFound();
+	}
 	const { PageSections } = page;
 	
 	// Get messages for client components that use next-intl

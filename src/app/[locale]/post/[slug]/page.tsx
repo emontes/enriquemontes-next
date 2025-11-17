@@ -12,6 +12,7 @@ import { setRequestLocale } from 'next-intl/server';
 
 export const revalidate = 3600;
 export const dynamicParams = false;
+const FALLBACK_LOCALE = process.env.NEXT_PUBLIC_FALLBACK_LOCALE || 'en';
 
 export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string; slug: string }[]> {
     try {
@@ -32,8 +33,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const {slug, locale} = await params;
     let post: PostData | null = await fetchPostBySlug(slug, locale);
-    if (!post && locale !== 'es') {
-        post = await fetchPostBySlug(slug, 'es');
+    if (!post && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+        post = await fetchPostBySlug(slug, FALLBACK_LOCALE);
     }
 
     if (!post) return {};
@@ -66,8 +67,8 @@ export default async function Post({
     const { slug, locale } = await params;
     setRequestLocale(locale);
     let post: PostData | null = await fetchPostBySlug(slug, locale);
-    if (!post && locale !== 'es') {
-        post = await fetchPostBySlug(slug, 'es');
+    if (!post && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+        post = await fetchPostBySlug(slug, FALLBACK_LOCALE);
     }
 
     if (!post) return notFound();

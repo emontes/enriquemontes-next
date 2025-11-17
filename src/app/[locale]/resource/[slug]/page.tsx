@@ -8,6 +8,8 @@ import { getTranslations } from 'next-intl/server';
 export const revalidate = 3600;
 export const dynamicParams = false;
 
+const FALLBACK_LOCALE = process.env.NEXT_PUBLIC_FALLBACK_LOCALE || 'en';
+
 export async function generateStaticParams(): Promise<{locale: string, slug: string}[]> {	
 	const locales = ['en', 'es', 'he', 'ru', 'de'];
 	const allParams: {locale: string, slug: string}[] = [];
@@ -36,8 +38,8 @@ export async function generateMetadata({
     const { slug, locale } = await params;
     let resource = await fetchOneResource(slug, locale);
     
-    if (!resource && locale !== 'es') {
-      resource = await fetchOneResource(slug, 'es');
+    if (!resource && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+      resource = await fetchOneResource(slug, FALLBACK_LOCALE);
     }
     
     if (!resource) return {};
@@ -72,8 +74,8 @@ const ResourcePage = async ({ params }: { params: Promise<{ locale: string; slug
   
   let resource = await fetchOneResource(slug, locale);
   
-  if (!resource && locale !== 'es') {
-    resource = await fetchOneResource(slug, 'es');
+  if (!resource && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+    resource = await fetchOneResource(slug, FALLBACK_LOCALE);
   }
   
   if (!resource) {
