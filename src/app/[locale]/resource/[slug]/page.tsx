@@ -15,15 +15,11 @@ export async function generateStaticParams(): Promise<{locale: string, slug: str
 	const allParams: {locale: string, slug: string}[] = [];
 	
 	for (const locale of locales) {
-		try {
-			const resources = await fetchResourceSlugs(locale);
-			const params = resources
-				.filter((r: any) => r?.attributes?.slug)
-				.map((r: any) => ({ locale, slug: r.attributes.slug }));
-			allParams.push(...params);
-		} catch (error) {
-			console.error(`Error generating static params for resources (${locale}):`, error);
-		}
+		const resources = await fetchResourceSlugs(locale);
+		const params = resources
+			.filter((r: any) => r?.attributes?.slug)
+			.map((r: any) => ({ locale, slug: r.attributes.slug }));
+		allParams.push(...params);
 	}
 	
 	return allParams;
@@ -34,38 +30,34 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  try {
-    const { slug, locale } = await params;
-    let resource = await fetchOneResource(slug, locale);
-    
-    if (!resource && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
-      resource = await fetchOneResource(slug, FALLBACK_LOCALE);
-    }
-    
-    if (!resource) return {};
-    
-    const { attributes } = resource;
-    const t = await getTranslations({ locale, namespace: 'ResourceDetail' });
-    
-    return {
+  const { slug, locale } = await params;
+  let resource = await fetchOneResource(slug, locale);
+  
+  if (!resource && FALLBACK_LOCALE && locale !== FALLBACK_LOCALE) {
+    resource = await fetchOneResource(slug, FALLBACK_LOCALE);
+  }
+  
+  if (!resource) return {};
+  
+  const { attributes } = resource;
+  const t = await getTranslations({ locale, namespace: 'ResourceDetail' });
+  
+  return {
+    title: `${attributes.title} | ${t('metaTitle')}`,
+    description: `${t('metaTitle')}: ${attributes.kind}. ${attributes.title}`,
+    openGraph: {
       title: `${attributes.title} | ${t('metaTitle')}`,
       description: `${t('metaTitle')}: ${attributes.kind}. ${attributes.title}`,
-      openGraph: {
-        title: `${attributes.title} | ${t('metaTitle')}`,
-        description: `${t('metaTitle')}: ${attributes.kind}. ${attributes.title}`,
-        images: attributes.image?.data?.attributes ? [{
-          url: attributes.image.data.attributes.url.startsWith('http') 
-            ? attributes.image.data.attributes.url 
-            : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`,
-          width: attributes.image.data.attributes.width,
-          height: attributes.image.data.attributes.height,
-          alt: attributes.image.data.attributes.alternativeText || attributes.title,
-        }] : [],
-      },
-    };
-  } catch {
-    return {};
-  }
+      images: attributes.image?.data?.attributes ? [{
+        url: attributes.image.data.attributes.url.startsWith('http') 
+          ? attributes.image.data.attributes.url 
+          : `${process.env.STRAPI_API_URL}${attributes.image.data.attributes.url}`,
+        width: attributes.image.data.attributes.width,
+        height: attributes.image.data.attributes.height,
+        alt: attributes.image.data.attributes.alternativeText || attributes.title,
+      }] : [],
+    },
+  };
 }
 
 const ResourcePage = async ({ params }: { params: Promise<{ locale: string; slug: string }> }) => {

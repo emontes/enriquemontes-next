@@ -15,15 +15,11 @@ export const dynamicParams = false;
 const FALLBACK_LOCALE = process.env.NEXT_PUBLIC_FALLBACK_LOCALE || 'en';
 
 export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string; slug: string }[]> {
-    try {
-        const { locale } = await params;
-        const posts = await fetchPostSlugs(locale, 1000);
-        return posts
-            .filter((p: any) => p?.attributes?.slug)
-            .map(({ attributes: { slug } }: any) => ({ locale, slug }));
-    } catch {
-        return [];
-    }
+    const { locale } = await params;
+    const posts = await fetchPostSlugs(locale, 1000);
+    return posts
+        .filter((p: any) => p?.attributes?.slug)
+        .map(({ attributes: { slug } }: any) => ({ locale, slug }));
 }
 
 export async function generateMetadata({

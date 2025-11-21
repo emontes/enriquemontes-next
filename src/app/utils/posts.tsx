@@ -132,7 +132,7 @@ export const fetchPostSlugs = async (
     return Array.isArray(data?.data) ? data.data : [];
   } catch (error) {
     console.error("Error fetching post slugs:", error);
-    return [];
+    throw error;
   }
 };
 
@@ -168,19 +168,7 @@ export const fetchAllPosts = async (
     return data;
   } catch (error) {
     console.error("Error fetching posts after retries:", error);
-    
-    // Retornar datos vacíos pero con estructura válida para que la UI no se rompa
-    return {
-      data: [],
-      meta: {
-        pagination: {
-          page: 1,
-          pageSize: 10,
-          pageCount: 0,
-          total: 0
-        }
-      }
-    };
+    throw error;
   }
 };
 
@@ -239,6 +227,6 @@ export interface PostData {
       return data.data[0] || null;
     } catch (error) {
       console.error('Error fetching post:', error);
-      return null;
+      throw error;
     }
   }

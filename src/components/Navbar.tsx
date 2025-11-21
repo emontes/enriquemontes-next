@@ -3,12 +3,50 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { FaAlignRight } from "react-icons/fa";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Language from "./Language";
 
 const Navbar = ({ toggleSidebar, data, locale }) => {
 	const [isVisible, setIsVisible] = useState(true);
 	const prevScrollPosRef = useRef(0);
 	const [isScrolled, setIsScrolled] = useState(false);
+
+	const pathname = usePathname();
+
+	const isActiveLink = (url) => {
+		if (!url || !pathname) return false;
+		const trimmedUrl = typeof url === "string" ? url.trim() : "";
+		if (!trimmedUrl) return false;
+		// Normaliza quitando barras finales y asegurando que nunca quede vacío
+		const normalize = (value: string) => {
+			if (!value) return "/";
+			const cleaned = value.replace(/\/+$/, "");
+			return cleaned === "" ? "/" : cleaned;
+		};
+
+		const currentPath = normalize(pathname);
+		let baseTarget = normalize(trimmedUrl);
+
+		// Asegura que la URL objetivo esté localizada con el locale actual
+		let targetPath: string;
+		if (baseTarget === "/") {
+			targetPath = `/${locale}`;
+		} else if (baseTarget.startsWith(`/${locale}`)) {
+			targetPath = baseTarget;
+		} else {
+			// Si viene sin locale (por ejemplo "/blog"), se lo añadimos delante
+			const withoutLeadingSlash = baseTarget.replace(/^\/+/, "");
+			targetPath = `/${locale}/${withoutLeadingSlash}`;
+		}
+
+		// Home: sólo cuando estamos exactamente en la home localizada o raíz
+		if (targetPath === `/${locale}`) {
+			return currentPath === `/${locale}` || currentPath === "/";
+		}
+
+		// Para el resto, comprobamos si la ruta actual empieza por la URL objetivo
+		return currentPath.startsWith(targetPath);
+	};
 
 	useEffect(() => {
 		// Set initial scroll state on client
@@ -69,7 +107,11 @@ const Navbar = ({ toggleSidebar, data, locale }) => {
 								<Link
 									key={link.id}
 									href={link.LinkUrl}
-									className="text-base capitalize font-medium text-grey-1 dark:text-grey-9 hover:text-grey-9 transition duration-150 ease-in-out"
+									className={`text-base capitalize font-medium transition duration-150 ease-in-out ${
+										isActiveLink(link.LinkUrl)
+											? "text-primary-6 dark:text-primary-4 border-b-2 border-primary-6 pb-1"
+											: "text-grey-1 dark:text-grey-9 hover:text-grey-9"
+									}`}
 								>
 									{link.LinkText}
 								</Link>

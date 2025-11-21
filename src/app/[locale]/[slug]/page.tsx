@@ -9,23 +9,18 @@ import { setRequestLocale } from "next-intl/server";
 export const revalidate = 3600;
 
 export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string; slug: string }[]> {
-  try {
-    const { locale } = await params;
-    const pages = await fetchPageSlugs(locale);
-    
-    if (!pages || !Array.isArray(pages)) {
-      console.warn('No pages found or invalid response for locale:', locale);
-      return [];
-    }
-    
-    return pages.map((page) => ({
-      locale,
-      slug: page?.attributes?.slug || '',
-    }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
+  const { locale } = await params;
+  const pages = await fetchPageSlugs(locale);
+  
+  if (!pages || !Array.isArray(pages)) {
+    console.warn('No pages found or invalid response for locale:', locale);
     return [];
   }
+  
+  return pages.map((page) => ({
+    locale,
+    slug: page?.attributes?.slug || '',
+  }));
 }
 
 export async function generateMetadata({
@@ -33,27 +28,19 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  try {
-    const { slug, locale } = await params;
-    const page = await fetchOnePage(slug, locale).catch(error => {
-      console.error(`Error fetching page ${slug} for locale ${locale}:`, error);
-      return null;
-    });
-    
-    if (!page) {
-      return {};
-    }
-    
-    const { seo } = page;
-    if (!seo) {
-      return {};
-    }
-    
-    return MetadataBuilder({ seo });
-  } catch (error) {
-    console.error('Error generating metadata:', error);
+  const { slug, locale } = await params;
+  const page = await fetchOnePage(slug, locale);
+  
+  if (!page) {
     return {};
   }
+  
+  const { seo } = page;
+  if (!seo) {
+    return {};
+  }
+  
+  return MetadataBuilder({ seo });
 }
 
 const EnriquePage = async ({ 
@@ -63,23 +50,15 @@ const EnriquePage = async ({
 }) => {
   const { locale, slug } = await params;
   
-  try {
-    setRequestLocale(locale);
-    
-    const page = await fetchOnePage(slug, locale).catch(error => {
-      console.error(`Error fetching page content for ${slug} (${locale}):`, error);
-      return null;
-    });
-    
-    if (!page) {
-      notFound();
-    }
-    
-    return await Page({ params: Promise.resolve({ locale, slug }) });
-  } catch (error) {
-    console.error(`Error rendering page ${slug} (${locale}):`, error);
+  setRequestLocale(locale);
+  
+  const page = await fetchOnePage(slug, locale);
+  
+  if (!page) {
     notFound();
   }
+  
+  return await Page({ params: Promise.resolve({ locale, slug }) });
 };
 
 export default EnriquePage;
