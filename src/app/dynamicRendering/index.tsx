@@ -86,6 +86,10 @@ export async function Page({
 	const page = await fetchOnePage(slugStr, locale || "");
 	
 	if (!page || !page.slug || !page.PageSections) {
+		const protectedSlugs = ['home', 'developments', 'resources', 'about', 'contact'];
+		if (protectedSlugs.includes(slugStr)) {
+			throw new Error(`${slugStr} page not found in CMS for locale ${locale}. Throwing error to preserve stale cache.`);
+		}
 		notFound();
 	}
 	const { PageSections } = page;

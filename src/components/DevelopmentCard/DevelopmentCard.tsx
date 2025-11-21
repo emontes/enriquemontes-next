@@ -69,6 +69,13 @@ const DevelopmentCard = async ({
     month: "long",
   });
 
+	const maxDescriptionLength = 260;
+	const rawDescription = attributes.description || "";
+	const truncatedDescription =
+		rawDescription.length > maxDescriptionLength
+			? `${rawDescription.slice(0, maxDescriptionLength).trimEnd()}...`
+			: rawDescription;
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 group">
       {attributes.image?.data?.attributes && (
@@ -105,7 +112,7 @@ const DevelopmentCard = async ({
           {attributes.title}
         </h3>
         <p className="text-gray-500 text-sm">
-          {attributes.description}
+          {truncatedDescription}
         </p>
         {showResourceLinks && resources.length > 0 && (
           <div className="flex items-center space-x-2 mt-2">

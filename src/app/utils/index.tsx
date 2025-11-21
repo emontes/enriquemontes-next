@@ -15,8 +15,8 @@ export const fetchAllPages = async (lang: string) => {
 		const data = await res.json();
 		return data;
 	} catch (error) {
-		console.log("error while fetching pages from strapi:", error);
-		return {};
+		console.error("error while fetching pages from strapi:", error);
+		throw error;
 	}
 }
 export const fetchNavbarContent = async (lang: string) => {
@@ -37,8 +37,8 @@ export const fetchNavbarContent = async (lang: string) => {
 		if (!data || !data["data"]) return {};
 		return data["data"]["attributes"];
 	} catch (error) {
-		console.log("error while fetching Navbar Content from strapi:", error);
-		return {};
+		console.error("error while fetching Navbar Content from strapi:", error);
+		throw error;
 	}
 };
 
@@ -56,8 +56,8 @@ export const fetchResourceSlugs = async (lang: string) => {
     const data = await res.json();
     return Array.isArray(data?.data) ? data.data : [];
   } catch (error) {
-    console.log("error while fetching resource slugs from strapi:", error);
-    return [];
+    console.error("error while fetching resource slugs from strapi:", error);
+    throw error;
   }
 };
 
@@ -74,8 +74,8 @@ export const fetchDevelopmentSlugs = async (lang: string) => {
     const data = await res.json();
     return Array.isArray(data?.data) ? data.data : [];
   } catch (error) {
-    console.log("error while fetching development slugs from strapi:", error);
-    return [];
+    console.error("error while fetching development slugs from strapi:", error);
+    throw error;
   }
 };
 
@@ -92,8 +92,8 @@ export const fetchPageSlugs = async (lang: string) => {
     const data = await res.json();
     return Array.isArray(data?.data) ? data.data : [];
   } catch (error) {
-    console.log("error while fetching page slugs from strapi:", error);
-    return [];
+    console.error("error while fetching page slugs from strapi:", error);
+    throw error;
   }
 };
 export const fetchFooterContent = async (lang: string) => {
@@ -114,8 +114,8 @@ export const fetchFooterContent = async (lang: string) => {
 		if (!data || !data["data"]) return {};
 		return data["data"]["attributes"];
 	} catch (error) {
-		console.log("error while fetching Footer Content from strapi:", error);
-		return {};
+		console.error("error while fetching Footer Content from strapi:", error);
+		throw error;
 	}
 };
 
@@ -136,8 +136,8 @@ export const fetchMetaData = async (lang: string) => {
 		if (!data || !data["data"]) return {};
 		return data["data"]["attributes"];
 	} catch (error) {
-		console.log("error while fetching Meta Data from strapi:", error);
-		return {};
+		console.error("error while fetching Meta Data from strapi:", error);
+		throw error;
 	}
 };
 
@@ -159,8 +159,8 @@ export const fetchDevelopments = async (lang: string) => {
 		return data["data"]
 		
 	} catch (error) {
-		console.log("error while fetching Meta Data from strapi:", error);
-		return {};
+		console.error("error while fetching developments from strapi:", error);
+		throw error;
 	}
 };
 
@@ -184,8 +184,8 @@ export const fetchOneDevelopment = async (slug: string, locale: string) => {
 		return null;
 		
 	} catch (error) {
-		console.log("error while fetching development from strapi:", error);
-		return null;
+		console.error("error while fetching development from strapi:", error);
+		throw error;
 	}
 };
 
@@ -217,8 +217,8 @@ export const fetchResources = async (lang: string) => {
 		return data["data"]
 		
 	} catch (error) {
-		console.log("error while fetching resources from strapi:", error);
-		return [];
+		console.error("error while fetching resources from strapi:", error);
+		throw error;
 	}
 };
 
@@ -284,7 +284,7 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 		return null;
 		
 	} catch (error) {
-		console.log("error while fetching resource from strapi:", error);
-		return null;
+		console.error("error while fetching resource from strapi:", error);
+		throw error;
 	}
 };

@@ -21,12 +21,7 @@ export default async function PostsStaticPage({
   setRequestLocale(locale);
 
   // Fetch latest 100 posts with revalidation
-  let postsData;
-  try {
-    postsData = await fetchAllPosts(locale, 1, 100, { revalidate: 3600 });
-  } catch {
-    postsData = { data: [] };
-  }
+  const postsData = await fetchAllPosts(locale, 1, 100, { revalidate: 3600 });
   const messages = await getMessages();
 
   return (
