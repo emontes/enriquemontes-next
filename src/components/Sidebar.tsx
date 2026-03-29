@@ -4,30 +4,39 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Sidebar = ({ isOpen, toggleSidebar, data }) => {
 	return (
-		<aside
-			className={`fixed inset-0 z-50 bg-gray-900 bg-opacity-50 transition-opacity duration-300 ${
-				isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-			}`}
-		>
-			<AnimatePresence>
-				{isOpen && (
+		<AnimatePresence>
+			{isOpen && (
+				<>
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{ duration: 0.2 }}
+						className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
+						onClick={toggleSidebar}
+					/>
 					<motion.div
 						initial={{ x: "-100%" }}
 						animate={{ x: 0 }}
 						exit={{ x: "-100%" }}
-						transition={{ duration: 0.3 }}
-						className="fixed inset-y-0 left-0 w-64 bg-grey-10 shadow-lg"
+						transition={{ type: "spring", damping: 25, stiffness: 200 }}
+						className="fixed inset-y-0 left-0 z-50 w-80 glass-dark shadow-xl"
 					>
-						<div className="flex justify-end px-4 py-3">
+						<div className="flex items-center justify-between p-6 border-b border-white/10">
+							<div className="flex items-center space-x-3">
+								<div className="w-8 h-8 bg-gradient-to-br from-primary-5 to-primary-7 rounded-lg"></div>
+								<span className="text-white font-medium">Menu</span>
+							</div>
 							<button
 								type="button"
-								className="text-red-700 hover:text-red-900 focus:outline-none"
+								className="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all duration-200"
 								onClick={toggleSidebar}
 							>
-								<FaTimes size={24} />
+								<FaTimes size={20} />
 							</button>
 						</div>
-						<nav>
+						
+						<nav className="flex-1 overflow-y-auto p-6">
 							<motion.ul
 								initial="hidden"
 								animate="visible"
@@ -35,25 +44,25 @@ const Sidebar = ({ isOpen, toggleSidebar, data }) => {
 									hidden: {},
 									visible: {
 										transition: {
-											delayChildren: 0.3,
-											staggerChildren: 0.1,
+											delayChildren: 0.1,
+											staggerChildren: 0.05,
 										},
 									},
 								}}
-								className="space-y-2 px-4"
+								className="space-y-2"
 							>
 								{data.HeaderLinks?.length > 0 &&
 									data.HeaderLinks.map((link, index) => (
 										<motion.li
 											key={link.id}
 											variants={{
-												hidden: { x: "-100%", opacity: 0 },
+												hidden: { x: -20, opacity: 0 },
 												visible: { x: 0, opacity: 1 },
 											}}
 										>
 											<a
 												href={link.LinkUrl}
-												className="capitalize block px-3 py-2 rounded-md text-base font-medium text-grey-5 hover:bg-grey-9 hover:text-grey-4 transition duration-150 ease-in-out"
+												className="block px-4 py-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium capitalize"
 												onClick={toggleSidebar}
 											>
 												{link.LinkText}
@@ -61,7 +70,9 @@ const Sidebar = ({ isOpen, toggleSidebar, data }) => {
 										</motion.li>
 									))}
 							</motion.ul>
-							<div className="fixed bottom-4 mt-8 px-8 list-none">
+							
+							<div className="mt-8 pt-6 border-t border-white/10">
+								<p className="text-white/60 text-sm mb-4">Connect</p>
 								<motion.div
 									initial="hidden"
 									animate="visible"
@@ -69,38 +80,35 @@ const Sidebar = ({ isOpen, toggleSidebar, data }) => {
 										hidden: {},
 										visible: {
 											transition: {
-												delayChildren: 0.2, // Puedes aumentar este valor para agregar más retraso
-												staggerChildren: 0.1, // Puedes aumentar este valor para espaciar más las animaciones
+												delayChildren: 0.3,
+												staggerChildren: 0.08,
 											},
 										},
 									}}
-									className="flex justify-center space-x-4"
+									className="flex space-x-4"
 								>
 									{socialLinks.map((link, index) => (
-										<motion.li
+										<motion.a
 											key={link.id}
+											href={link.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-white/60 hover:text-white transition-all duration-300 text-xl hover:scale-110"
 											variants={{
-												hidden: { y: 100, opacity: 0 },
+												hidden: { y: 10, opacity: 0 },
 												visible: { y: 0, opacity: 1 },
 											}}
 										>
-											<a
-												href={link.url}
-												target="_blank"
-												rel="noopener noreferrer"
-												className="text-primary-7 dark:text-primary-6 hover:text-grey-8 transition-all duration-300 text-2xl hover:-translate-y-4"
-											>
-												{link.icon}
-											</a>
-										</motion.li>
+											{link.icon}
+										</motion.a>
 									))}
 								</motion.div>
 							</div>
 						</nav>
 					</motion.div>
-				)}
-			</AnimatePresence>
-		</aside>
+				</>
+			)}
+		</AnimatePresence>
 	);
 };
 

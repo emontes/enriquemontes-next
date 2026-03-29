@@ -8,8 +8,8 @@ import { getTranslations } from 'next-intl/server';
 export const revalidate = 3600;
 const FALLBACK_LOCALE = process.env.NEXT_PUBLIC_FALLBACK_LOCALE || 'en';
 
-export async function generateStaticParams({params}: {params: Promise<{locale: string}>}): Promise<{locale: string, slug: string}[]> {	
-	const {locale} = await params;
+export async function generateStaticParams({params}: {params: {locale: string}}): Promise<{locale: string, slug: string}[]> {	
+	const {locale} = params;
 	const developments = await fetchDevelopmentSlugs(locale);
 	return developments
 		.filter(({ attributes: { slug } }) => slug !== null)

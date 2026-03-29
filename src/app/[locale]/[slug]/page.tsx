@@ -8,8 +8,8 @@ import { setRequestLocale } from "next-intl/server";
 // Revalidate every hour (3600 seconds)
 export const revalidate = 3600;
 
-export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string; slug: string }[]> {
-  const { locale } = await params;
+export async function generateStaticParams({ params }: { params: { locale: string } }): Promise<{ locale: string; slug: string }[]> {
+  const { locale } = params;
   const pages = await fetchPageSlugs(locale);
   
   if (!pages || !Array.isArray(pages)) {

@@ -9,12 +9,18 @@ const Testimonials = ({ Background, testimonials }: TestimonialProps) => {
 
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth < 768);
+      }
     };
 
-    checkIfMobile();
+    // Delay check to ensure component is mounted
+    const timer = setTimeout(checkIfMobile, 0);
     window.addEventListener('resize', checkIfMobile);
-    return () => window.removeEventListener('resize', checkIfMobile);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkIfMobile);
+    };
   }, []);
 
   return (
@@ -68,8 +74,8 @@ const Testimonials = ({ Background, testimonials }: TestimonialProps) => {
                 </div>
                 
                 {/* Texto del testimonio */}
-                <div className="text-center px-2">
-                  <ReactMarkdown className="text-gray-600 text-sm">
+                <div className="text-center px-2 text-gray-600 text-sm">
+                  <ReactMarkdown>
                     {testimonial.attributes.text}
                   </ReactMarkdown>
                 </div>

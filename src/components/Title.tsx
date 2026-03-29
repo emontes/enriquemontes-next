@@ -1,10 +1,27 @@
+"use client";
+import { motion } from "framer-motion";
+
 const Title = ({ title }) => {
 	return (
 		<div className="mb-16 text-center">
-			<h2 className="bg-gradient-to-r from-primary-7 to-primary-1 text-transparent bg-clip-text inline-block tracking-wider transition-all duration-200 hover:transform hover:skew-y-2 hover:skew-x-5 hover:scale-110 hover:shadow-[0.5rem_1rem_2rem_rgba(0,37,92,0.2)] animate-moveInRight">
+			<motion.h2 
+				className="text-gradient inline-block tracking-wide font-bold text-4xl sm:text-5xl lg:text-6xl"
+				initial={{ opacity: 0, y: 30 }}
+				whileInView={{ opacity: 1, y: 0 }}
+				viewport={{ once: true }}
+				transition={{ duration: 0.8 }}
+			>
 				{title || "Default Title"}
-			</h2>
-			<div className="underline" />
+			</motion.h2>
+			<motion.div 
+				className="mt-6 flex justify-center"
+				initial={{ scaleX: 0 }}
+				whileInView={{ scaleX: 1 }}
+				viewport={{ once: true }}
+				transition={{ duration: 0.8, delay: 0.3 }}
+			>
+				<div className="w-24 h-1 bg-gradient-to-r from-primary-5 via-primary-6 to-primary-7 rounded-full shadow-glow"></div>
+			</motion.div>
 		</div>
 	);
 };
