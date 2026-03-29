@@ -18,7 +18,9 @@ const MainLayout = ({ children, NavbarData, FooterData, lang }) => {
 				toggleSidebar={toggleSidebar}
 				data={NavbarData}
 			/>
-			{children}
+			<div className="pt-16 sm:pt-[88px]">
+				{children}
+			</div>
 			<Footer data={FooterData} />
 		</>
 	);
