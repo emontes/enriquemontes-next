@@ -14,8 +14,8 @@ export const revalidate = 3600;
 export const dynamicParams = false;
 const FALLBACK_LOCALE = process.env.NEXT_PUBLIC_FALLBACK_LOCALE || 'en';
 
-export async function generateStaticParams({ params }: { params: Promise<{ locale: string }> }): Promise<{ locale: string; slug: string }[]> {
-    const { locale } = await params;
+export async function generateStaticParams({ params }: { params: { locale: string } }): Promise<{ locale: string; slug: string }[]> {
+    const { locale } = params;
     const posts = await fetchPostSlugs(locale, 1000);
     return posts
         .filter((p: any) => p?.attributes?.slug)
@@ -106,38 +106,39 @@ export default async function Post({
                     {formatDate(post.attributes.date)}
                 </p>
             </div>
-            <ReactMarkdown
-                className="prose prose-sm md:prose-lg lg:prose-xl max-w-none text-gray-500 markdown"
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={{
-                    table: ({ children }) => (
-                        <div className="overflow-x-auto my-4">
-                            <table className="table-auto w-full border-collapse border border-gray-300 bg-white shadow-md rounded-md text-sm">
+            <div className="prose prose-sm md:prose-lg lg:prose-xl max-w-none text-gray-500 markdown">
+                <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw]}
+                    components={{
+                        table: ({ children }) => (
+                            <div className="overflow-x-auto my-4">
+                                <table className="table-auto w-full border-collapse border border-gray-300 bg-white shadow-md rounded-md text-sm">
+                                    {children}
+                                </table>
+                            </div>
+                        ),
+                        thead: ({ children }) => (
+                            <thead className="bg-gray-200 text-gray-700 text-left">
                                 {children}
-                            </table>
-                        </div>
-                    ),
-                    thead: ({ children }) => (
-                        <thead className="bg-gray-200 text-gray-700 text-left">
-                            {children}
-                        </thead>
-                    ),
-                    th: ({ children }) => (
-                        <th className="bg-slate-200 px-4 py-2 border border-gray-300 font-semibold">{children}</th>
-                    ),
-                    td: ({ children }) => (
-                        <td className="px-4 py-2 border border-gray-300">{children}</td>
-                    ),
-                    tr: ({ children, ...props }) => (
-                        <tr className="odd:bg-gray-100 even:bg-gray-50 hover:bg-gray-200 transition-colors" {...props}>
-                            {children}
-                        </tr>
-                    ),
-                }}
-            >
-                {post.attributes.content}
-            </ReactMarkdown>
+                            </thead>
+                        ),
+                        th: ({ children }) => (
+                            <th className="bg-slate-200 px-4 py-2 border border-gray-300 font-semibold">{children}</th>
+                        ),
+                        td: ({ children }) => (
+                            <td className="px-4 py-2 border border-gray-300">{children}</td>
+                        ),
+                        tr: ({ children, ...props }) => (
+                            <tr className="odd:bg-gray-100 even:bg-gray-50 hover:bg-gray-200 transition-colors" {...props}>
+                                {children}
+                            </tr>
+                        ),
+                    }}
+                >
+                    {post.attributes.content}
+                </ReactMarkdown>
+            </div>
         </article>
     );
 }

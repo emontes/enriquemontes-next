@@ -12,73 +12,132 @@ export default function HeroSection({
 	HeroActions,
 }: HeroSectionProps) {
 	return (
-		<header className="bg-primary-10">
-			<div className="hero relative h-[49vh] bg-primary-1 bg-cover bg-center">
-				{BackgroundImage?.data ? (
-					<div className="hero-img h-full rounded-lg">
+		<header className="relative overflow-hidden">
+			<div className="relative h-[60vh] gradient-hero">
+				{/* Background Image */}
+				{BackgroundImage?.data && (
+					<div className="absolute inset-0">
 						<Image
 							src={BackgroundImage.data.attributes.url}
 							role="banner"
 							alt="background gradient"
 							fill
 							priority
+							className="object-cover opacity-30"
 						/>
 					</div>
-				) : (
-					""
 				)}
-				<div className="hero-container absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gradient-to-br from-[rgba(0,37,92,0.7)] to-[rgba(199,226,222,0.9)] rounded-lg">
-					<div className="header__text-box flex flex-col justify-center items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+				
+				{/* Glassmorphism overlay */}
+				<div className="absolute inset-0 glass-dark">
+					<div className="absolute inset-0 bg-gradient-to-br from-primary-1/60 via-transparent to-primary-5/40"></div>
+				</div>
+
+				{/* Hero Content */}
+				<div className="relative h-full flex items-center justify-center">
+					<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 						<motion.div
-							className="heading-primary text-primary-10 text-shadow-[1px_1px_2px_rgba(0,0,0,0.5)] uppercase backface-hidden mb-16 font-light"
-							initial={{ x: -100, opacity: 0 }}
-							animate={{ x: 0, opacity: 1 }}
-							transition={{ duration: 0.5 }}
+							className="space-y-8"
+							initial={{ opacity: 0, y: 30 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.8 }}
 						>
-							<span className="heading-primary--main block text-4xl tracking-wide">
-								<HeadingText
-									attributes={{
-										id: "HeroTitle",
-										className: "heading-primary--main",
-									}}
-									HeadingText={Heading.HeadingText}
-									HeadingType={Heading.HeadingType}
-								/>
-							</span>
-							{SubTitle && (
-								<motion.span
-									className="mt-4 block tracking-wide"
-									initial={{ x: 100, opacity: 0 }}
-									animate={{ x: 0, opacity: 1 }}
-									transition={{ duration: 0.5, delay: 0.3 }}
-								>
+							{/* Main Title */}
+							<motion.div
+								className="space-y-4"
+								initial={{ opacity: 0, x: -50 }}
+								animate={{ opacity: 1, x: 0 }}
+								transition={{ duration: 0.8, delay: 0.2 }}
+							>
+								<div className="inline-block">
+									<div className="w-20 h-1 bg-gradient-to-r from-primary-7 to-primary-9 rounded-full mx-auto mb-6"></div>
+								</div>
+								<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
 									<HeadingText
-										attributes={{ id: "HeroSubTitle", className: "" }}
-										HeadingText={SubTitle.HeadingText}
-										HeadingType={SubTitle.HeadingType}
+										attributes={{
+											id: "HeroTitle",
+											className: "block",
+										}}
+										HeadingText={Heading.HeadingText}
+										HeadingType={Heading.HeadingType}
 									/>
-								</motion.span>
-							)}
-						</motion.div>
-						<div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-							{HeroActions
-								? HeroActions.map((props, index) => {
-										// console.log("Props for item", index, ":", props);
-										return (
-											<motion.div
-												key={props.id}
-												initial={{ y: 100, opacity: 0 }}
-												animate={{ y: 0, opacity: 1 }}
-												transition={{ duration: 0.5, delay: index * 0.6 }}
+								</h1>
+								{SubTitle && (
+									<motion.div
+										className="text-xl sm:text-2xl text-primary-9 font-light max-w-2xl mx-auto"
+										initial={{ opacity: 0, x: 50 }}
+										animate={{ opacity: 1, x: 0 }}
+										transition={{ duration: 0.8, delay: 0.4 }}
+									>
+										<HeadingText
+											attributes={{ id: "HeroSubTitle", className: "" }}
+											HeadingText={SubTitle.HeadingText}
+											HeadingType={SubTitle.HeadingType}
+										/>
+									</motion.div>
+								)}
+							</motion.div>
+
+							{/* Action Buttons */}
+							{HeroActions && (
+								<motion.div
+									className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8"
+									initial={{ opacity: 0, y: 30 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.8, delay: 0.6 }}
+								>
+									{HeroActions.map((props, index) => (
+										<motion.div
+											key={props.id}
+											initial={{ opacity: 0, scale: 0.9 }}
+											animate={{ opacity: 1, scale: 1 }}
+											transition={{ 
+												duration: 0.5, 
+												delay: 0.8 + index * 0.15,
+												type: "spring",
+												stiffness: 200
+											}}
+											whileHover={{ scale: 1.05 }}
+											whileTap={{ scale: 0.98 }}
+										>
+											<Link 
+												href={`/${props.Link}`} 
+												className={`btn ${props.Primary ? '' : 'btn-secondary'}`}
 											>
-												<Link href={`/${props.Link}`} className={`btn ${props.Primary ? '' : 'btn-secondary'}`}>
-													{props.Text}
-												</Link>
-											</motion.div>
-										);
-									})
-								: ""}
-						</div>
+												{props.Text}
+											</Link>
+										</motion.div>
+									))}
+								</motion.div>
+							)}
+
+							{/* Decorative elements */}
+							<motion.div
+								className="absolute top-20 left-10 w-2 h-2 bg-primary-7 rounded-full opacity-60"
+								animate={{
+									scale: [1, 1.5, 1],
+									opacity: [0.6, 1, 0.6],
+								}}
+								transition={{
+									duration: 3,
+									repeat: Infinity,
+									ease: "easeInOut",
+								}}
+							/>
+							<motion.div
+								className="absolute bottom-20 right-10 w-3 h-3 bg-primary-8 rounded-full opacity-40"
+								animate={{
+									scale: [1, 1.2, 1],
+									opacity: [0.4, 0.8, 0.4],
+								}}
+								transition={{
+									duration: 4,
+									repeat: Infinity,
+									ease: "easeInOut",
+									delay: 1,
+								}}
+							/>
+						</motion.div>
 					</div>
 				</div>
 			</div>

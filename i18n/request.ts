@@ -1,8 +1,5 @@
 import { getRequestConfig } from 'next-intl/server';
-import { locales } from '../src/navigation';
-
-// Default locale fallback
-const defaultLocale = 'en';
+import { routing } from '../src/navigation';
 
 // Helper to safely import messages
 async function loadMessages(locale: string) {
@@ -13,7 +10,7 @@ async function loadMessages(locale: string) {
     console.error(`Error loading messages for ${locale}:`, error);
     try {
       // Fallback to default locale
-      const defaultMessages = await import(`../messages/${defaultLocale}.json`);
+      const defaultMessages = await import(`../messages/${routing.defaultLocale}.json`);
       return defaultMessages.default || {};
     } catch (e) {
       console.error('Failed to load default messages:', e);
@@ -22,21 +19,23 @@ async function loadMessages(locale: string) {
   }
 }
 
-export default getRequestConfig(async ({ locale }) => {
-  // For static export, locale is already provided
-  const validLocale = locale && locales.includes(locale as any)
-    ? locale
-    : defaultLocale;
+export default getRequestConfig(async ({ requestLocale }) => {
+  let locale = await requestLocale;
+
+  // Validate that the incoming locale parameter is valid
+  if (!locale || !routing.locales.includes(locale as any)) {
+    locale = routing.defaultLocale;
+  }
 
   try {
     return {
-      locale: validLocale,
-      messages: await loadMessages(validLocale),
+      locale,
+      messages: await loadMessages(locale),
     };
   } catch (error) {
     console.error('Failed to configure i18n:', error);
     return {
-      locale: defaultLocale,
+      locale: routing.defaultLocale,
       messages: {},
     };
   }

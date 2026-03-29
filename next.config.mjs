@@ -1,4 +1,4 @@
-// next.config.js
+// next.config.mjs
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
@@ -35,11 +35,6 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
-  },
-  
-  // Enable experimental optimizations (only those supported in Next.js 15.0.3)
-  experimental: {
-    // optimizeCss: true, // Disabled as it requires critters module
   },
   
   // Generate a unique build ID for each build

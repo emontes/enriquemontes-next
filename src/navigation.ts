@@ -1,4 +1,5 @@
-import { createSharedPathnamesNavigation } from 'next-intl/navigation';
+import { createNavigation } from 'next-intl/navigation';
+import { defineRouting } from 'next-intl/routing';
 
 import esFlag from "../public/images/flags/mx.svg";
 import usFlag from "../public/images/flags/us.svg";
@@ -32,26 +33,14 @@ export const languageName: LanguageName = {
   de: "Deutsch",
 };
 
-export const locales = ['en', 'es', 'he', 'ru', 'de'];
+export const routing = defineRouting({
+  locales: ['en', 'es', 'he', 'ru', 'de'],
+  defaultLocale: 'en',
+  localePrefix: 'as-needed', // esta es la que hace el truco de que deje el default sin por ejemplo /en
+});
 
-// The `pathnames` object holds pairs of internal
-// and external paths, separated by locale.
-
-// export const pathnames = {
-//   // If all locales use the same pathname, a
-//   // single external path can be provided.
-//   '/': '/',
-//   '/blog': '/blog',
- 
-//   // If locales use different paths, you can
-//   // specify each external path per locale.
-//   '/about': {
-//     en: '/about',
-//     de: '/ueber-uns'
-//   }
-// } satisfies Pathnames<typeof locales>;
-
-export const localePrefix = 'as-needed'; // esta es la que hace el truco de que deje el default sin por ejemplo /en
+export const locales = routing.locales;
+export const localePrefix = routing.localePrefix;
 
 export const { Link, redirect, usePathname, useRouter } =
-  createSharedPathnamesNavigation({ locales, localePrefix });
+  createNavigation(routing);

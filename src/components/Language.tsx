@@ -47,7 +47,7 @@ const Language = ({ locale }) => {
               top: `${(buttonRef.current?.offsetHeight ?? 0) + 10}px`,
             }}
           >
-            {(locales as string[]).map((lng) => (
+            {(locales as readonly string[]).map((lng) => (
               <li key={lng}>
                 <Link
                   href={pathname}
