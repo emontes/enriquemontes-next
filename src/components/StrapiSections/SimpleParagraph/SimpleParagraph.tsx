@@ -34,27 +34,46 @@ const SimpleParagraph = ({
 		return blocks;
 	};
 	
-	const paragraphClass = DivideInParagraphs ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : "";
+	const paragraphClass = DivideInParagraphs ? "columns-1 md:columns-2 lg:columns-3 gap-6" : "";
 	const blocks = getParagraphBlocks();
-	
+
+	// Keep blocks that contain a list atomic so the intro line and its list never split
+	const hasList = (text: string) => /^\s*(?:[-*+]|\d+\.)\s/m.test(text);
+
+	// When there is enough content, the last two blocks are rendered full-width
+	// below the columns so closing statements aren't stranded in the last column
+	const footerCount = DivideInParagraphs && blocks.length > 4 ? 2 : 0;
+	const flowBlocks = footerCount ? blocks.slice(0, -footerCount) : blocks;
+	const footerBlocks = footerCount ? blocks.slice(-footerCount) : [];
+
+	const renderBlock = (block: string, index: number) => (
+		<div
+			key={index}
+			className={DivideInParagraphs ? `mb-4${hasList(block) ? " break-inside-avoid" : ""}` : ""}
+		>
+			<ReactMarkdown
+				children={block}
+				remarkPlugins={[remarkGfm]}
+				components={{
+					ul: ({children}) => <ul className="list-disc pl-6 mb-4">{children}</ul>,
+					ol: ({children}) => <ol className="list-decimal pl-6 mb-4">{children}</ol>,
+					li: ({children}) => <li className="mb-1">{children}</li>,
+				}}
+			/>
+		</div>
+	);
+
 	return (
 		<div className={borderClass}>
 			<div className={innerBorderClass}>
 				<div className={paragraphClass} id="content">
-					{blocks.map((block, index) => (
-						<div key={index} className={DivideInParagraphs ? "mb-4" : ""}>
-							<ReactMarkdown 
-								children={block}
-								remarkPlugins={[remarkGfm]}
-								components={{
-									ul: ({children}) => <ul className="list-disc pl-6 mb-4">{children}</ul>,
-									ol: ({children}) => <ol className="list-decimal pl-6 mb-4">{children}</ol>,
-									li: ({children}) => <li className="mb-1">{children}</li>,
-								}}
-							/>
-						</div>
-					))}
+					{flowBlocks.map(renderBlock)}
 				</div>
+				{footerBlocks.length > 0 && (
+					<div className="mt-4 text-center">
+						{footerBlocks.map(renderBlock)}
+					</div>
+				)}
 			</div>
 		</div>
 	);
