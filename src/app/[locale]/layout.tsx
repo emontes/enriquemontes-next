@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "@/styles/globals.css";
 import MainLayout from "@/components/MainLayout";
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -56,9 +57,11 @@ export default async function LocaleLayout({
     const { navbar, footer } = await getPageData({ params: Promise.resolve({ locale }) });
     const messages = await getMessages();
     return (
-        <html lang={locale}>
-            <head>
-                <script
+        <html lang={locale} data-scroll-behavior="smooth">
+            <body className={inter.className}>
+                <Script
+                    id="apollo-tracker"
+                    strategy="afterInteractive"
                     dangerouslySetInnerHTML={{
                         __html: `function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
   o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
@@ -66,8 +69,6 @@ export default async function LocaleLayout({
   document.head.appendChild(o)}initApollo();`
                     }}
                 />
-            </head>
-            <body className={inter.className}>
                 <NextIntlClientProvider locale={locale} messages={messages}>
                     <MainLayout
                         children={children}

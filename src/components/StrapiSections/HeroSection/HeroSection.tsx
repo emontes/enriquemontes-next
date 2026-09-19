@@ -23,6 +23,7 @@ export default function HeroSection({
 							alt="background gradient"
 							fill
 							priority
+							sizes="100vw"
 							className="object-cover opacity-30"
 						/>
 					</div>
@@ -52,16 +53,15 @@ export default function HeroSection({
 								<div className="inline-block">
 									<div className="w-20 h-1 bg-gradient-to-r from-primary-7 to-primary-9 rounded-full mx-auto mb-6"></div>
 								</div>
-								<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
-									<HeadingText
-										attributes={{
-											id: "HeroTitle",
-											className: "block",
-										}}
-										HeadingText={Heading.HeadingText}
-										HeadingType={Heading.HeadingType}
-									/>
-								</h1>
+								<HeadingText
+									attributes={{
+										id: "HeroTitle",
+										className:
+											"block text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight",
+									}}
+									HeadingText={Heading.HeadingText}
+									HeadingType="h1"
+								/>
 								{SubTitle && (
 									<motion.div
 										className="text-xl sm:text-2xl text-primary-9 font-light max-w-2xl mx-auto"

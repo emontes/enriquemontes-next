@@ -39,6 +39,7 @@ const Hero = (props) => {
             src={props.BackgroundImage.data.attributes.formats.medium.url}
             alt="Background Image"
             fill
+            sizes="100vw"
             className="z-0 object-cover opacity-30"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-primary-1/80 via-primary-3/60 to-transparent z-10" />
@@ -126,6 +127,7 @@ const Hero = (props) => {
                       src={props.ProfileImage.data.attributes.formats.medium.url}
                       alt="Profile Image"
                       fill
+                      sizes="(max-width: 640px) 192px, (max-width: 1024px) 224px, 256px"
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/20"></div>

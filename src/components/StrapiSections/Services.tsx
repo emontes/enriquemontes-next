@@ -15,6 +15,7 @@ const Services = ({ BackgroundImage, Service }: ServicesProps) => {
 						alt="background gradient"
 						fill
 						priority
+						sizes="100vw"
 						className="object-cover opacity-20"
 					/>
 					<div className="absolute inset-0 bg-gradient-to-br from-primary-1/50 via-primary-3/30 to-primary-5/20"></div>

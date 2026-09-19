@@ -154,6 +154,7 @@ const DevelopmentCard = ({
                       src={thumbUrl}
                       alt={resource.attributes.title}
                       fill
+                      sizes="32px"
                       className="object-cover"
                     />
                   </Link>

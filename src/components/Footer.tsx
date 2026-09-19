@@ -121,7 +121,7 @@ const Footer = (data) => {
 								className="flex items-center space-x-1"
 								whileHover={{ scale: 1.05 }}
 							>
-								<Image src="/next.svg" alt="Next.js Logo" width={60} height={28} />
+								<Image src="/next.svg" alt="Next.js Logo" width={60} height={12} />
 							</motion.div>
 							<span className="text-primary-7">+</span>
 							<motion.div

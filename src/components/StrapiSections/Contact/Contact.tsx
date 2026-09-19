@@ -27,6 +27,7 @@ export default function ContactPage({
 							src={ImageData.data.attributes.url}
 							alt={ImageData.data.attributes.alternativeText || "Contact image"}
 							fill
+							sizes="(max-width: 768px) 100vw, 50vw"
 							className="w-full h-full object-cover"
 						/>
 						<div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white p-4">
