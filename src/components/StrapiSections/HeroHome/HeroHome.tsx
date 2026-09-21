@@ -4,6 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+// Deterministic pseudo-random so server and client render identical values
+const seededRandom = (seed: number) => {
+  let t = seed + 0x6d2b79f5;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+
 const Hero = (props) => {
   return (
     <section className="relative min-h-[70vh] gradient-hero overflow-hidden">
@@ -14,8 +22,8 @@ const Hero = (props) => {
             key={i}
             className="absolute w-1 h-1 bg-white rounded-full"
             initial={{
-              x: Math.random() * 100 + "%",
-              y: Math.random() * 100 + "%",
+              x: seededRandom(i * 4) * 100 + "%",
+              y: seededRandom(i * 4 + 1) * 100 + "%",
               scale: 0,
             }}
             animate={{
@@ -23,9 +31,9 @@ const Hero = (props) => {
               opacity: [0, 1, 0],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: 3 + seededRandom(i * 4 + 2) * 2,
               repeat: Infinity,
-              delay: Math.random() * 3,
+              delay: seededRandom(i * 4 + 3) * 3,
               ease: "easeInOut",
             }}
           />
