@@ -15,6 +15,7 @@ export const config = {
 
     // Enable redirects that add missing locales
     // (e.g. `/pathnames` -> `/en/pathnames`)
-    '/((?!_next|_vercel|.*\\..*).*)'
+    // `api` is excluded so /api/revalidate is reachable by the Strapi webhook
+    '/((?!api|_next|_vercel|.*\\..*).*)'
   ]
 };

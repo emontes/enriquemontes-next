@@ -3,8 +3,9 @@ import MetadataBuilder from "@/components/MetadataBuilder";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 
-// Revalidate every hour (3600 seconds)
-export const revalidate = 3600;
+// Fully static: pages are prerendered at build and only revalidated
+// on-demand via /api/revalidate (Strapi webhook)
+export const dynamic = "force-static";
 
 export function generateStaticParams() {
   return [
