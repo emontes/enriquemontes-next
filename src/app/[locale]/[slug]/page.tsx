@@ -5,8 +5,11 @@ import type { Metadata } from "next";
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from "next-intl/server";
 
-// Revalidate every hour (3600 seconds)
-export const revalidate = 3600;
+// Fully static: only revalidated on-demand via /api/revalidate
+export const dynamic = "force-static";
+// Only the slugs from generateStaticParams exist; unknown URLs 404
+// without rendering (prevents bots from generating ISR writes)
+export const dynamicParams = false;
 
 export async function generateStaticParams({ params }: { params: { locale: string } }): Promise<{ locale: string; slug: string }[]> {
   const { locale } = params;

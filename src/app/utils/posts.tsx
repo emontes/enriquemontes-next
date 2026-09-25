@@ -126,7 +126,7 @@ export const fetchPostSlugs = async (
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
         "Strapi-Response-Format": "v4",
       },
-      next: { revalidate: 3600 },
+      cache: "force-cache",
     });
     const data = await res.json();
     return Array.isArray(data?.data) ? data.data : [];
@@ -152,14 +152,14 @@ export const fetchAllPosts = async (
       },
     };
 
-    // Control de cache: por defecto, mantener ISR 5 minutos
+    // Control de cache: por defecto, cachear indefinidamente (se invalida
+    // bajo demanda via /api/revalidate). Solo aplica revalidate si se pide.
     if (options?.cache) {
       fetchOptions.cache = options.cache;
+    } else if (typeof options?.revalidate === "number") {
+      fetchOptions.next = { revalidate: options.revalidate };
     } else {
-      const revalidate = options?.revalidate === false ? undefined : (options?.revalidate ?? 300);
-      if (typeof revalidate === "number") {
-        fetchOptions.next = { revalidate };
-      }
+      fetchOptions.cache = "force-cache";
     }
 
     const res = await fetchWithRetry(url, fetchOptions);
@@ -214,7 +214,7 @@ export interface PostData {
             Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
             "Strapi-Response-Format": "v4",
           },
-          next: { revalidate: 60 },
+          cache: "force-cache",
         }
       );
 
