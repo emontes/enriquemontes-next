@@ -5,7 +5,8 @@ import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { getTranslations } from 'next-intl/server';
 
-export const revalidate = 3600;
+export const dynamic = "force-static"; // Revalidated on-demand via /api/revalidate
+export const dynamicParams = false;
 const FALLBACK_LOCALE = process.env.NEXT_PUBLIC_FALLBACK_LOCALE || 'en';
 
 export async function generateStaticParams({params}: {params: {locale: string}}): Promise<{locale: string, slug: string}[]> {	

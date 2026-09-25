@@ -9,7 +9,7 @@ export const fetchAllPages = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
-				next: { revalidate: 3600 },
+				cache: 'force-cache',
 			},
 		);
 		const data = await res.json();
@@ -29,7 +29,6 @@ export const fetchNavbarContent = async (lang: string) => {
 					"Strapi-Response-Format": "v4",
 				},
 				cache: 'force-cache',
-				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -51,7 +50,7 @@ export const fetchResourceSlugs = async (lang: string) => {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
         "Strapi-Response-Format": "v4",
       },
-      next: { revalidate: 3600 },
+      cache: 'force-cache',
     });
     const data = await res.json();
     return Array.isArray(data?.data) ? data.data : [];
@@ -69,7 +68,7 @@ export const fetchDevelopmentSlugs = async (lang: string) => {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
         "Strapi-Response-Format": "v4",
       },
-      next: { revalidate: 3600 },
+      cache: 'force-cache',
     });
     const data = await res.json();
     return Array.isArray(data?.data) ? data.data : [];
@@ -87,7 +86,7 @@ export const fetchPageSlugs = async (lang: string) => {
         Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
         "Strapi-Response-Format": "v4",
       },
-      next: { revalidate: 3600 },
+      cache: 'force-cache',
     });
     const data = await res.json();
     return Array.isArray(data?.data) ? data.data : [];
@@ -106,7 +105,6 @@ export const fetchFooterContent = async (lang: string) => {
 					"Strapi-Response-Format": "v4",
 				},
 				cache: 'force-cache',
-				next: { revalidate: 3600 },
 			},
 		);
 		const data = await res.json();
@@ -128,7 +126,7 @@ export const fetchMetaData = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
-				next: { revalidate: 3600 },
+				cache: 'force-cache',
 			},
 		);
 		const data = await res.json();
@@ -150,7 +148,7 @@ export const fetchDevelopments = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
-				next: { revalidate: 3600 },
+				cache: 'force-cache',
 			},
 		);
 		const data = await res.json();
@@ -173,7 +171,7 @@ export const fetchOneDevelopment = async (slug: string, locale: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
-				next: { revalidate: 3600 },
+				cache: 'force-cache',
 			},
 		);
 		const data = await res.json();
@@ -210,7 +208,7 @@ export const fetchResources = async (lang: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
-				next: { revalidate: 3600 },
+				cache: 'force-cache',
 			},
 		);
 		const data = await res.json();
@@ -249,7 +247,7 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 					Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 					"Strapi-Response-Format": "v4",
 				},
-				next: { revalidate: 3600 },
+				cache: 'force-cache',
 			},
 		);
 		let data = await res.json();
@@ -263,7 +261,7 @@ export const fetchOneResource = async (slug: string, locale: string) => {
 						Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
 						"Strapi-Response-Format": "v4",
 					},
-					next: { revalidate: 3600 },
+					cache: 'force-cache',
 				},
 			);
 			data = await res.json();
