@@ -6,7 +6,7 @@ import PostsList from '@/components/Posts/PostsList';
 import { fetchAllPosts } from '@/app/utils/posts';
 import { locales } from '@/navigation';
 
-export const revalidate = 3600; // Revalidate every hour
+export const dynamic = "force-static"; // Revalidated on-demand via /api/revalidate
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -21,7 +21,7 @@ export default async function PostsStaticPage({
   setRequestLocale(locale);
 
   // Fetch latest 100 posts with revalidation
-  const postsData = await fetchAllPosts(locale, 1, 100, { revalidate: 3600 });
+  const postsData = await fetchAllPosts(locale, 1, 100);
   const messages = await getMessages();
 
   return (

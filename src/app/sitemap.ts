@@ -3,7 +3,6 @@ import { fetchDevelopments, fetchResourceSlugs } from "@/app/utils";
 import { fetchPostSlugs } from "@/app/utils/posts";
 
 export const dynamic = "force-static";
-export const revalidate = 86400; // Revalidate daily
 
 const BASE_URL = process.env.BASE_URL || "https://enriquemontes.com";
 

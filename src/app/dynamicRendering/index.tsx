@@ -52,7 +52,6 @@ export const fetchOnePage = async (
 				"Strapi-Response-Format": "v4",
 			},
 			cache: 'force-cache',
-			next: { revalidate: 3600 },
 		});
 
 		if (!res.ok) {
